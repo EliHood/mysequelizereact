@@ -12,7 +12,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true },
+  cookie: {
+    expires: 600000
+  }
+}))
 
 
 app.use('/users', userRoute )

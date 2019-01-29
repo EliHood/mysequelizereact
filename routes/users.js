@@ -13,10 +13,12 @@ router.get('/', function(req, res) {
 
 router.post('/new', function(req, res, next) {
   User.create({
-    firstName: req.body.firstName, 
-    lastName: req.body.lastName,
-    email: req.body.email 
+    username: req.body.username,
+    password: req.body.password,
+    email: req.body.email, 
+  
   }).then( user => {
+    req.session.user = user.dataValues;
     res.status(200).send({msg: "User Created"})
   }).catch(err => next(err))
 });

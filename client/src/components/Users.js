@@ -61,9 +61,9 @@ class Users extends Component {
 
         {users.map( (user, i) => (
           
-        <Paper style={Styles.myPaper}>
-          <Typography key={i} variant="h6" component="h3">
-            {user.firstName}   {user.lastName}
+        <Paper key={i} style={Styles.myPaper}>
+          <Typography  variant="h6" component="h3">
+            {user.username}  
           </Typography>
        
           <Typography component="p">

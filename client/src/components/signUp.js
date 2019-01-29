@@ -8,13 +8,13 @@ class signUp extends Component{
         super(props)
 
         this.state = {
-            firstName:"",
-            lastName: "",
+            username:"",
+            password: "",
             email:"",
             regSuccess: false
         }
 
-    this.handleChange = this.handleChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
 
     }
     
@@ -31,14 +31,14 @@ class signUp extends Component{
     handleSubmit = () => {
 
         this.setState({
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
+            username: this.state.username,
+            password: this.state.password,
             email: this.state.email,
 
         });
         axios.post('http://localhost:3000/users/new',{
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
+            username: this.state.username,
+            password: this.state.password,
             email: this.state.email, 
 
         }).then ( (res) => { 
@@ -55,10 +55,10 @@ class signUp extends Component{
             <form onSubmit={this.handleSubmit}>      
                 <TextField
                     id="outlined-name"
-                    label="First Name"
+                    label="Username"
                     style={{width: 560}}
-                    name="firstName"
-                    value={this.state.firstName}
+                    name="username"
+                    value={this.state.username}
                     onChange={this.handleChange}
                     margin="normal"
                     variant="outlined"
@@ -66,11 +66,11 @@ class signUp extends Component{
             <br></br>
                 <TextField
                     id="outlined-name"
-                    label="Last Name"
+                    label="Email"
                     className=""
                     style={{width: 560}}
-                    name="lastName"
-                    value={this.state.lastName}
+                    name="email"
+                    value={this.state.email}
                     onChange={this.handleChange}
                     margin="normal"
                     variant="outlined"
@@ -78,11 +78,11 @@ class signUp extends Component{
                 <br></br>
                 <TextField
                     id="outlined-name"
-                    label="Email"
-                    name="email"
+                    label="Password"
+                    name="password"
                     style={{width: 560}}
                     className=""
-                    value={this.state.email}
+                    value={this.state.password}
                     onChange={this.handleChange}
                     margin="normal"
                     variant="outlined"
