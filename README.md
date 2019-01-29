@@ -1,7 +1,7 @@
 # mysequelizereact
 
-### Tech Stack
----
+## Tech Stack
+-
 * postgres
 * sequelize
 * express
