@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import { Redirect, browserHistory } from 'react-router-dom'
+import { history } from '../components/Navbar';
 class signIn extends Component{
 
     constructor(props){
@@ -17,6 +19,7 @@ class signIn extends Component{
             passwordBlank: true,
             emailInvalid: false,
             passwordInValid: false,
+            token:""
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -34,8 +37,8 @@ class signIn extends Component{
 
 
     handleSubmit = (e) => {
-        e.preventDefault()
         
+        e.preventDefault();
         this.setState({
             email: this.state.email, 
             password: this.state.password
@@ -43,36 +46,35 @@ class signIn extends Component{
 
         });
 
-        if (!this.state.emailBlank && !this.state.passwordBlank){
-            axios.post('/api/users/login',{
-                email: this.state.email, 
-                password: this.state.password
-                
+        axios.post('/api/users/login',{
+            email: this.state.email, 
+            password: this.state.password
+            
 
-            }).then ( res => { 
-                if (res.data.incorrectEmail|| res.data.incorrectPassword ){
-                    this.setState({ loginError: res.data.msg})
-                }
-                this.setState({ userLoggedIn: res.data.inSession, loggedEmail: res.data.loggedEmail})
-        
-            }).catch( err => console.log(err))
+        }).then ( res => { 
+            this.setState({
+                token: res.data.token
+            });
+            console.log(this.state.token)
+            history.push('/dashboard');
+    
+        }).catch( err => console.log(err))
 
-        }else{
-            this.setState({ emailInvalid: true, passwordInValid: true})
-
-            console.log(  this.state.emailInvalid, this.state.passwordInValid)
-        }
         
 
     }
 
     render(){
+        const { token} = this.state;
+        if(token == ""){
+            return <Redirect to='/dashboard'/>
+        }
         return (
             <div style={ {padding: '20px 100px'}}>
             <h1>Sign In</h1>
             <form onSubmit={this.handleSubmit}>      
                 <TextField
-                    id="outlined-name"
+                    id="outlined-name2"
                     label="Email"
                     className=""
                     style={{width: 560}}

@@ -1,6 +1,5 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
-import createBrowserHistory from 'history/createBrowserHistory';
 import signUp from './signUp';
 import signIn from './signIn';
 import Users from './Users';
@@ -11,8 +10,10 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core';
+import Dashboard from './dashBoard';
+import { createBrowserHistory } from 'history';
 
-export const history = createBrowserHistory({forceRefresh: true});
+export const history = createBrowserHistory();
 
 const styles = {
     // This group of buttons will be aligned to the right
@@ -68,7 +69,11 @@ const Navbar = ({classes}) => (
                               Users
                             </Link>
                         </Button>
-
+                        <Button>
+                            <Link to="/dashboard" className={classes.rightToolbar}>
+                              Dashboard
+                            </Link>
+                        </Button>
                     </Typography>
 
                 </Toolbar>
@@ -77,6 +82,8 @@ const Navbar = ({classes}) => (
             <Route path="/signUp" component={signUp}/>
             <Route path="/signIn" component={signIn}/>
             <Route path="/users" component={Users}/>
+            <Route path="/dashboard" component={Dashboard}/>
+
         </div>
     </Router>
 
