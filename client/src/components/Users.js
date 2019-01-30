@@ -30,7 +30,7 @@ class Users extends Component {
 
   getUsers = async () => {
 
-    const url = await fetch('http://localhost:3000/users')
+    const url = await fetch('/api/users')
     const json = await url.json();
 
     this.setState({

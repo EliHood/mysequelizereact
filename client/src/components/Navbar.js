@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import createBrowserHistory from 'history/createBrowserHistory';
 import signUp from './signUp';
+import signIn from './signIn';
 import Users from './Users';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -57,8 +58,8 @@ const Navbar = ({classes}) => (
                         </Button>
 
                         <Button>
-                            <Link to="/LogIn" className={classes.rightToolbar}>
-                                Log In
+                            <Link to="/signIn" className={classes.rightToolbar}>
+                                Sign In
                             </Link>
                         </Button>
 
@@ -74,6 +75,7 @@ const Navbar = ({classes}) => (
             </AppBar>
 
             <Route path="/signUp" component={signUp}/>
+            <Route path="/signIn" component={signIn}/>
             <Route path="/users" component={Users}/>
         </div>
     </Router>

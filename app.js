@@ -9,21 +9,35 @@ var cookieParser = require('cookie-parser') ;
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true}));
 app.use(cookieParser());
 
 app.use(session({
-  secret: 'keyboard cat',
+  key:'user_sid',
+  secret: 'something',
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true },
+  saveUninitialized: false,
   cookie: {
     expires: 600000
   }
-}))
+}));
 
 
-app.use('/users', userRoute )
+app.use((req, res, next) => {
+  if (req.cookies.user_sid && !req.session.user){
+    res.clearCookie('user_sid');
+  }
+  next();
+})
+
+
+
+app.get('/api', (req, res) => {
+  res.status(200).send({ inSession: (req.session.user && req.cookies.user_sid)
+  });
+});
+
+app.use('/api/users', userRoute )
 
 
 app.listen(5000, function() {

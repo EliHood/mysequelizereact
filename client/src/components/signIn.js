@@ -2,16 +2,21 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
-class signUp extends Component{
+class signIn extends Component{
 
     constructor(props){
         super(props)
 
         this.state = {
-            username:"",
-            password: "",
             email:"",
-            regSuccess: false
+            password: "", 
+            loggedEmail:"",
+            loginError: "",    
+            userLoggedIn: false,
+            emailBlank: true,
+            passwordBlank: true,
+            emailInvalid: false,
+            passwordInValid: false,
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -28,42 +33,44 @@ class signUp extends Component{
     }
 
 
-    handleSubmit = () => {
-
+    handleSubmit = (e) => {
+        e.preventDefault()
+        
         this.setState({
-            username: this.state.username,
-            password: this.state.password,
-            email: this.state.email,
+            email: this.state.email, 
+            password: this.state.password
+ 
 
         });
-        axios.post('/api/users/new',{
-            username: this.state.username,
-            password: this.state.password,
-            email: this.state.email, 
 
-        }).then ( (res) => { 
-                console.log('success')
-    
-        }).catch( err => console.log(err))
+        if (!this.state.emailBlank && !this.state.passwordBlank){
+            axios.post('/api/users/login',{
+                email: this.state.email, 
+                password: this.state.password
+                
+
+            }).then ( res => { 
+                if (res.data.incorrectEmail|| res.data.incorrectPassword ){
+                    this.setState({ loginError: res.data.msg})
+                }
+                this.setState({ userLoggedIn: res.data.inSession, loggedEmail: res.data.loggedEmail})
         
+            }).catch( err => console.log(err))
+
+        }else{
+            this.setState({ emailInvalid: true, passwordInValid: true})
+
+            console.log(  this.state.emailInvalid, this.state.passwordInValid)
+        }
+        
+
     }
 
     render(){
         return (
             <div style={ {padding: '20px 100px'}}>
-            <h1>Sign Up</h1>
+            <h1>Sign In</h1>
             <form onSubmit={this.handleSubmit}>      
-                <TextField
-                    id="outlined-name"
-                    label="Username"
-                    style={{width: 560}}
-                    name="username"
-                    value={this.state.username}
-                    onChange={this.handleChange}
-                    margin="normal"
-                    variant="outlined"
-                />
-            <br></br>
                 <TextField
                     id="outlined-name"
                     label="Email"
@@ -106,4 +113,4 @@ class signUp extends Component{
 
 }
 
-export default signUp;
+export default signIn;

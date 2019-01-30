@@ -24,5 +24,27 @@ router.post('/new', function(req, res, next) {
 });
 
 
+router.post('/login', function(req, res, next) {
+  const email = req.body.email;
+  const password = req.body.password;
+  User.findOne({
+    where: {email: email}
+    
+  }).then( user => {
+
+    if(!user){
+      res.status(200).send({ incorrectEmail: true, inSession: false, msg: "Incorrect Email" })
+    }else if(!user.validPassword(password)){
+      res.status(200).send({ incorrectPassword: true, inSession: false, msg: "Incorrect Password" })
+    }else{
+      res.status(200).send({
+        inSession: true, msg: "Logged in!", loggedEmail: user.email
+      })
+    }
+
+  }).catch(err => next(err))
+});
+
+
 module.exports = router;
 
