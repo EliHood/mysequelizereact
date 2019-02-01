@@ -13,7 +13,7 @@ import {withStyles} from '@material-ui/core';
 import Dashboard from './dashBoard';
 import { createBrowserHistory } from 'history';
 
-export const history = createBrowserHistory();
+export const history = createBrowserHistory({forceRefresh: true});
 
 const styles = {
     // This group of buttons will be aligned to the right
@@ -39,7 +39,18 @@ const styles = {
     }
 };
 
+
+
+const logout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem('JWT');
+
+};
+
+
 const Navbar = ({classes}) => (
+
+    
     <Router history={history}>
         <div className={classes.root}>
 
@@ -74,6 +85,18 @@ const Navbar = ({classes}) => (
                               Dashboard
                             </Link>
                         </Button>
+                        <Button
+                            onClick={logout}
+                         >
+
+                        
+
+                            <Link className={classes.rightToolbar} to={'/'}>
+                                LogOut
+                            </Link>
+                        </Button>
+
+
                     </Typography>
 
                 </Toolbar>
@@ -83,7 +106,7 @@ const Navbar = ({classes}) => (
             <Route path="/signIn" component={signIn}/>
             <Route path="/users" component={Users}/>
             <Route path="/dashboard" component={Dashboard}/>
-
+            <Route path="/signOut"/>
         </div>
     </Router>
 

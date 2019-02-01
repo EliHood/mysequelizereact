@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import { Redirect, browserHistory } from 'react-router-dom'
 class signUp extends Component{
 
     constructor(props){
@@ -11,6 +12,7 @@ class signUp extends Component{
             username:"",
             password: "",
             email:"",
+            token:localStorage.getItem('JWT'),
             regSuccess: false
         }
 
@@ -33,13 +35,13 @@ class signUp extends Component{
         this.setState({
             username: this.state.username,
             password: this.state.password,
-            email: this.state.email,
+            email: this.state.email
 
         });
         axios.post('/api/users/new',{
             username: this.state.username,
             password: this.state.password,
-            email: this.state.email, 
+            email: this.state.email 
 
         }).then ( (res) => { 
                 console.log('success')
@@ -49,6 +51,10 @@ class signUp extends Component{
     }
 
     render(){
+        const {token} = this.state;
+        if(token){
+            return <Redirect to='/dashboard'/>
+        }
         return (
             <div style={ {padding: '20px 100px'}}>
             <h1>Sign Up</h1>

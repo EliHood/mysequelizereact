@@ -10,7 +10,7 @@ class signIn extends Component{
         super(props)
 
         this.state = {
-            email:"",
+            username:"",
             password: "", 
             loggedEmail:"",
             loginError: "",    
@@ -19,7 +19,7 @@ class signIn extends Component{
             passwordBlank: true,
             emailInvalid: false,
             passwordInValid: false,
-            token:""
+            token:localStorage.getItem('JWT')
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -40,22 +40,21 @@ class signIn extends Component{
         
         e.preventDefault();
         this.setState({
-            email: this.state.email, 
+            username: this.state.username, 
             password: this.state.password
  
 
         });
 
-        axios.post('/api/users/login',{
-            email: this.state.email, 
+        axios.post('/api/users/loginUser',{
+            username: this.state.username, 
             password: this.state.password
             
 
         }).then ( res => { 
-            this.setState({
-                token: res.data.token
-            });
-            console.log(this.state.token)
+        
+            localStorage.setItem('JWT', res.data.token);
+            // console.log(this.state.token)
             history.push('/dashboard');
     
         }).catch( err => console.log(err))
@@ -66,7 +65,7 @@ class signIn extends Component{
 
     render(){
         const { token} = this.state;
-        if(token == ""){
+        if(token){
             return <Redirect to='/dashboard'/>
         }
         return (
@@ -75,10 +74,10 @@ class signIn extends Component{
             <form onSubmit={this.handleSubmit}>      
                 <TextField
                     id="outlined-name2"
-                    label="Email"
+                    label="Username"
                     className=""
                     style={{width: 560}}
-                    name="email"
+                    name="username"
                     value={this.state.email}
                     onChange={this.handleChange}
                     margin="normal"

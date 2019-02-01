@@ -1,57 +1,122 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../models');
-var User = db.User
+var models = require( '../models/');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-require('../config/passport')(passport);
+
 
 router.get('/', function(req, res) {
-    User.findAll()
+    models.User.findAll()
       .then(function (users) {
         res.json(users);
+        // console.log(users);
       });
+
+ 
 });
 
-router.post('/new', function(req, res, next) {
-  User.create({
-    username: req.body.username,
-    password: req.body.password,
-    email: req.body.email, 
-  
-  }).then( user => {
-    req.session.user = user.dataValues;
-    res.status(200).send({msg: "User Created"})
-  }).catch(err => next(err))
+router.get('/findUser', (req, res, next) => {
+  passport.authenticate('jwt', { session: false }, (err, user, info) => {
+    if (err) {
+      console.log(err);
+    }
+    if (info != undefined) {
+      console.log(info.message);
+      res.status(401).send(info.message);
+    } else {
+      if (user.username === req.query.username) {
+        models.User.findOne({
+          where: {
+            username: req.query.username,
+          },
+        }).then(user => {
+          if (user != null) {
+            console.log('user found in db from findUsers');
+            res.status(200).send({
+              auth: true,
+              email: user.email,
+              username: user.username,
+              password: user.password,
+              message: 'user found in db',
+            });
+          } else {
+            console.log('no user exists in db with that username');
+            res.status(401).send('no user exists in db with that username');
+          }
+        });
+      } else {
+        console.log('jwt id and username do not match');
+        res.status(403).send('username and jwt token do not match');
+      }
+    }
+  })(req, res, next);
 });
 
 
-router.post('/login', function(req, res, next) {
-  const email = req.body.email;
-  const password = req.body.password;
-  User.findOne({
-    where: {email: email}
-    
-  }).then((user) => {
-    if (!user) {
-      return res.status(401).send({
-        message: 'Authentication failed. User not found.',
+
+router.post('/new', (req, res, next) => {
+  passport.authenticate('register', (err, user, info) => {
+    if (err) {
+      console.log(err);
+    }
+    if (info != undefined) {
+      console.log(info.message);
+      res.status(403).send(info.message);
+    } else {
+      req.logIn(user, err => {
+        const data = {
+          username: req.body.username,
+          password: req.body.password,
+          email: req.body.email
+        };
+        models.User.findOne({
+          where: {
+            username: data.username,
+          },
+        }).then(user => {
+          user
+            .create({
+              username: data.username,
+              password: data.password,
+              email: data.email
+            })
+            .then(() => {
+              console.log('user created in db');
+              res.status(200).send({ message: 'user created' });
+            });
+        });
       });
     }
-    user.comparePassword(req.body.password, (err, isMatch) => {
-      if(isMatch && !err) {
-        var token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', {expiresIn: 86400 * 30});
-        jwt.verify(token, 'nodeauthsecret', function(err, data){
-          console.log(err, data);
-        })
-        res.json({success: true, token: 'JWT ' + token});
-      } else {
-        res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
-      }
-    })
-  })
-  .catch((error) => res.status(400).send(error));
+  })(req, res, next);
 });
+
+router.post('/loginUser', (req, res, next) => {
+  passport.authenticate('login', (err, user, info) => {
+    if (err) {
+      console.log(err);
+    }
+    if (info != undefined) {
+      console.log(info.message);
+      res.send(info.message);
+    } else {
+      req.logIn(user, err => {
+       models.User.findOne({
+          where: {
+            username: req.body.username,
+          },
+        }).then(user => {
+          const token = jwt.sign({ id: user.id  }, 'nodeauthsecret');
+          res.status(200).send({
+            auth: true,
+            token: token,
+            message: 'user found & logged in',
+          });
+        });
+      });
+    }
+  })(req, res, next);
+});
+
 
 getToken = function (headers) {
   if (headers && headers.authorization) {
