@@ -63,20 +63,7 @@ class signIn extends Component{
         }
         this.props.logIn(creds);
 
-        // axios.post('/api/users/loginUser',{
-        //     username: this.state.username, 
-        //     password: this.state.password
-            
-
-        // }).then ( res => { 
-        
-        //     localStorage.setItem('JWT', res.data.token);
-        //     // console.log(this.state.token)
-        //     history.push('/dashboard');
-    
-        // }).catch( err => console.log(err))
-
-        
+ 
 
     }
 

@@ -13,7 +13,7 @@ import {withStyles} from '@material-ui/core';
 import Dashboard from './dashBoard';
 import { connect } from 'react-redux';
 import { createBrowserHistory } from 'history';
-import PropTypes, { func, bool, string} from 'prop-types';
+import PropTypes from 'prop-types';
 import { compose } from 'redux';
 export const history = createBrowserHistory({forceRefresh: true});
 
@@ -144,7 +144,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Navbar.propTypes = {
-    token:PropTypes.string,
+    token:PropTypes.string
 
 }
 

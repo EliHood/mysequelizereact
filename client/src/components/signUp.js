@@ -2,56 +2,63 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
-import { Redirect} from 'react-router-dom'
+import { connect } from 'react-redux';
+import {register} from  '../actions/';
+import { Redirect, withRouter } from 'react-router-dom';
 class signUp extends Component{
 
     constructor(props){
         super(props)
 
         this.state = {
-            username:"",
-            password: "",
-            email:"",
-            token:localStorage.getItem('JWT'),
+            formData:{
+                username:"",
+                password: "",
+                email:""
+            },
             regSuccess: false
         }
 
         this.handleChange = this.handleChange.bind(this);
-
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     
     handleChange = (e) =>{
         e.preventDefault();
 
+        const { formData } = this.state;
+
         this.setState({
-            [e.target.name]: e.target.value
+            formData: {
+              ...formData,
+              [e.target.name]: e.target.value
+            }
         });
 
     }
 
 
-    handleSubmit = () => {
+    handleSubmit = (e) => {
+        e.preventDefault();
 
+        const {formData} = this.state;
+        const {username, email, password} = formData;
         this.setState({
-            username: this.state.username,
+            username: this.state.username, 
             password: this.state.password,
-            email: this.state.email
+            email:this.state.email,
+ 
 
         });
-        axios.post('/api/users/new',{
-            username: this.state.username,
-            password: this.state.password,
-            email: this.state.email 
+        const creds = {
+            username, email, password
+        }
+        this.props.register(creds);
 
-        }).then ( (res) => { 
-                console.log('success')
-    
-        }).catch( err => console.log(err))
-        
     }
 
     render(){
-        const {token} = this.state;
+      const {token } = this.props
         if(token){
             return <Redirect to='/dashboard'/>
         }
@@ -114,4 +121,14 @@ class signUp extends Component{
 
 }
 
-export default signUp;
+const mapStateToProps = (state) => ({
+    token: state.user.getToken,
+    error: state.user.authError
+})
+  
+const mapDispatchToProps = (dispatch) => ({
+    register: (user) => dispatch(register(user))
+  
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(signUp));
