@@ -1,36 +1,46 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import axios from 'axios';
-import { Redirect, browserHistory } from 'react-router-dom'
-import { history } from '../components/Navbar';
+// import axios from 'axios';
+import {withRouter, Redirect } from 'react-router-dom'
+// import { history } from '../components/Navbar';
+import { connect } from 'react-redux';
+import {logIn} from  '../actions/';
 class signIn extends Component{
 
     constructor(props){
         super(props)
 
         this.state = {
-            username:"",
-            password: "", 
+            formData:{
+                username:"",
+                password: ""
+            },
             loggedEmail:"",
-            loginError: "",    
+            loginError: "",
+            myToken:"", 
             userLoggedIn: false,
             emailBlank: true,
             passwordBlank: true,
             emailInvalid: false,
             passwordInValid: false,
-            token:localStorage.getItem('JWT')
+            // token:localStorage.getItem('JWT')
         }
 
         this.handleChange = this.handleChange.bind(this);
-
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     
     handleChange = (e) =>{
         e.preventDefault();
 
+        const { formData } = this.state;
+
         this.setState({
-            [e.target.name]: e.target.value
+            formData: {
+              ...formData,
+              [e.target.name]: e.target.value
+            }
         });
 
     }
@@ -39,6 +49,8 @@ class signIn extends Component{
     handleSubmit = (e) => {
         
         e.preventDefault();
+        const {formData} = this.state;
+        const {username, password} = formData;
         this.setState({
             username: this.state.username, 
             password: this.state.password
@@ -46,27 +58,44 @@ class signIn extends Component{
 
         });
 
-        axios.post('/api/users/loginUser',{
-            username: this.state.username, 
-            password: this.state.password
+        const creds = {
+            username, password
+        }
+        this.props.logIn(creds);
+
+        // axios.post('/api/users/loginUser',{
+        //     username: this.state.username, 
+        //     password: this.state.password
             
 
-        }).then ( res => { 
+        // }).then ( res => { 
         
-            localStorage.setItem('JWT', res.data.token);
-            // console.log(this.state.token)
-            history.push('/dashboard');
+        //     localStorage.setItem('JWT', res.data.token);
+        //     // console.log(this.state.token)
+        //     history.push('/dashboard');
     
-        }).catch( err => console.log(err))
+        // }).catch( err => console.log(err))
 
         
 
     }
 
+    componentDidMount(){
+  
+        this.setState({
+            myToken: this.props.token
+        });
+
+        console.log( this.props.token);
+    }
+
     render(){
-        const { token} = this.state;
-        if(token){
-            return <Redirect to='/dashboard'/>
+  
+      
+        if( this.props.token){
+            return(
+                <Redirect to="/dashboard"/>
+            );
         }
         return (
             <div style={ {padding: '20px 100px'}}>
@@ -99,7 +128,9 @@ class signIn extends Component{
 
                 <br></br>
 
-                <button type="submit"> Submit </button>
+                <Button variant="outlined" color="primary" type="submit">
+                    Log In
+                </Button>
 
             </form>
 
@@ -114,4 +145,14 @@ class signIn extends Component{
 
 }
 
-export default signIn;
+
+const mapStateToProps = (state) => ({
+    token: state.user.getToken
+})
+  
+const mapDispatchToProps = (dispatch) => ({
+      logIn: (user) => dispatch(logIn(user))
+  
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(signIn));

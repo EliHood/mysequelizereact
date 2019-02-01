@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
-import { Redirect, browserHistory } from 'react-router-dom'
+import { Redirect} from 'react-router-dom'
 class signUp extends Component{
 
     constructor(props){
@@ -97,7 +97,9 @@ class signUp extends Component{
 
                 <br></br>
 
-                <button type="submit"> Submit </button>
+                <Button variant="outlined" color="primary" type="submit">
+                    Sign Up
+                </Button>
 
             </form>
 

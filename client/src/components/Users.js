@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 

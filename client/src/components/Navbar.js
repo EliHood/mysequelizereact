@@ -11,8 +11,10 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core';
 import Dashboard from './dashBoard';
+import { connect } from 'react-redux';
 import { createBrowserHistory } from 'history';
-
+import PropTypes, { func, bool, string} from 'prop-types';
+import { compose } from 'redux';
 export const history = createBrowserHistory({forceRefresh: true});
 
 const styles = {
@@ -44,11 +46,11 @@ const styles = {
 const logout = (e) => {
     e.preventDefault();
     localStorage.removeItem('JWT');
-
+    history.push('/');
 };
 
 
-const Navbar = ({classes}) => (
+const Navbar = ({classes, token}) => (
 
     
     <Router history={history}>
@@ -63,39 +65,58 @@ const Navbar = ({classes}) => (
                         Eli App
                     </Typography>
                     <Typography classcolor="inherit" className={classes.rightt}>
-                        <Button>
+
+                    {!token && ( 
+
+                            <Button>
                             <Link to="/signUp" className={classes.rightToolbar} >
                                 Sign Up
                             </Link>
-                        </Button>
+                            </Button>
+                        
+                    )}
+                    {!token && ( 
 
-                        <Button>
-                            <Link to="/signIn" className={classes.rightToolbar}>
+                            <Button>
+                            <Link to="/signIn" className={classes.rightToolbar} >
                                 Sign In
                             </Link>
-                        </Button>
+                            </Button>
 
-                        <Button>
-                            <Link to="/users" className={classes.rightToolbar}>
-                              Users
-                            </Link>
-                        </Button>
-                        <Button>
-                            <Link to="/dashboard" className={classes.rightToolbar}>
-                              Dashboard
-                            </Link>
-                        </Button>
-                        <Button
-                            onClick={logout}
-                         >
+                    )}
 
-                        
+                    {token && (
+                          <Button>
+                          <Link to="/users" className={classes.rightToolbar}>
+                            Users
+                          </Link>
+                      </Button>
 
-                            <Link className={classes.rightToolbar} to={'/'}>
-                                LogOut
-                            </Link>
-                        </Button>
 
+                    )}
+              
+                    {token && (
+                      <Button>
+                        <Link to="/dashboard" className={classes.rightToolbar}>
+                            Dashboard
+                         </Link>
+                     </Button>
+
+                    )}
+                     
+        
+                     {token && (
+                      <Button onClick={logout}>
+                        <Link className={classes.rightToolbar} to={'/'}>
+                            LogOut
+                        </Link>
+                     </Button>
+
+
+                    )}
+
+                
+                      
 
                     </Typography>
 
@@ -112,4 +133,20 @@ const Navbar = ({classes}) => (
 
 );
 
-export default withStyles(styles)(Navbar);
+
+const mapStateToProps = (state) => ({
+    token: state.user.getToken
+})
+  
+const mapDispatchToProps = (dispatch) => ({
+    //   logIn: (user) => dispatch(logIn(user))
+  
+});
+
+Navbar.propTypes = {
+    token:PropTypes.string,
+
+}
+
+// export default withStyles(styles)(Navbar);
+export default compose(connect(mapStateToProps, mapDispatchToProps), withStyles(styles))(Navbar);
