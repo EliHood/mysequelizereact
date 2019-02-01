@@ -40,7 +40,7 @@ const passport = require('passport'),
                 models.User.create({
                   username: req.body.username,
                   password: hashedPassword,
-                  email: req.body.email,
+                  email: req.body.email
                 }).then(user => {
                   console.log('user created');
                   return done(null, user);

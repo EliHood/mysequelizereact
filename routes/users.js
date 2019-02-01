@@ -73,18 +73,11 @@ router.post('/new', (req, res, next) => {
           where: {
             username: data.username,
           },
-        }).then(user => {
-          user
-            .create({
-              username: data.username,
-              password: data.password,
-              email: data.email
-            })
-            .then(() => {
-              console.log('user created in db');
-              res.status(200).send({ message: 'user created' });
-            });
-        });
+        }) .then(() => {
+            console.log('user created in db');
+            res.status(200).send({ message: 'user created' });
+          });
+     
       });
     }
   })(req, res, next);

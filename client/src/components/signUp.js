@@ -14,8 +14,10 @@ class signUp extends Component{
             formData:{
                 username:"",
                 password: "",
+                passwordConf:"",
                 email:""
             },
+            passErr: "",
             regSuccess: false
         }
 
@@ -42,18 +44,29 @@ class signUp extends Component{
         e.preventDefault();
 
         const {formData} = this.state;
-        const {username, email, password} = formData;
+        const {username, email, password, passwordConf} = formData;
         this.setState({
             username: this.state.username, 
             password: this.state.password,
+            passwordConf: this.state.passwordConf,
             email:this.state.email,
  
 
         });
+        
         const creds = {
             username, email, password
         }
-        this.props.register(creds);
+        if(password === passwordConf){
+            this.props.register(creds);
+        }
+
+        else{
+            this.setState({
+                passErr: "Passwords Don't Match"
+            })
+        }
+       
 
     }
 
@@ -65,14 +78,22 @@ class signUp extends Component{
   
         return (
             <div style={ {padding: '20px 100px'}}>
-            
-            
-            <h1>Sign Up</h1>
+
             {this.props.error && (
                     <div style={{color:'red'}}>
                         {this.props.error}
                     </div>            
             )}
+
+            {this.state.passErr && (
+                    <div style={{color:'red'}}>
+                        {this.state.passErr}
+                    </div>            
+            )}
+            
+            
+            <h1>Sign Up</h1>
+      
             <form onSubmit={this.handleSubmit}>      
                 <TextField
                     id="outlined-name"
@@ -105,6 +126,19 @@ class signUp extends Component{
                     style={{width: 560}}
                     className=""
                     value={this.state.password}
+                    onChange={this.handleChange}
+                    margin="normal"
+                    variant="outlined"
+                />  
+             <br></br>
+              <TextField
+                    id="outlined-name"
+                    label="Confirm Password"
+                    name="passwordConf"
+                    type="password"
+                    style={{width: 560}}
+                    className=""
+                    value={this.state.passwordConf}
                     onChange={this.handleChange}
                     margin="normal"
                     variant="outlined"
