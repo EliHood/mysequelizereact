@@ -1,7 +1,8 @@
 # mysequelizereact
 
 #### Tech Stack
-* postgres
-* sequelize
-* express
-* react
+* Postgres
+* Sequelize
+* Express
+* React
+* Redux
