@@ -62,9 +62,17 @@ class signUp extends Component{
         if(token){
             return <Redirect to='/dashboard'/>
         }
+  
         return (
             <div style={ {padding: '20px 100px'}}>
+            
+            
             <h1>Sign Up</h1>
+            {this.props.error && (
+                    <div style={{color:'red'}}>
+                        {this.props.error}
+                    </div>            
+            )}
             <form onSubmit={this.handleSubmit}>      
                 <TextField
                     id="outlined-name"

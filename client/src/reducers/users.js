@@ -28,7 +28,7 @@ export default (state = initialState, action) => {
         case REG_FAIL:
             return({
                 ...state,
-                authError:action.err
+                authError:action.err.response.data
             });
 
         default:

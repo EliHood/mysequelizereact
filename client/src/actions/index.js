@@ -36,7 +36,7 @@ export const register = (user) => {
             dispatch({type: REG_SUC, user});
         }).catch((err)=> {
             dispatch({type:  REG_FAIL, err});
-            console.log(err.response.data);
+            // console.log(err.response.data);
         })
         
     }
