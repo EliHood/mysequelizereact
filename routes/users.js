@@ -90,7 +90,7 @@ router.post('/loginUser', (req, res, next) => {
     }
     if (info != undefined) {
       console.log(info.message);
-      res.send(info.message);
+      res.status(401).send(info.message);
     } else {
       req.logIn(user, err => {
        models.User.findOne({
@@ -104,6 +104,8 @@ router.post('/loginUser', (req, res, next) => {
             token: token,
             message: 'user found & logged in',
           });
+          
+
         });
       });
     }

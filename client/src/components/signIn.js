@@ -33,7 +33,6 @@ class signIn extends Component{
     
     handleChange = (e) =>{
         e.preventDefault();
-
         const { formData } = this.state;
 
         this.setState({
@@ -47,21 +46,21 @@ class signIn extends Component{
 
 
     handleSubmit = (e) => {
-        
         e.preventDefault();
+
         const {formData} = this.state;
-        const {username, password} = formData;
+        const {username,password} = formData;
         this.setState({
             username: this.state.username, 
             password: this.state.password
- 
-        });
 
+        });
+        
         const creds = {
             username, password
         }
         this.props.logIn(creds);
-
+        console.log(creds);
  
 
     }
@@ -88,7 +87,7 @@ class signIn extends Component{
                     className=""
                     style={{width: 560}}
                     name="username"
-                    value={this.state.email}
+                    value={this.state.username}
                     onChange={this.handleChange}
                     margin="normal"
                     variant="outlined"

@@ -1,5 +1,4 @@
-import { SET_USER, REG_SUC, REG_FAIL} from '../actions/';
-
+import { SET_USER, REG_SUC, REG_FAIL, lOG_FAIL} from '../actions/';
 
 
 const initialState = {
@@ -18,7 +17,12 @@ export default (state = initialState, action) => {
                 user:action.user,
                 token: action.payload,
                 isAuthenticated: true
-            })
+            });
+        case lOG_FAIL:
+            return({
+                ...state,
+                authError:action.err
+            });
         case REG_SUC:
             return({
                 ...state,
