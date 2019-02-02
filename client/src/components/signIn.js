@@ -55,7 +55,6 @@ class signIn extends Component{
             username: this.state.username, 
             password: this.state.password
  
-
         });
 
         const creds = {
@@ -68,12 +67,7 @@ class signIn extends Component{
     }
 
     componentDidMount(){
-  
-        this.setState({
-            myToken: this.props.token
-        });
-
-        console.log( this.props.token);
+ 
     }
 
     render(){
