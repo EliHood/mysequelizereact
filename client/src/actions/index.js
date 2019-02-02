@@ -13,7 +13,7 @@ export const logIn =  (user) => {
             username: user.username,
             password: user.password
         }).then( (res) => {
-             localStorage.setItem('JWT', res.data.token);
+            localStorage.setItem('JWT', res.data.token);
             history.push('/dashboard');
             dispatch({type: SET_USER, user});
         }).catch((err)=> {

@@ -50,11 +50,6 @@ class signIn extends Component{
 
         const {formData} = this.state;
         const {username,password} = formData;
-        this.setState({
-            username: this.state.username, 
-            password: this.state.password
-
-        });
         
         const creds = {
             username, password
@@ -77,8 +72,19 @@ class signIn extends Component{
                 <Redirect to="/dashboard"/>
             );
         }
+
+        
         return (
+
+            
             <div style={ {padding: '20px 100px'}}>
+            
+                {this.props.error && (
+                <div style={{color:'red'}}>
+                    {this.props.error}
+                </div>            
+            )}
+
             <h1>Sign In</h1>
             <form onSubmit={this.handleSubmit}>      
                 <TextField
@@ -127,7 +133,8 @@ class signIn extends Component{
 
 
 const mapStateToProps = (state) => ({
-    token: state.user.getToken
+    token: state.user.getToken,
+    error: state.user.authError
 })
   
 const mapDispatchToProps = (dispatch) => ({

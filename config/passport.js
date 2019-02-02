@@ -72,7 +72,7 @@ passport.use(
           },
         }).then(user => {
           if (user === null) {
-            return done(null, false, { message: 'bad username' });
+            return done(null, false, { message: 'Username doesn\'t exist' });
           } else {
             bcrypt.compare(password, user.password).then(response => {
               if (response !== true) {

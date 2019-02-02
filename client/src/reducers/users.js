@@ -21,7 +21,7 @@ export default (state = initialState, action) => {
         case lOG_FAIL:
             return({
                 ...state,
-                authError:action.err
+                authError:action.err.response.data
             });
         case REG_SUC:
             return({
