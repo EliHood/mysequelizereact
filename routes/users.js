@@ -11,7 +11,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const BCRYPT_SALT_ROUNDS = 12;
 const bcrypt = require('bcrypt');
-
+require('dotenv').config();
 
 
 router.get('/', function(req, res) {
@@ -130,8 +130,8 @@ router.post('/forgotPassword', (req, res, next) => {
       const transporter = nodemailer.createTransport({
         service: 'SendGrid',
         auth: {
-          user: 'elidev',
-          pass: 'janemba133',
+          user: `${process.env.MAIL_USER}`,
+          pass:`${process.env.MAIL_PASS}`
         },
       });
 

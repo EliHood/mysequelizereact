@@ -1,9 +1,14 @@
-import {FORGOT,  FORGOT_ERR } from '../actions/';
+import {FORGOT, RESET, RESET_FAIL,UPDATEPASS, UPDATEPASS_FAIL,  FORGOT_ERR } from '../actions/';
 
 const initialState = {
     showError: false,
     messageFromServer: null,
-    showNullError:null
+    showNullError:null,
+    username: null,
+    update: false,
+    isLoading: false,
+    error: false
+
 }
 
 export default (state = initialState, action) => {
@@ -23,7 +28,37 @@ export default (state = initialState, action) => {
                 showNullError: false,
                 
             });
-  
+        case RESET:
+            return({
+                ...state,
+                username:action.creds.username,
+                update: false,
+                isLoading: false,
+                error: false,
+
+            });
+        case RESET_FAIL:
+            return({
+                ...state,
+                update: false,
+                isLoading: false,
+                error: true,
+            })
+
+        case UPDATEPASS:
+            return({
+                ...state,
+                update:true,
+                error: false
+
+            });
+        case UPDATEPASS_FAIL:
+            return({
+                ...state, 
+                update: false,
+                error: true,
+            })
+        
         default:
             return state
     }

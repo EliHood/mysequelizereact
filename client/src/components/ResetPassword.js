@@ -3,6 +3,9 @@ import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
+import {Redirect, withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import { updatePass, Reset} from '../actions/';
 const loading = {
   margin: '1em',
   fontSize: '24px',
@@ -27,7 +30,7 @@ const Styles = {
 }
 
 
-export default class ResetPassword extends Component {
+class ResetPassword extends Component {
   constructor() {
     super();
 
@@ -41,7 +44,9 @@ export default class ResetPassword extends Component {
     };
   }
 
-  async componentDidMount() {
+async componentDidMount() {
+
+  // this.props.Reset();
     await axios
       .get('/api/users/reset', {
         params: {
@@ -77,34 +82,47 @@ export default class ResetPassword extends Component {
 
   updatePassword = e => {
     e.preventDefault();
-    axios
-      .put('/api/users/updatePasswordViaEmail', {
-        username: this.state.username,
-        password: this.state.password,
-      })
-      .then(response => {
-        console.log(response.data);
-        if (response.data.message === 'password updated') {
-          this.setState({
-            updated: true,
-            error: false,
-          });
-        } else {
-          this.setState({
-            updated: false,
-            error: true,
-          });
-        }
-      })
-      .catch(error => {
-        console.log(error.data);
-      });
+    const {username, password} = this.state;
+
+    const creds = {
+      username, password
+    }
+
+    if(password != null){
+      this.props.updatePass(creds);
+    }
+    else{
+      console.log('enter an email')
+    }
+   
+    // axios
+    //   .put('/api/users/updatePasswordViaEmail', {
+    //     username: this.state.username,
+    //     password: this.state.password,
+    //   })
+    //   .then(response => {
+    //     console.log(response.data);
+    //     if (response.data.message === 'password updated') {
+    //       this.setState({
+    //         updated: true,
+    //         error: false,
+    //       });
+    //     } else {
+    //       this.setState({
+    //         updated: false,
+    //         error: true,
+    //       });
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.log(error.data);
+    //   });
   };
 
   render() {
     const { password, error, isLoading, updated } = this.state;
 
-    if (error) {
+    if (this.props.error) {
       return (
         <div>
           <AppBar title={title} />
@@ -114,7 +132,7 @@ export default class ResetPassword extends Component {
           </div>
         </div>
       );
-    } else if (isLoading) {
+    } else if (this.props.isLoading) {
       return (
         <div>
           <div style={loading}>Loading User Data...</div>
@@ -125,7 +143,7 @@ export default class ResetPassword extends Component {
         <div className="App" style={Styles.wrapper}>
          <h1> Update Password</h1>
 
-         {updated && (
+         {this.props.updated && (
             <div>
               <p>
                 Your password has been successfully reset, please try logging in
@@ -157,3 +175,20 @@ export default class ResetPassword extends Component {
     }
   }
 }
+
+const mapStateToProps = (state) => ({
+  // token: state.user.getToken, 
+  // error: state.post.postError
+  // showError: state.account.showError,
+  // messageFromServer: state.account.messageFromServer
+  updated: state.account.update,
+  isLoading: state.account.isLoading,
+  error: state.account.error
+
+
+})
+const mapDispatchToProps = (dispatch) => ({
+  Reset: () => dispatch(Reset()),
+  updatePass: (creds) => dispatch(updatePass(creds))
+});
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ResetPassword));

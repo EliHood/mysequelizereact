@@ -16,6 +16,11 @@ export const LOGOUT_FAIL = "LOGOUT_FAIL";
 export const FORGOT = "FORGOT";
 export const FORGOT_ERR = "FORGET_ERR";
 
+export const RESET = "RESET";
+export const RESET_FAIL = "RESET_FAIL";
+
+export const UPDATEPASS = "UPDATEPASS";
+export const UPDATEPASS_FAIL = "UPDATEPASS_FAIL";
 
 export const logIn =  (user) => { 
     return (dispatch) => {
@@ -87,5 +92,50 @@ export const Forget = (creds)  => {
             }
            
          });
+    }
+}
+
+export const updatePass = (creds)  => {
+    return  (dispatch) =>{
+        axios.put('/api/users/updatePasswordViaEmail', {
+            username: creds.username,
+            password: creds.password,
+        }).then(response => {
+            // console.log(creds.username);
+            console.log(response);
+            if (response.data.message === 'password updated') {
+                dispatch({type:UPDATEPASS, creds});     
+            }
+            
+         }).catch(err => {
+  
+            dispatch({type:UPDATEPASS_FAIL, err});  
+       
+           
+         });
+    }
+}
+
+
+export const Reset = () => {
+    return async (dispatch) =>{
+        await axios
+            .get('/api/users/reset', {
+                params: {
+                    resetPasswordToken: this.props.match.params.token,
+                },
+            })
+            .then(response => {
+                console.log(response);
+                if (response.data.message === 'password reset link a-ok') {
+            
+                    dispatch({ type: RESET});
+                }
+              })
+              .catch(err => {
+                console.log(err.response.data);
+         
+                dispatch({ type: RESET_FAIL, err});
+              });
     }
 }
