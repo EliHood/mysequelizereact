@@ -92,9 +92,14 @@ router.post('/loginUser',  passport.authenticate('login', {session: true}), (req
 
 router.get('/logout', function( req, res){
 
-  req.session.destroy();
-  req.logout();
-  res.status(200).send({ message: "logout successfully"});
+  // req.session.destroy();
+  // req.user.logout();
+  if( req.session.destroy() ){
+    res.status(200).send({ message: "logout successfully"});
+  }else{
+    res.status(403).send({ message: "something went wrong"});
+  }
+  
 })
 
 
