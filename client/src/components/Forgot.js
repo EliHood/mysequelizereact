@@ -26,10 +26,7 @@ class Forgot extends Component {
         super(props);
 
         this.state = {
-            email: '',
-            // showError: false,
-            // messageFromServer: '',
-            // showNullError: false
+            email: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -50,25 +47,6 @@ class Forgot extends Component {
 
         console.log(creds);
         this.props.Forget(creds);
-
-        // if (this.state.email === '') {
-        //     this.setState({showError: false, messageFromServer: '', showNullError: true});
-        // } else {
-        //     axios
-        //        .post('/api/users/forgotPassword', {email: this.state.email})
-        //        .then(response => {
-        //             console.log(response.data);
-        //             if (response.data === 'recovery email sent') {
-        //                 this.setState({showError: false, messageFromServer: 'recovery email sent', showNullError: false});
-        //             }
-        //         })
-        //         .catch(error => {
-        //             console.log(error.response.data);
-        //             if (error.response.data === 'email not in db') {
-        //                 this.setState({showError: true, messageFromServer: '', showNullError: false});
-        //             }
-        //         });
-        // }
     };
 
     render() {
@@ -88,13 +66,11 @@ class Forgot extends Component {
                   
                   </div>
                 )}
-
                 {this.props.messageFromServer === 'recovery email sent' && (
                     <div>
                         <h3>Password Reset Email Successfully Sent!</h3>
                     </div>
                 )}
-
                 <form className="profile-form" onSubmit={this.sendEmail}>
                     <TextField
                         id="email"
@@ -109,23 +85,17 @@ class Forgot extends Component {
                         Send Password Reset Email
                     </Button>
                 </form>
-
-
             </div>
         );
     }
 }
-
 const mapStateToProps = (state) => ({
     // token: state.user.getToken, 
     // error: state.post.postError
     showError: state.account.showError,
     messageFromServer: state.account.messageFromServer
 })
-
 const mapDispatchToProps = (dispatch) => ({
     Forget: (creds) => dispatch(Forget(creds))
-
 });
-
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Forgot));

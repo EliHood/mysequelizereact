@@ -130,7 +130,7 @@ router.post('/forgotPassword', (req, res, next) => {
       const transporter = nodemailer.createTransport({
         service: 'SendGrid',
         auth: {
-          user: 'EliHood',
+          user: 'elidev',
           pass: 'janemba133',
         },
       });
