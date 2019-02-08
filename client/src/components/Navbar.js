@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import signUp from './signUp';
 import signIn from './signIn';
 import Post from './Post';
+import Posts from './Posts';
 import Users from './Users';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -44,7 +45,6 @@ const styles = {
 };
 
 
-
 const logout = () => {
     // e.preventDefault();
     axios.get('/api/users/logout');
@@ -54,8 +54,6 @@ const logout = () => {
   
 
 };
-
-
 
 
 const Navbar = ({classes, token}) => (
@@ -73,6 +71,17 @@ const Navbar = ({classes, token}) => (
                         Eli App
                     </Typography>
                     <Typography classcolor="inherit" className={classes.rightt}>
+
+                    {token && (
+                      <Button>
+                        <Link className={classes.rightToolbar} to="/posts">
+                            Posts
+                        </Link>
+                     </Button>
+
+
+                    )}
+                         
 
                     {!token && ( 
 
@@ -134,12 +143,7 @@ const Navbar = ({classes, token}) => (
 
                     )}
                     
-
-
-                
-                
-                      
-
+                     
                     </Typography>
 
                 </Toolbar>
@@ -148,6 +152,7 @@ const Navbar = ({classes, token}) => (
             <Route path="/signUp" component={signUp}/>
             <Route path="/signIn" component={signIn}/>
             <Route path="/Post" component={Post}/>
+            <Route path="/Posts" component={Posts}/>
             <Route path="/users" component={Users}/>
             <Route path="/dashboard" component={Dashboard}/>
             <Route path="/logout"/>

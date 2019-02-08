@@ -28,32 +28,35 @@ router.post('/newPost', (req, res, user) => {
     const data = {
         title: req.body.title,
         post_content: req.body.post_content,
-        userId: req.user.id // undefined
+        userId: req.user.id, 
+        username: req.user.username
+        
     }
 
     res.json(data);
 
-    // if(data.title || data.post_content != null){
-    //     models.Post.create({
-    //         title: data.title, 
-    //         post_content: data.post_content,
-    //         userId: data.userId
-    //     }).then( (post) => {
-    //         res.status(200).send({
-    //             message: 'post created',
-    //             post: post
-    //          });
-    //     }).catch( (err) => {
-    //         res.status(401).send({
-    //             message: `Something went wrong ${err}`
-    //         });
-    //     })
+    if(data.title || data.post_content != null){
+        models.Post.create({
+            title: data.title, 
+            post_content: data.post_content,
+            userId: data.userId,
+            username: data.username
+        }).then( (post) => {
+            res.status(200).send({
+                message: 'post created',
+                post: post
+             });
+        }).catch( (err) => {
+            res.status(401).send({
+                message: `Something went wrong ${err}`
+            });
+        })
 
-    // }else{
-    //     res.status(401).send({
-    //         message: 'Post is null'
-    //     });
-    // }
+    }else{
+        res.status(401).send({
+            message: 'Post is null'
+        });
+    }
  
 
 });

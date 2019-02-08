@@ -29,7 +29,10 @@ module.exports = {
           key: 'id'
 
         }
-      }
+      },
+      username: {
+        type: Sequelize.STRING
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
