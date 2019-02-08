@@ -1,5 +1,4 @@
 'use strict';
-var bcrypt = require('bcrypt');
 
 const User = (sequelize, DataTypes) => {
   const myUser = sequelize.define('User', {
@@ -9,10 +8,13 @@ const User = (sequelize, DataTypes) => {
   }, {});
 
   myUser.associate = function(models) {
-    // associations can be defined here
+
+    myUser.hasMany(models.Post, { foreignKey: 'userId', as:'users' });
   };
 
   return myUser;
 };
 
 module.exports = User;
+
+

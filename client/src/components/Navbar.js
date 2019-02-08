@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import signUp from './signUp';
 import signIn from './signIn';
+import Post from './Post';
 import Users from './Users';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -15,6 +16,7 @@ import { connect } from 'react-redux';
 import { createBrowserHistory } from 'history';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import axios from 'axios';
 export const history = createBrowserHistory({forceRefresh: true});
 
 const styles = {
@@ -43,11 +45,17 @@ const styles = {
 
 
 
-const logout = (e) => {
-    e.preventDefault();
+const logout = () => {
+    // e.preventDefault();
+    axios.get('/api/users/logout');
     localStorage.removeItem('JWT');
     history.push('/');
+ 
+  
+
 };
+
+
 
 
 const Navbar = ({classes, token}) => (
@@ -85,6 +93,17 @@ const Navbar = ({classes, token}) => (
 
                     )}
 
+
+                    {token && (
+                      <Button>
+                        <Link className={classes.rightToolbar} to="/Post">
+                            New Post
+                        </Link>
+                     </Button>
+
+                    )}
+
+
                     {token && (
                           <Button>
                           <Link to="/users" className={classes.rightToolbar}>
@@ -107,14 +126,17 @@ const Navbar = ({classes, token}) => (
         
                      {token && (
                       <Button onClick={logout}>
-                        <Link className={classes.rightToolbar} to={'/'}>
+                        <Link className={classes.rightToolbar} to={'/logout'}>
                             LogOut
                         </Link>
                      </Button>
 
 
                     )}
+                    
 
+
+                
                 
                       
 
@@ -125,9 +147,10 @@ const Navbar = ({classes, token}) => (
 
             <Route path="/signUp" component={signUp}/>
             <Route path="/signIn" component={signIn}/>
+            <Route path="/Post" component={Post}/>
             <Route path="/users" component={Users}/>
             <Route path="/dashboard" component={Dashboard}/>
-            <Route path="/signOut"/>
+            <Route path="/logout"/>
         </div>
     </Router>
 

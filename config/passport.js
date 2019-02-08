@@ -1,13 +1,31 @@
 const BCRYPT_SALT_ROUNDS = 12;
 
 const passport = require('passport'),
-  localStrategy = require('passport-local').Strategy,
-  models = require( '../models/index'),
+  
   bcrypt = require('bcrypt'),
   JWTstrategy = require('passport-jwt').Strategy,
   ExtractJWT = require('passport-jwt').ExtractJwt,
   Sequelize = require('sequelize'),
   Op = Sequelize.Op;
+
+module.exports = function(passport, user) {
+  const models = require( '../models/index');
+  const localStrategy = require('passport-local').Strategy;
+// serialize session, only store user id in the session information
+  passport.serializeUser(function(user, done) {
+    done(null, user.id);
+  });
+
+  // from the user id, figure out who the user is...
+  passport.deserializeUser(function(userId, done){
+    models.User
+      .find({ where: { id: userId } })
+      .then(function(user){
+        done(null, user);
+      }).catch(function(err){
+        done(err, null);
+      });
+  });
 
   passport.use(
     'register',
@@ -55,6 +73,7 @@ const passport = require('passport'),
     ),
   );
   
+  
 
 passport.use(
   'login',
@@ -62,27 +81,35 @@ passport.use(
     {
       usernameField: 'username',
       passwordField: 'password',
-      session: false,
+      session: false
     },
-    (username, password, done) => {
+    (username, password, done, req) => {
       try {
         models.User.findOne({
           where: {
-            username: username,
+            [Op.or]: [
+              {
+                username: username,
+              }
+            ],
           },
         }).then(user => {
           if (user === null) {
             return done(null, false, { message: 'Username doesn\'t exist' });
+          
           } else {
             bcrypt.compare(password, user.password).then(response => {
               if (response !== true) {
                 console.log('passwords do not match');
                 return done(null, false, { message: 'passwords do not match' });
               }
+        
               console.log('user found & authenticated');
               // note the return needed with passport local - remove this return for passport JWT
               return done(null, user);
             });
+
+            
           }
         });
       } catch (err) {
@@ -97,19 +124,23 @@ const opts = {
   secretOrKey: 'nodeauthsecret',
 };
 
+
+
+
 passport.use(
   'jwt',
   new JWTstrategy(opts, (jwt_payload, done) => {
     try {
        models.User.findOne({
         where: {
-          username: jwt_payload.id,
+          username: jwt_payload._id,
         },
       }).then(user => {
         if (user) {
           console.log('user found in db in passport');
           // note the return removed with passport JWT - add this return for passport local
           done(null, user);
+          // console.log(user);
         } else {
           console.log('user not found in db');
           done(null, false);
@@ -120,3 +151,6 @@ passport.use(
     }
   }),
 );
+
+
+}

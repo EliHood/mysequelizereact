@@ -1,4 +1,4 @@
-import { SET_USER, REG_SUC, REG_FAIL, lOG_FAIL} from '../actions/';
+import { SET_USER, LOGOUT, LOGOUT_FAIL, REG_SUC, REG_FAIL, lOG_FAIL} from '../actions/';
 
 
 const initialState = {
@@ -34,7 +34,14 @@ export default (state = initialState, action) => {
                 ...state,
                 authError:action.err.response.data
             });
+        
 
+        case LOGOUT:
+            return({
+                ...state,
+         
+                
+            });
         default:
             return state
     }
