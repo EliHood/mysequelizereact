@@ -1,24 +1,40 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 // import axios from 'axios';
-import {withRouter, Redirect } from 'react-router-dom'
+import {withRouter, Redirect} from 'react-router-dom'
 // import { history } from '../components/Navbar';
-import { connect } from 'react-redux';
-import {logIn} from  '../actions/';
-class signIn extends Component{
+import {connect} from 'react-redux';
+import {logIn} from '../actions/';
+import {Link} from 'react-router-dom';
+import Forgot from './Forgot';
 
-    constructor(props){
+const Styles = {
+    myPaper: {
+        margin: '20px 0px',
+        padding: '20px'
+    },
+    button: {
+        margin: '0px 20px'
+    }
+
+}
+
+const MyLink = props => <Link to="/Forgot" {...props}/>
+
+class signIn extends Component {
+
+    constructor(props) {
         super(props)
 
         this.state = {
-            formData:{
-                username:"",
+            formData: {
+                username: "",
                 password: ""
             },
-            loggedEmail:"",
+            loggedEmail: "",
             loginError: "",
-            myToken:"", 
+            myToken: "",
             userLoggedIn: false,
             emailBlank: true,
             passwordBlank: true,
@@ -30,116 +46,119 @@ class signIn extends Component{
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    
-    handleChange = (e) =>{
+
+    handleChange = (e) => {
         e.preventDefault();
-        const { formData } = this.state;
+        const {formData} = this.state;
 
         this.setState({
             formData: {
-              ...formData,
-              [e.target.name]: e.target.value
+                ...formData,
+                [e.target.name]: e.target.value
             }
         });
 
     }
 
-
     handleSubmit = (e) => {
         e.preventDefault();
 
         const {formData} = this.state;
-        const {username,password} = formData;
-        
+        const {username, password} = formData;
+
         const creds = {
-            username, password
+            username,
+            password
         }
-        this.props.logIn(creds);
+        this
+            .props
+            .logIn(creds);
         console.log(creds);
- 
 
     }
 
-    componentDidMount(){
- 
-    }
+    componentDidMount() {}
 
-    render(){
-  
-      
-        if( this.props.token){
-            return(
-                <Redirect to="/dashboard"/>
-            );
+    render() {
+
+        if (this.props.token) {
+            return (<Redirect to="/dashboard"/>);
         }
 
-        
         return (
 
-            
-            <div style={ {padding: '20px 100px'}}>
-            
+            <div style={{
+                padding: '20px 100px'
+            }}>
+
                 {this.props.error && (
-                <div style={{color:'red'}}>
-                    {this.props.error}
-                </div>            
-            )}
+                    <div style={{
+                        color: 'red'
+                    }}>
+                        {this.props.error}
+                    </div>
+                )}
 
-            <h1>Sign In</h1>
-            <form onSubmit={this.handleSubmit}>      
-                <TextField
-                    id="outlined-name2"
-                    label="Username"
-                    className=""
-                    style={{width: 560}}
-                    name="username"
-                    value={this.state.username}
-                    onChange={this.handleChange}
-                    margin="normal"
-                    variant="outlined"
-                />  
-                <br></br>
-                <TextField
-                    id="outlined-name"
-                    label="Password"
-                    name="password"
-                    type="password"
-                    style={{width: 560}}
-                    className=""
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                    margin="normal"
-                    variant="outlined"
-                />  
+                <h1>Sign In</h1>
+                <form onSubmit={this.handleSubmit}>
+                    <TextField
+                        id="outlined-name2"
+                        label="Username"
+                        className=""
+                        style={{
+                        width: 560
+                    }}
+                        name="username"
+                        value={this.state.username}
+                        onChange={this.handleChange}
+                        margin="normal"
+                        variant="outlined"/>
+                    <br></br>
+                    <TextField
+                        id="outlined-name"
+                        label="Password"
+                        name="password"
+                        type="password"
+                        style={{
+                        width: 560
+                    }}
+                        className=""
+                        value={this.state.password}
+                        onChange={this.handleChange}
+                        margin="normal"
+                        variant="outlined"/>
 
-                <br></br>
+                    <br></br>
 
-                <Button variant="outlined" color="primary" type="submit">
-                    Log In
-                </Button>
+                    <Button variant="outlined" color="primary" type="submit">
+                        Log In
+                    </Button>
 
-            </form>
+                    <Button
+                        component={MyLink}
+                        variant="outlined"
+                        type="submit"
+                        style={Styles.button}>
+                        Forgot Password ?
+                    </Button>
+
+                </form>
 
             </div>
 
         );
     }
 
-    
-
-
-
 }
 
-
 const mapStateToProps = (state) => ({
-    token: state.user.getToken,
+    token: state.user.getToken, 
     error: state.user.authError
-})
-  
+});
+
 const mapDispatchToProps = (dispatch) => ({
-      logIn: (user) => dispatch(logIn(user))
-  
+    logIn: (user) => dispatch(logIn(user))
+
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(signIn));

@@ -4,7 +4,9 @@ const User = (sequelize, DataTypes) => {
   const myUser = sequelize.define('User', {
     username: DataTypes.STRING,
     email: DataTypes.STRING,
-    password: DataTypes.STRING
+    password: DataTypes.STRING,
+    resetPasswordToken:DataTypes.STRING,
+    resetPasswordExpires: DataTypes.DATE
   }, {});
 
   myUser.associate = function(models) {

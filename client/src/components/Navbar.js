@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import signUp from './signUp';
 import signIn from './signIn';
 import Post from './Post';
+import Forgot from './Forgot';
 import Posts from './Posts';
 import Users from './Users';
 import AppBar from '@material-ui/core/AppBar';
@@ -13,16 +14,18 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core';
 import Dashboard from './dashBoard';
-import { connect } from 'react-redux';
-import { createBrowserHistory } from 'history';
+import {connect} from 'react-redux';
+import {createBrowserHistory} from 'history';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+import {compose} from 'redux';
 import axios from 'axios';
+import updatePassword from './updatePassword';
+import ResetPassword from './ResetPassword';
 export const history = createBrowserHistory({forceRefresh: true});
 
 const styles = {
     // This group of buttons will be aligned to the right
-   
+
     rightToolbar: {
         color: '#fff',
         textDecoration: 'none',
@@ -44,21 +47,16 @@ const styles = {
     }
 };
 
-
 const logout = () => {
     // e.preventDefault();
     axios.get('/api/users/logout');
     localStorage.removeItem('JWT');
     history.push('/');
- 
-  
 
 };
 
-
 const Navbar = ({classes, token}) => (
 
-    
     <Router history={history}>
         <div className={classes.root}>
 
@@ -72,78 +70,70 @@ const Navbar = ({classes, token}) => (
                     </Typography>
                     <Typography classcolor="inherit" className={classes.rightt}>
 
-                    {token && (
-                      <Button>
-                        <Link className={classes.rightToolbar} to="/posts">
-                            Posts
-                        </Link>
-                     </Button>
-
-
-                    )}
-                         
-
-                    {!token && ( 
-
+                        {token && (
                             <Button>
-                            <Link to="/signUp" className={classes.rightToolbar} >
-                                Sign Up
-                            </Link>
-                            </Button>
-                        
-                    )}
-                    {!token && ( 
-
-                            <Button>
-                            <Link to="/signIn" className={classes.rightToolbar} >
-                                Sign In
-                            </Link>
+                                <Link className={classes.rightToolbar} to="/posts">
+                                    Posts
+                                </Link>
                             </Button>
 
-                    )}
+                        )}
 
+                        {!token && (
 
-                    {token && (
-                      <Button>
-                        <Link className={classes.rightToolbar} to="/Post">
-                            New Post
-                        </Link>
-                     </Button>
+                            <Button>
+                                <Link to="/signUp" className={classes.rightToolbar}>
+                                    Sign Up
+                                </Link>
+                            </Button>
 
-                    )}
+                        )}
+                        {!token && (
 
+                            <Button>
+                                <Link to="/signIn" className={classes.rightToolbar}>
+                                    Sign In
+                                </Link>
+                            </Button>
 
-                    {token && (
-                          <Button>
-                          <Link to="/users" className={classes.rightToolbar}>
-                            Users
-                          </Link>
-                      </Button>
+                        )}
 
+                        {token && (
+                            <Button>
+                                <Link className={classes.rightToolbar} to="/Post">
+                                    New Post
+                                </Link>
+                            </Button>
 
-                    )}
-              
-                    {token && (
-                      <Button>
-                        <Link to="/dashboard" className={classes.rightToolbar}>
-                            Dashboard
-                         </Link>
-                     </Button>
+                        )}
 
-                    )}
-                     
-        
-                     {token && (
-                      <Button onClick={logout}>
-                        <Link className={classes.rightToolbar} to={'/logout'}>
-                            LogOut
-                        </Link>
-                     </Button>
+                        {token && (
+                            <Button>
+                                <Link to="/users" className={classes.rightToolbar}>
+                                    Users
+                                </Link>
+                            </Button>
 
+                        )}
 
-                    )}
-                    
-                     
+                        {token && (
+                            <Button>
+                                <Link to="/dashboard" className={classes.rightToolbar}>
+                                    Dashboard
+                                </Link>
+                            </Button>
+
+                        )}
+
+                        {token && (
+                            <Button onClick={logout}>
+                                <Link className={classes.rightToolbar} to={'/logout'}>
+                                    LogOut
+                                </Link>
+                            </Button>
+
+                        )}
+
                     </Typography>
 
                 </Toolbar>
@@ -153,26 +143,26 @@ const Navbar = ({classes, token}) => (
             <Route path="/signIn" component={signIn}/>
             <Route path="/Post" component={Post}/>
             <Route path="/Posts" component={Posts}/>
+            <Route path="/Forgot" component={Forgot}/>
             <Route path="/users" component={Users}/>
             <Route path="/dashboard" component={Dashboard}/>
             <Route path="/logout"/>
+            <Route path="/reset/:token" component={ResetPassword}/>
+            <Route exact path="/updatePassword/:username" component={updatePassword}/>
         </div>
     </Router>
 
 );
 
+const mapStateToProps = (state) => ({token: state.user.getToken})
 
-const mapStateToProps = (state) => ({
-    token: state.user.getToken
-})
-  
 const mapDispatchToProps = (dispatch) => ({
     //   logIn: (user) => dispatch(logIn(user))
-  
+
 });
 
 Navbar.propTypes = {
-    token:PropTypes.string
+    token: PropTypes.string
 
 }
 

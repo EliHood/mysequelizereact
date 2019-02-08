@@ -24,7 +24,9 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+      resetPasswordToken: Sequelize.STRING,
+      resetPasswordExpires: Sequelize.DATE
     });
   },
   down: (queryInterface, Sequelize) => {

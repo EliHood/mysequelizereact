@@ -46,7 +46,6 @@ class Posts extends Component {
 
   }
 
-
   render() {
     const {loading, posts} = this.state;
 
