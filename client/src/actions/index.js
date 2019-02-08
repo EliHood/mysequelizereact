@@ -61,7 +61,7 @@ export const newPost = (post, req) => {
             post_content: post.postContent
         }).then( (res) => {
             // console.log('success')
-            // history.push('/Posts');
+            history.push('/Posts');
             dispatch({type: POST_SUCC, post});
         }).catch((err)=> {
             dispatch({type:  POST_FAIL, err});
