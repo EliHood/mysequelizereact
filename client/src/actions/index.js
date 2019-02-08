@@ -13,6 +13,10 @@ export const POST_FAIL = "POST_FAIL";
 export const LOGOUT = "LOGOUT";
 export const LOGOUT_FAIL = "LOGOUT_FAIL";
 
+export const FORGOT = "FORGOT";
+export const FORGOT_ERR = "FORGET_ERR";
+
+
 export const logIn =  (user) => { 
     return (dispatch) => {
         axios.post('/api/users/loginUser',{
@@ -47,12 +51,7 @@ export const register = (user) => {
         
     }
 }
-// const config = {
-//     auth: true,
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-// };
+
 
 export const newPost = (post, req) => { 
     return (dispatch) => {
@@ -68,5 +67,25 @@ export const newPost = (post, req) => {
             console.log(err.response.data); // shows console.log for this though.
         })
         
+    }
+}
+
+export const Forget = (creds)  => {
+    return  (dispatch) =>{
+       axios.post('/api/users/forgotPassword',{
+            email: creds.email
+        }).then(response => {
+            console.log(creds.email);
+            console.log(response.data);
+            if (response.data === 'recovery email sent') {
+                 dispatch({type:FORGOT, creds});     
+            }
+         }).catch(err => {
+            console.log(err.response.data);
+            if (err.response.data === 'email not in db') {
+                dispatch({type:FORGOT_ERR, err});  
+            }
+           
+         });
     }
 }

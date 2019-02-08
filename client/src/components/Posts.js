@@ -55,7 +55,7 @@ class Posts extends Component {
 
     return (
       <div className="App" style={Styles.wrapper}>
-        <h1> Welcome</h1>
+        <h1> Posts </h1>
 
         {posts.map( (post, i) => (
           

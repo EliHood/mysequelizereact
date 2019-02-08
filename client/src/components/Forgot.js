@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
+import {Redirect, withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {Forget} from '../actions/';
 const Styles = {
     myPaper: {
         margin: '20px 0px',
@@ -24,9 +27,9 @@ class Forgot extends Component {
 
         this.state = {
             email: '',
-            showError: false,
-            messageFromServer: '',
-            showNullError: false
+            // showError: false,
+            // messageFromServer: '',
+            // showNullError: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -40,24 +43,32 @@ class Forgot extends Component {
 
     sendEmail = e => {
         e.preventDefault();
-        if (this.state.email === '') {
-            this.setState({showError: false, messageFromServer: '', showNullError: true});
-        } else {
-            axios
-               .post('/api/users/forgotPassword', {email: this.state.email})
-               .then(response => {
-                    console.log(response.data);
-                    if (response.data === 'recovery email sent') {
-                        this.setState({showError: false, messageFromServer: 'recovery email sent', showNullError: false});
-                    }
-                })
-                .catch(error => {
-                    console.log(error.response.data);
-                    if (error.response.data === 'email not in db') {
-                        this.setState({showError: true, messageFromServer: '', showNullError: false});
-                    }
-                });
+        const { email } = this.state
+        const creds = {
+            email
         }
+
+        console.log(creds);
+        this.props.Forget(creds);
+
+        // if (this.state.email === '') {
+        //     this.setState({showError: false, messageFromServer: '', showNullError: true});
+        // } else {
+        //     axios
+        //        .post('/api/users/forgotPassword', {email: this.state.email})
+        //        .then(response => {
+        //             console.log(response.data);
+        //             if (response.data === 'recovery email sent') {
+        //                 this.setState({showError: false, messageFromServer: 'recovery email sent', showNullError: false});
+        //             }
+        //         })
+        //         .catch(error => {
+        //             console.log(error.response.data);
+        //             if (error.response.data === 'email not in db') {
+        //                 this.setState({showError: true, messageFromServer: '', showNullError: false});
+        //             }
+        //         });
+        // }
     };
 
     render() {
@@ -68,7 +79,7 @@ class Forgot extends Component {
                 <h1> Forgot Password</h1>
 
 
-                {showError && (
+                {this.props.showError && (
                   <div>
                     <p>
                       That email address isn't recognized. Please try again or register
@@ -78,7 +89,7 @@ class Forgot extends Component {
                   </div>
                 )}
 
-                {messageFromServer === 'recovery email sent' && (
+                {this.props.messageFromServer === 'recovery email sent' && (
                     <div>
                         <h3>Password Reset Email Successfully Sent!</h3>
                     </div>
@@ -105,4 +116,16 @@ class Forgot extends Component {
     }
 }
 
-export default Forgot;
+const mapStateToProps = (state) => ({
+    // token: state.user.getToken, 
+    // error: state.post.postError
+    showError: state.account.showError,
+    messageFromServer: state.account.messageFromServer
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    Forget: (creds) => dispatch(Forget(creds))
+
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Forgot));

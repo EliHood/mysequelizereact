@@ -128,7 +128,10 @@ class Post extends Component {
 
 }
 
-const mapStateToProps = (state) => ({token: state.user.getToken, error: state.post.postError})
+const mapStateToProps = (state) => ({
+    token: state.user.getToken, 
+    error: state.post.postError
+})
 
 const mapDispatchToProps = (dispatch) => ({
     newPost: (post) => dispatch(newPost(post))
