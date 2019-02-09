@@ -5,9 +5,10 @@ const initialState = {
     messageFromServer: null,
     showNullError:null,
     username: null,
-    update: false,
+    update: null,
     isLoading: false,
-    error: false
+    error: false,
+    errorMessage: null
 
 }
 
@@ -48,15 +49,16 @@ export default (state = initialState, action) => {
         case UPDATEPASS:
             return({
                 ...state,
-                update:true,
+                update: 'Your password has been successfully reset, please try logging in again',
                 error: false
 
             });
         case UPDATEPASS_FAIL:
             return({
                 ...state, 
-                update: false,
+                update: 'Please Enter An Email' ,
                 error: true,
+               
             })
         
         default:

@@ -103,15 +103,9 @@ export const updatePass = (creds)  => {
         }).then(response => {
             // console.log(creds.username);
             console.log(response);
-            if (response.data.message === 'password updated') {
-                dispatch({type:UPDATEPASS, creds});     
-            }
-            
+            dispatch({type:UPDATEPASS, creds});            
          }).catch(err => {
-  
-            dispatch({type:UPDATEPASS_FAIL, err});  
-       
-           
+            dispatch({type:UPDATEPASS_FAIL, err});       
          });
     }
 }

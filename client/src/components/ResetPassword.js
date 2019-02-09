@@ -88,12 +88,10 @@ async componentDidMount() {
       username, password
     }
 
-    if(password != null){
-      this.props.updatePass(creds);
-    }
-    else{
-      console.log('enter an email')
-    }
+  
+    this.props.updatePass(creds);
+    
+   
    
     // axios
     //   .put('/api/users/updatePasswordViaEmail', {
@@ -122,23 +120,7 @@ async componentDidMount() {
   render() {
     const { password, error, isLoading, updated } = this.state;
 
-    if (this.props.error) {
-      return (
-        <div>
-          <AppBar title={title} />
-          <div style={loading}>
-            <h4>Problem resetting password. Please send another reset link.</h4>
-       
-          </div>
-        </div>
-      );
-    } else if (this.props.isLoading) {
-      return (
-        <div>
-          <div style={loading}>Loading User Data...</div>
-        </div>
-      );
-    } else {
+  
       return (
         <div className="App" style={Styles.wrapper}>
          <h1> Update Password</h1>
@@ -146,17 +128,16 @@ async componentDidMount() {
          {this.props.updated && (
             <div>
               <p>
-                Your password has been successfully reset, please try logging in
-                again.
+              {this.props.updated}
               </p>
             
             </div>
           )}
-      
+     
           <form className="password-form" onSubmit={this.updatePassword}>
             <TextField
-              id="password"
-              label="password"
+              id="Password"
+              label="Password"
               style={Styles.textF}
               onChange={this.handleChange('password')}
               value={password}
@@ -174,16 +155,13 @@ async componentDidMount() {
       );
     }
   }
-}
+
 
 const mapStateToProps = (state) => ({
-  // token: state.user.getToken, 
-  // error: state.post.postError
-  // showError: state.account.showError,
-  // messageFromServer: state.account.messageFromServer
+
   updated: state.account.update,
-  isLoading: state.account.isLoading,
-  error: state.account.error
+  isLoading: state.account.isLoading
+
 
 
 })

@@ -299,7 +299,12 @@ router.put('/updatePasswordViaEmail', (req, res, next) => {
       username: req.body.username,
     },
   }).then(user => {
-    if (user != null) {
+
+    if (req.body.password === '') {
+      console.log('please enter email');
+      res.status(401).send('enter an email');
+    }
+    else if (user != null) {
       console.log('user exists in db');
       bcrypt
         .hash(req.body.password, BCRYPT_SALT_ROUNDS)
@@ -314,10 +319,7 @@ router.put('/updatePasswordViaEmail', (req, res, next) => {
           console.log('password updated');
           res.status(200).send({ message: 'password updated' });
         });
-    } else {
-      console.log('no user exists in db to update');
-      res.status(401).json('no user exists in db to update');
-    }
+    } 
   });
 });
 
