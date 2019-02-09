@@ -8,6 +8,21 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 import { Provider } from 'react-redux';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import indigo from '@material-ui/core/colors/indigo';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+        light: '#757ce8',
+        main: '#7986cb',
+    },
+    secondary: {
+      main: '#9fa8da',
+    },
+  },
+});
+
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 const store = createStoreWithMiddleware(rootReducer);
@@ -15,7 +30,9 @@ const store = createStoreWithMiddleware(rootReducer);
 ReactDOM.render(
 <Provider store={store}>   
     <Router>
-        <App />
+        <MuiThemeProvider theme = {theme}>
+            <App />
+        </MuiThemeProvider>
     </Router>
 </Provider>, document.getElementById('root'));
 
