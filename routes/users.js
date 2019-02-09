@@ -14,20 +14,18 @@ const bcrypt = require('bcrypt');
 require('dotenv').config();
 
 
-router.get('/', function(req, res) {
 
+router.get('/', async (req, res, next) =>{
   if(req.isAuthenticated()) {
 
-    models.User.findAll()
-    .then(function (users) {
-      res.json(users);
-      // console.log(users);
-    });
-    
-  } else {
-    res.status(401).send({ user: req.user, message: "not logged in" });
-    // console.log(req.user);
+      const user = await models.User.findAll();
+      res.json(user);
+      // res.status(200).send({ message: "users found", user:user});
+  } else{
+      res.status(401).send({ user: req.user, message: "log in again" });
+      // console.log("something went wrong")
   }
+
 });
 
 
@@ -136,7 +134,7 @@ router.post('/forgotPassword', (req, res, next) => {
       });
 
       const mailOptions = {
-        from: `shankparade@gmail.com`,
+        from: `${process.env.EMAIL}`,
         to: `${user.email}`,
         subject: `Link To Reset Password`,
         text:

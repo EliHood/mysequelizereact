@@ -9,7 +9,7 @@ import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 import { Provider } from 'react-redux';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import indigo from '@material-ui/core/colors/indigo';
+// import indigo from '@material-ui/core/colors/indigo';
 
 const theme = createMuiTheme({
   palette: {

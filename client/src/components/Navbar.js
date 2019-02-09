@@ -107,14 +107,6 @@ const Navbar = ({classes, token}) => (
 
                         )}
 
-                        {token && (
-                            <Button>
-                                <Link to="/users" className={classes.rightToolbar}>
-                                    Users
-                                </Link>
-                            </Button>
-
-                        )}
 
                         {token && (
                             <Button>
