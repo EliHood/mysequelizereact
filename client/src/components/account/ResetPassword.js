@@ -5,7 +5,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import {Redirect, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import { updatePass, Reset} from '../actions/';
+import { updatePass, Reset} from '../../actions';
 const loading = {
   margin: '1em',
   fontSize: '24px',

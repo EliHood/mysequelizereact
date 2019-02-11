@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 // import axios from 'axios';
-import Navbar from './components/Navbar';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import Navbar from './components/layout/Navbar';
 import { withStyles } from '@material-ui/core/styles';
-import Chip from '@material-ui/core/Chip';
-import axios from 'axios';
 import {compose} from 'redux';
 import { connect } from 'react-redux';
 import { getUser} from './actions/';
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -56,7 +53,7 @@ componentWillMount(){
 
         <Navbar />
 
-      
+  
 
       </div>
     );

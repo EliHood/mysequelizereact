@@ -5,9 +5,8 @@ import Button from '@material-ui/core/Button';
 import {withRouter, Redirect} from 'react-router-dom'
 // import { history } from '../components/Navbar';
 import {connect} from 'react-redux';
-import {logIn} from '../actions/';
+import {logIn} from '../../actions/';
 import {Link} from 'react-router-dom';
-import Forgot from './Forgot';
 
 const Styles = {
     myPaper: {

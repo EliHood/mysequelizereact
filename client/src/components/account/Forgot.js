@@ -4,7 +4,7 @@ import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import {Redirect, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {Forget} from '../actions/';
+import {Forget} from '../../actions/';
 const Styles = {
     myPaper: {
         margin: '20px 0px',

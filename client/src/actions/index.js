@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { history } from '../components/Navbar';
+import { history } from '../components/layout/Navbar';
 
 export const SET_USER = "SET_USER";
 export const lOG_FAIL = "lOG_FAIL";

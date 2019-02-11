@@ -9,7 +9,6 @@ import {connect} from 'react-redux';
 import {compose} from 'redux';
 import Avatar from '@material-ui/core/Avatar';
 import axios from 'axios';
-import {history} from '../components/Navbar';
 import {Redirect, withRouter} from 'react-router-dom';
 const styles = theme => ({
     root: {
@@ -78,7 +77,9 @@ class Home extends Component {
         );
     }
 }
-const mapStateToProps = (state) => ({token: state.user.getToken})
+const mapStateToProps = (state) => ({
+    token: state.user.getToken
+})
 
 const mapDispatchToProps = (dispatch) => ({
     // signWithGithub: () => dispatch(signWithGithub())
