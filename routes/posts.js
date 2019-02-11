@@ -11,18 +11,24 @@ router.get('/',  (req, res) =>{
        })
 });
 
-// const isAuthenticated = function(req, res, next){
-//     if(req.isAuthenticated()){
-//       next();
-//     }else{
-//       next( new Error(401));
-//     }
-// }
+const isAuthenticated = function(req, res, next){
+    if(req.isAuthenticated()){
+      next();
+      console.log('this works');
+    }else{
+      next( new Error(401));
+    }
+}
+
+router.get('/post', isAuthenticated, (req, res, user) => {
+
+    console.log('post get found');
+
+});
 
 
 
-
-router.post('/newPost', (req, res, user) => {
+router.post('/newPost' ,  (req, res, user) => {
 
  
     const data = {

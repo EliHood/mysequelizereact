@@ -4,6 +4,7 @@ import signUp from './signUp';
 import signIn from './signIn';
 import Post from './Post';
 import Forgot from './Forgot';
+import Home from './Home';
 import Posts from './Posts';
 import Users from './Users';
 import AppBar from '@material-ui/core/AppBar';
@@ -70,6 +71,16 @@ const Navbar = ({classes, token}) => (
                     </Typography>
                     <Typography classcolor="inherit" className={classes.rightt}>
 
+
+                    {!token && (
+
+                    <Button>
+                        <Link to="/" className={classes.rightToolbar}>
+                            Home
+                        </Link>
+                    </Button>
+
+                    )}
                         {token && (
                             <Button>
                                 <Link className={classes.rightToolbar} to="/posts">
@@ -88,6 +99,7 @@ const Navbar = ({classes, token}) => (
                             </Button>
 
                         )}
+
                         {!token && (
 
                             <Button>
@@ -131,14 +143,17 @@ const Navbar = ({classes, token}) => (
                 </Toolbar>
             </AppBar>
 
-            <Route path="/signUp" component={signUp}/>
-            <Route path="/signIn" component={signIn}/>
-            <Route path="/Post" component={Post}/>
-            <Route path="/Posts" component={Posts}/>
+            <Route exact path="/signUp" component={signUp}/>
+            <Route exact path="/" component={Home}/>
+            <Route exact path="/signIn" component={signIn}/>
+            <Route exact path="/Post" component={Post}/>
+            <Route exact path="/Posts" component={Posts}/>
             <Route path="/Forgot" component={Forgot}/>
             <Route path="/users" component={Users}/>
             <Route path="/dashboard" component={Dashboard}/>
             <Route path="/logout"/>
+            <Route exact path="http://127.0.0.1:5000/api/users/auth/github"/>
+            <Route path="/test"/>
             <Route path="/reset/:token" component={ResetPassword}/>
             <Route exact path="/updatePassword/:username" component={updatePassword}/>
         </div>

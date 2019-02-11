@@ -22,6 +22,8 @@ export const RESET_FAIL = "RESET_FAIL";
 export const UPDATEPASS = "UPDATEPASS";
 export const UPDATEPASS_FAIL = "UPDATEPASS_FAIL";
 
+export const POST_AUTH = "POST_AUTH";
+
 export const logIn =  (user) => { 
     return (dispatch) => {
         axios.post('/api/users/loginUser',{
@@ -38,6 +40,7 @@ export const logIn =  (user) => {
         
     }
 }
+
 
 export const register = (user) => { 
     return (dispatch) => {

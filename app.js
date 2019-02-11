@@ -39,17 +39,24 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport')(passport);
+require('./config/passport-github')(passport);
 
 app.use(function(req, res, next) {
   res.locals.user = req.user; // This is the important line
   console.log(res.locals.user);
   next();
 });
-
+// app.use(function(req, res, next) {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+// });
 
 
 app.use('/api/users', userRoute )
 app.use('/api/posts', postRoute )
+
+
+
 
 app.listen(port, function() {
   console.log(`Server is running on ${port}`);

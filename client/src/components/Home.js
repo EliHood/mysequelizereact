@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 // import axios from 'axios';
-import Navbar from './components/Navbar';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
+import axios from 'axios';
+import { history } from '../components/Navbar';
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -22,7 +23,10 @@ const styles = theme => ({
 });
 
 
-class App extends Component {
+
+
+
+class Home extends Component {
 
   constructor(props){
     super(props);
@@ -31,7 +35,12 @@ class App extends Component {
       user: ""
     }
 
+
 }
+  
+
+
+
   
 
 
@@ -40,14 +49,24 @@ class App extends Component {
     const { classes } = this.props;
     return (
       
-      <div className="App">
-
-        <Navbar />
-
       
+        <div className={classes.root}>
+        <Grid container  justify="center" spacing={44}>
+         
+          <Grid item sm={6}>
+            <Paper className={classes.paper}>
+            <h2>Sign Up</h2>
+
+            <Chip label="Sign Up with Github" clickable href="http://127.0.0.1:5000/api/users/auth/github" component="a"  className={classes.chip} />
+            <Chip label="Sign Up with E-Mail" clickable href="/signUp" component="a" className={classes.chip} />
+
+              </Paper>
+
+            </Grid>
+        </Grid>
 
       </div>
     );
   }
 }
-export default withStyles(styles)(App);
+export default withStyles(styles)(Home);

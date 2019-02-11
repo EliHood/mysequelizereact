@@ -30,6 +30,8 @@
     "nodemailer": "^5.1.1",
     "nodemon": "^1.18.9",
     "passport": "^0.4.0",
+    "passport-github": "^1.1.0",
+    "passport-github2": "^0.1.11",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pg": "^7.8.0",

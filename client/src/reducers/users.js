@@ -1,4 +1,4 @@
-import { SET_USER,  REG_SUC, REG_FAIL, lOG_FAIL} from '../actions/';
+import { SET_USER, POST_AUTH,  REG_SUC, REG_FAIL, lOG_FAIL} from '../actions/';
 
 
 const initialState = {
@@ -7,6 +7,7 @@ const initialState = {
     token: null,
     user: [],
     getToken: localStorage.getItem('JWT')
+    
 }
 
 export default (state = initialState, action) => {
@@ -34,7 +35,6 @@ export default (state = initialState, action) => {
                 ...state,
                 authError:action.err.response.data
             });
-        
 
     
         default:

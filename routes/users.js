@@ -11,9 +11,21 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const BCRYPT_SALT_ROUNDS = 12;
 const bcrypt = require('bcrypt');
+var passportGitHub = require('../config/passport-github');
 require('dotenv').config();
 
 
+
+router.get('/auth/github', passport.authenticate('github') );
+
+router.get('auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+
+    console.log('this works');
+});
 
 router.get('/', async (req, res, next) =>{
   if(req.isAuthenticated()) {
