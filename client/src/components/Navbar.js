@@ -22,6 +22,7 @@ import {compose} from 'redux';
 import axios from 'axios';
 import updatePassword from './updatePassword';
 import ResetPassword from './ResetPassword';
+
 export const history = createBrowserHistory({forceRefresh: true});
 
 const styles = {
@@ -51,7 +52,7 @@ const styles = {
 const logout = () => {
     // e.preventDefault();
     axios.get('/api/users/logout');
-    localStorage.removeItem('JWT');
+    localStorage.removeItem('auth');
     history.push('/');
 
 };
@@ -59,6 +60,7 @@ const logout = () => {
 const Navbar = ({classes, token}) => (
 
     <Router history={history}>
+    
         <div className={classes.root}>
 
             <AppBar position="static" className={classes.navbar}>
@@ -67,7 +69,7 @@ const Navbar = ({classes, token}) => (
                         <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" color="inherit">
-                        Eli App
+                        Express Seqeuelize App
                     </Typography>
                     <Typography classcolor="inherit" className={classes.rightt}>
 
@@ -129,20 +131,21 @@ const Navbar = ({classes, token}) => (
 
                         )}
 
-                        {token && (
+                            {token && (
                             <Button onClick={logout}>
                                 <Link className={classes.rightToolbar} to={'/logout'}>
                                     LogOut
                                 </Link>
                             </Button>
-
-                        )}
+                          )}
+                      
 
                     </Typography>
 
                 </Toolbar>
             </AppBar>
 
+   
             <Route exact path="/signUp" component={signUp}/>
             <Route exact path="/" component={Home}/>
             <Route exact path="/signIn" component={signIn}/>
@@ -150,8 +153,8 @@ const Navbar = ({classes, token}) => (
             <Route exact path="/Posts" component={Posts}/>
             <Route path="/Forgot" component={Forgot}/>
             <Route path="/users" component={Users}/>
-            <Route path="/dashboard" component={Dashboard}/>
-            <Route path="/logout"/>
+            <Route exact path="/dashboard" component={Dashboard}/>
+            <Route exact path="/logout"/>
             <Route exact path="http://127.0.0.1:5000/api/users/auth/github"/>
             <Route path="/test"/>
             <Route path="/reset/:token" component={ResetPassword}/>
@@ -161,7 +164,9 @@ const Navbar = ({classes, token}) => (
 
 );
 
-const mapStateToProps = (state) => ({token: state.user.getToken})
+const mapStateToProps = (state) => ({
+    token: state.user.getToken
+})
 
 const mapDispatchToProps = (dispatch) => ({
     //   logIn: (user) => dispatch(logIn(user))

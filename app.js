@@ -17,7 +17,6 @@ const passport = require('passport');
 const path = require('path');
 
 
-
 // CORS Middleware
 app.use(cors());
 
@@ -52,8 +51,10 @@ app.use(function(req, res, next) {
 // });
 
 
+
 app.use('/api/users', userRoute )
-app.use('/api/posts', postRoute )
+
+app.use('/api/posts',  postRoute )
 
 
 

@@ -23,6 +23,9 @@ export const UPDATEPASS = "UPDATEPASS";
 export const UPDATEPASS_FAIL = "UPDATEPASS_FAIL";
 
 export const POST_AUTH = "POST_AUTH";
+export const SIGN_GITHUB = "SIGN_GITHUB";
+
+export const GET_USER = "GET_USER";
 
 export const logIn =  (user) => { 
     return (dispatch) => {
@@ -30,7 +33,7 @@ export const logIn =  (user) => {
             username: user.username,
             password: user.password
         }).then( (res) => {
-            localStorage.setItem('JWT', res.data.token);
+            localStorage.setItem('auth', res.data.authenticated);
             history.push('/dashboard');
             dispatch({type: SET_USER, user});
         }).catch((err)=> {
@@ -41,6 +44,34 @@ export const logIn =  (user) => {
     }
 }
 
+export const getUser = () => {
+
+    return async (dispatch) =>{
+        axios.get('api/users/user')
+        .then( (res) => {
+            console.log(res.data);
+            localStorage.setItem('auth', res.data.authenticated);
+            dispatch({type: GET_USER, res});
+        }).catch( (err) => {
+            console.log(err);
+        })
+    }
+}
+
+// export const signWithGithub =  () => { 
+//     return (dispatch) => {
+//         axios.get('http://127.0.0.1:5000/api/users/auth/github')
+//         .then( (res) => {
+//             localStorage.setItem('JWT', res.data.token);
+//             history.push('/dashboard');
+//             dispatch({type: SIGN_GITHUB });
+//         }).catch((err)=> {
+//             // dispatch({type:  lOG_FAIL, err});
+//             // console.log(err.response); // not even showing err console.
+//         })
+        
+//     }
+// }
 
 export const register = (user) => { 
     return (dispatch) => {

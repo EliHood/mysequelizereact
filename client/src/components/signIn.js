@@ -74,10 +74,11 @@ class signIn extends Component {
             .props
             .logIn(creds);
         console.log(creds);
+        
 
     }
 
-    componentDidMount() {}
+  
 
     render() {
 

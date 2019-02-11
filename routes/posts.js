@@ -3,7 +3,7 @@ var router = express.Router();
 var models = require( '../models/');
 const passport = require('passport');
 
-router.get('/',  (req, res) =>{
+router.get('/myPosts',  (req, res) =>{
     models.Post.findAll()
        .then( (posts) =>{
            res.json(posts);

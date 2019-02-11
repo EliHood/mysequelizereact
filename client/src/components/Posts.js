@@ -29,7 +29,8 @@ class Posts extends Component {
 
   getPosts = async () => {
 
-    const url = await fetch('/api/posts')
+    const url = await fetch('/api/posts/myPosts')
+    console.log(url);
     const json = await url.json();
 
     this.setState({

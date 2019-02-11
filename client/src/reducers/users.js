@@ -1,4 +1,4 @@
-import { SET_USER, POST_AUTH,  REG_SUC, REG_FAIL, lOG_FAIL} from '../actions/';
+import { SET_USER, POST_AUTH, GET_USER, SIGN_GITHUB,  REG_SUC, REG_FAIL, lOG_FAIL} from '../actions/';
 
 
 const initialState = {
@@ -6,7 +6,7 @@ const initialState = {
     isAuthenticated: false,
     token: null,
     user: [],
-    getToken: localStorage.getItem('JWT')
+    getToken: null
     
 }
 
@@ -24,6 +24,16 @@ export default (state = initialState, action) => {
                 ...state,
                 authError:action.err.response.data
             });
+        case GET_USER:
+            return({
+                ...state,
+                getToken: action
+            });
+        case SIGN_GITHUB:
+            return({
+                ...state,
+                token:action.payload
+            })
         case REG_SUC:
             return({
                 ...state,

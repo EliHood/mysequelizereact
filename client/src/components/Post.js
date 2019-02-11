@@ -23,6 +23,10 @@ class Post extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount(){
+        console.log(this.props.token);
+    }
+
     handleChange = (e) => {
         e.preventDefault();
 
@@ -56,10 +60,7 @@ class Post extends Component {
     }
 
     render() {
-        const {token} = this.props
-        if (!token) {
-            return <Redirect to='/'/>
-        }
+  
 
         return (
             <div style={{

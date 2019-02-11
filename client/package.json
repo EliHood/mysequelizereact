@@ -7,6 +7,7 @@
     "@material-ui/icons": "^3.0.2",
     "axios": "^0.18.0",
     "history": "^4.7.2",
+    "http-proxy-middleware": "^0.19.1",
     "material-ui-icons": "^1.0.0-beta.36",
     "moment": "^2.24.0",
     "react": "^16.7.0",
@@ -17,7 +18,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0"
   },
-  "proxy": "http://localhost:5000/",
+  
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

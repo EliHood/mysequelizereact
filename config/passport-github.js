@@ -23,29 +23,23 @@ module.exports = function(passport) {
   passport.use(new GitHubStrategy({
       clientID: process.env.clientID,
       clientSecret: process.env.secret,
-      callbackURL: 'http://127.0.0.1:3000/api/users/auth/github/callback'
+      // if the callback is set to 5000 the 0auth app will not work for some reason
+      callbackURL: 'http://127.0.0.1:5000/api/users/auth/github/callback'
   
     },
     function(accessToken, refreshToken, profile, cb) {
-      models.User.findOne({ 'id': profile.id }, function (err, user) {
-        if(err) {
-          console.log(err);  // handle errors!
-        }
-        if (!err && user !== null) {
-          done(null, user);
-        } else {
-          models.User.create({
+        models.User
+        .findOrCreate({
+          where: {
             id: profile.id,
-            username: profile.displayName,
-            createdAt: Date.now()
-
-          }).then(user => {
-            console.log('user created');
-            return done(null, user);
-          });
-         
-        }
-      });
+            username:profile.username
+          }
+        })
+        .spread(function(user, created) {
+          cb(null, user)
+        });
+      
+      
     }
   ));
 };
