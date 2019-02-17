@@ -4,7 +4,11 @@ import Navbar from './components/layout/Navbar';
 import { withStyles } from '@material-ui/core/styles';
 import {compose} from 'redux';
 import { connect } from 'react-redux';
-import { getUser} from './actions/';
+import { getUser, setCurrentUser} from './actions/';
+import setAuthToken from './setAuthToken';
+import jwt_decode from 'jwt-decode';
+
+
 
 const styles = theme => ({
   root: {
@@ -37,7 +41,18 @@ class App extends Component {
 
 componentWillMount(){
 
-  this.props.getUser();
+  if (localStorage.auth != null) {
+    // Set auth token header auth
+    setAuthToken(localStorage.auth);
+
+    const token = localStorage.getItem('auth');
+    // // Decode token and get user info and exp
+    const decoded = jwt_decode(token);
+    // console.log(decoded);
+    // // Set user and isAuthenticated
+    this.props.setCurrentUser(decoded);
+
+  }
 }
   
 
@@ -66,8 +81,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   //   logIn: (user) => dispatch(logIn(user))
-  getUser: () => dispatch( getUser())
-
+  // getUser: () => dispatch( getUser()),
+  setCurrentUser: () => dispatch( setCurrentUser())
 });
 
 

@@ -24,7 +24,7 @@ router.get('/auth/github/callback',
     // Successful authentication, redirect home.
     var token = jwt.sign({ id: req.user.id},  'nodeauthsecret');
 		res.cookie("jwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
-    res.redirect('http://127.0.0.1:3000/dashboard');
+    res.redirect('http://127.0.0.1:8001/dashboard');
     console.log(token)
     console.log('this works');
 });
@@ -43,7 +43,9 @@ router.get('/user', (req, res, next) => {
 	}
 });
 
-
+router.get('/test', (req, res, next) => {
+  res.status(200).send({message: "this works"});
+});
 router.get('/', async (req, res, next) =>{
   if(req.isAuthenticated()) {
 
@@ -75,13 +77,15 @@ router.post('/new', (req, res, next) => {
           password: req.body.password,
           email: req.body.email
         };
+        console.log(data);
         models.User.findOne({
           where: {
             username: data.username,
           },
         }) .then(() => {
+            const token = jwt.sign({ id: user.id  }, process.env.jwtsecret);
             console.log('user created in db');
-            res.status(200).send({ message: 'user created' });
+            res.status(200).send({ message: 'user created', token: token,  auth: true  });
           });
      
       });
@@ -105,7 +109,7 @@ router.post('/loginUser',  passport.authenticate('login', {session: true}), (req
             username: req.body.username,
           },
         }).then(user => {
-          const token = jwt.sign({ id: user.id  }, 'nodeauthsecret');
+          const token = jwt.sign({ id: user.id  }, process.env.jwtsecret);
           res.status(200).send({
 
             auth: true,

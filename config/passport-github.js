@@ -24,7 +24,7 @@ module.exports = function(passport) {
       clientID: process.env.clientID,
       clientSecret: process.env.secret,
       // if the callback is set to 5000 the 0auth app will not work for some reason
-      callbackURL: 'http://127.0.0.1:5000/api/users/auth/github/callback'
+      callbackURL: 'http://127.0.0.1:8000/api/users/auth/github/callback'
   
     },
     function(accessToken, refreshToken, profile, cb) {

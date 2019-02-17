@@ -1,0 +1,31 @@
+# docker-compose.yml
+version: "3"
+services:
+  app:
+    build: .
+    depends_on:
+      - database
+    ports:
+      - 8000:8000
+    environment:
+      - POSTGRES_HOST=database
+    env_file:
+      - .env
+  database:
+    image: postgres:9.6.8-alpine
+    ports:
+      - 8002:5432
+    env_file:
+      - .env
+  react_client:
+      build:
+        context: ./client
+        dockerfile: Dockerfile
+      image: react_client
+      working_dir: /home/node/app/client
+      volumes:
+        - ./:/home/node/app
+      ports:
+        - 8001:8001
+      env_file:
+        - ./client/.env

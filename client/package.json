@@ -8,6 +8,8 @@
     "axios": "^0.18.0",
     "history": "^4.7.2",
     "http-proxy-middleware": "^0.19.1",
+    "jsonwebtoken": "^8.4.0",
+    "jwt-decode": "^2.2.0",
     "material-ui-icons": "^1.0.0-beta.36",
     "moment": "^2.24.0",
     "react": "^16.7.0",
@@ -18,9 +20,8 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0"
   },
-  
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=8001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -33,5 +34,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "dotenv": "^6.2.0"
+  }
 }

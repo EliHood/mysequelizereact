@@ -1,4 +1,4 @@
-import { SET_USER, POST_AUTH, GET_USER, SIGN_GITHUB,  REG_SUC, REG_FAIL, lOG_FAIL} from '../actions/';
+import { SET_USER, POST_AUTH, GET_USER, SIGN_GITHUB,  REG_SUC, REG_FAIL, LOG_FAIL} from '../actions/';
 
 
 const initialState = {
@@ -13,13 +13,14 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
         case SET_USER:
+        console.log(action.payload);
             return ({
                 ...state,
                 user:action.user,
                 token: action.payload,
                 isAuthenticated: true
             });
-        case lOG_FAIL:
+        case LOG_FAIL:
             return({
                 ...state,
                 authError:action.err.response.data
@@ -38,7 +39,7 @@ export default (state = initialState, action) => {
             return({
                 ...state,
                 user:action.user,
-                isAuthenticated:true,
+                token: action.payload
             });
         case REG_FAIL:
             return({

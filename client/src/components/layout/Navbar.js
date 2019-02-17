@@ -51,7 +51,7 @@ const styles = {
 
 const logout = () => {
     // e.preventDefault();
-    axios.get('/api/users/logout');
+    axios.get(process.env.REACT_APP_BASE_URL + '/api/users/logout');
     localStorage.removeItem('auth');
     history.push('/');
 

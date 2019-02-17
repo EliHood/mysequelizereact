@@ -8,7 +8,6 @@ import {signWithGithub} from '../actions/';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import Avatar from '@material-ui/core/Avatar';
-import axios from 'axios';
 import {Redirect, withRouter} from 'react-router-dom';
 const styles = theme => ({
     root: {
@@ -37,12 +36,17 @@ class Home extends Component {
 
     }
 
+    componentWillMount = () => {
+        // console.log(process.env.REACT_APP_BASE_SIGN_IN);
+    }
+
+
     render() {
 
         const {classes} = this.props;
 
         if (this.props.token) {
-            return (<Redirect to="/dashboard"/>);
+            return (<Redirect to='/dashboard' />);
         }
 
         return (
@@ -58,7 +62,7 @@ class Home extends Component {
                                 label="Sign In with Github"
                                 clickable
                                 avatar={< Avatar alt = "Natacha" src = "https://avatars0.githubusercontent.com/u/9919?s=280&v=4" />}
-                                href="http://127.0.0.1:5000/api/users/auth/github"
+                                href="http://localhost:8000/api/users/auth/github"
                                 component="a"
                                 className={classes.chip}/>
                             <Chip

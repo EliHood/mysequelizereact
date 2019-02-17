@@ -1,8 +1,11 @@
 import axios from 'axios';
 import { history } from '../components/layout/Navbar';
-
+import Axios from '../Axios';
+import setAuthToken from '../setAuthToken';
+import jwt_decode from 'jwt-decode';
+import JWT from 'jsonwebtoken';
 export const SET_USER = "SET_USER";
-export const lOG_FAIL = "lOG_FAIL";
+export const LOG_FAIL = "LOG_FAIL";
 
 export const REG_SUC = "REG_SUCCESS";
 export const REG_FAIL = "REG_FAIL";
@@ -29,34 +32,51 @@ export const GET_USER = "GET_USER";
 
 export const logIn =  (user) => { 
     return (dispatch) => {
-        axios.post('/api/users/loginUser',{
+        axios.post(process.env.REACT_APP_BASE_SIGN_IN,{
             username: user.username,
-            password: user.password
+            password: user.password,
+            
         }).then( (res) => {
-            localStorage.setItem('auth', res.data.authenticated);
+            const token = res.data.token;
+            localStorage.setItem('auth', token);
+            setAuthToken(token);
             history.push('/dashboard');
             dispatch({type: SET_USER, user});
         }).catch((err)=> {
-            dispatch({type:  lOG_FAIL, err});
+       
+            dispatch({type:  LOG_FAIL, err});
             console.log(err.response.data); // not even showing err console.
         })
         
     }
 }
 
-export const getUser = () => {
+// export const getUser = () => {
 
-    return async (dispatch) =>{
-        axios.get('api/users/user')
-        .then( (res) => {
-            console.log(res.data);
-            localStorage.setItem('auth', res.data.authenticated);
-            dispatch({type: GET_USER, res});
-        }).catch( (err) => {
-            console.log(err);
-        })
-    }
-}
+//     return async (dispatch) =>{
+//         Axios.get('/api/users/user', {
+//              headers: {
+//                  "Authorization" : `Bearer ${localStorage.getItem('auth')}`
+//             } 
+//         })
+//         .then( (res, decoded) => {
+//             console.log(res.data);
+//             localStorage.setItem('auth', res.data.authenticated);
+//             dispatch({type: GET_USER, payload: decoded});
+//         }).catch( (err) => {
+//             console.log(err);
+//         })
+//     }
+// }
+
+
+export const setCurrentUser = decoded => {
+    return {
+        type: GET_USER,
+        payload: decoded
+    };
+};
+
 
 // export const signWithGithub =  () => { 
 //     return (dispatch) => {
@@ -75,13 +95,17 @@ export const getUser = () => {
 
 export const register = (user) => { 
     return (dispatch) => {
-        axios.post('/api/users/new',{
+        Axios.post(process.env.REACT_APP_REGISTER,{
             username: user.username,
             password: user.password,
             email: user.email 
         }).then( (res) => {
-            // console.log('success')
-            history.push('/signIn');
+            // signs user in once registered
+            const token = res.data.token;
+            localStorage.setItem('auth', token);
+            setAuthToken(token);
+            console.log(res.data);
+            history.push('/dashboard');
             dispatch({type: REG_SUC, user});
         }).catch((err)=> {
             dispatch({type:  REG_FAIL, err});
@@ -94,7 +118,7 @@ export const register = (user) => {
 
 export const newPost = (post, req) => { 
     return (dispatch) => {
-        axios.post('/api/posts/newPost' ,{
+        Axios.post(process.env.REACT_APP_NEWPOST ,{
             title: post.title,
             post_content: post.postContent
         }).then( (res) => {
