@@ -8,6 +8,6 @@
 * Redux
 
 
-# Docker 
+## Docker 
 * `docker-compose up --build --force-recreate`
 
