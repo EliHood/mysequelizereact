@@ -6,3 +6,7 @@
 * Express
 * React
 * Redux
+
+
+# Docker 
+* docker-compose up
