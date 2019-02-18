@@ -59,7 +59,7 @@ componentWillMount(){
 
   render() {
 
-    const { classes, token } = this.props;
+    const { classes, isAuthenticated } = this.props;
 
  
     return (
@@ -76,7 +76,7 @@ componentWillMount(){
 }
 
 const mapStateToProps = (state) => ({
-  token: state.user.getToken
+  isAuthenticated: state.user.isAuthenticated
 })
 
 const mapDispatchToProps = (dispatch) => ({

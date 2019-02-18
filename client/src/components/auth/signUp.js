@@ -71,8 +71,8 @@ class signUp extends Component{
     }
 
     render(){
-      const {token } = this.props
-        if(token){
+      const {isAuthenticated} = this.props
+        if(isAuthenticated){
             return <Redirect to='/dashboard'/>
         }
   
@@ -165,6 +165,7 @@ class signUp extends Component{
 
 const mapStateToProps = (state) => ({
     token: state.user.getToken,
+    isAuthenticated: state.user.isAuthenticated,
     error: state.user.authError
 })
   

@@ -5,6 +5,7 @@ let AxiosInstance = Axios.create({
   withCredentials: true,
   headers : {
     'Content-Type' : 'application/json',
+    'Accept' : 'application/json',
   }
 
 })

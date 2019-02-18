@@ -3,10 +3,11 @@ import { SET_USER, POST_AUTH, GET_USER, SIGN_GITHUB,  REG_SUC, REG_FAIL, LOG_FAI
 
 const initialState = {
     authError: null,
-    isAuthenticated: false,
+    isAuthenticated:localStorage.getItem('auth'),
+    githubAuth:localStorage.getItem('github'),
     token: null,
     user: [],
-    getToken: null
+    redirectPath: null
     
 }
 
@@ -18,7 +19,7 @@ export default (state = initialState, action) => {
                 ...state,
                 user:action.user,
                 token: action.payload,
-                isAuthenticated: true
+                isAuthenticated:action.isAuthenticated
             });
         case LOG_FAIL:
             return({
@@ -28,12 +29,13 @@ export default (state = initialState, action) => {
         case GET_USER:
             return({
                 ...state,
-                getToken: action
+      
             });
         case SIGN_GITHUB:
             return({
                 ...state,
-                token:action.payload
+                token:action.payload,
+                isAuthenticated:action.isAuthenticated
             })
         case REG_SUC:
             return({

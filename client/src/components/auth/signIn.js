@@ -81,7 +81,7 @@ class signIn extends Component {
 
     render() {
 
-        if (this.props.token) {
+        if (this.props.isAuthenticated) {
             return (<Redirect to="/dashboard"/>);
         }
 
@@ -153,6 +153,7 @@ class signIn extends Component {
 
 const mapStateToProps = (state) => ({
     token: state.user.getToken, 
+    isAuthenticated: state.user.isAuthenticated,
     error: state.user.authError
 });
 

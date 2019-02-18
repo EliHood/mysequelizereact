@@ -7,8 +7,10 @@ import Chip from '@material-ui/core/Chip';
 import {signWithGithub} from '../actions/';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
+import Axios from '../Axios';
 import Avatar from '@material-ui/core/Avatar';
 import {Redirect, withRouter} from 'react-router-dom';
+import { history } from '../components/layout/Navbar';
 const styles = theme => ({
     root: {
         flexGrow: 1,
@@ -34,18 +36,27 @@ class Home extends Component {
             user: ""
         }
 
-    }
+        this.signGithub = this.signGithub.bind(this);
 
-    componentWillMount = () => {
-        // console.log(process.env.REACT_APP_BASE_SIGN_IN);
     }
+    signGithub =  () => {
+    //    this.props.signWithGithub();
+
+      Axios.get(process.env.REACT_APP_BASE_GITHUB_SIGNIN);
+  
+
+    };
+    
+
+  
+  
 
 
     render() {
 
         const {classes} = this.props;
 
-        if (this.props.token) {
+        if (this.props.isAuthenticated) {
             return (<Redirect to='/dashboard' />);
         }
 
@@ -62,7 +73,8 @@ class Home extends Component {
                                 label="Sign In with Github"
                                 clickable
                                 avatar={< Avatar alt = "Natacha" src = "https://avatars0.githubusercontent.com/u/9919?s=280&v=4" />}
-                                href="http://localhost:8000/api/users/auth/github"
+                                // href="http://localhost:8000/api/users/auth/github"
+                                onClick={this.signGithub}
                                 component="a"
                                 className={classes.chip}/>
                             <Chip
@@ -82,11 +94,12 @@ class Home extends Component {
     }
 }
 const mapStateToProps = (state) => ({
-    token: state.user.getToken
+    token: state.user.getToken,
+    redirectTo: state.user.redirectTo
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    // signWithGithub: () => dispatch(signWithGithub())
+    signWithGithub: () => dispatch(signWithGithub())
 
 });
 

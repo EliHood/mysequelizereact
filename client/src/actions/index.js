@@ -78,20 +78,12 @@ export const setCurrentUser = decoded => {
 };
 
 
-// export const signWithGithub =  () => { 
-//     return (dispatch) => {
-//         axios.get('http://127.0.0.1:5000/api/users/auth/github')
-//         .then( (res) => {
-//             localStorage.setItem('JWT', res.data.token);
-//             history.push('/dashboard');
-//             dispatch({type: SIGN_GITHUB });
-//         }).catch((err)=> {
-//             // dispatch({type:  lOG_FAIL, err});
-//             // console.log(err.response); // not even showing err console.
-//         })
-        
-//     }
-// }
+export const signWithGithub =  () => { 
+    return  (dispatch) => {  
+        dispatch({type: SIGN_GITHUB});    
+        console.log('im an owl');
+    }
+}
 
 export const register = (user) => { 
     return (dispatch) => {

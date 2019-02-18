@@ -23,7 +23,7 @@ import axios from 'axios';
 import updatePassword from '../account/updatePassword';
 import ResetPassword from '../account/ResetPassword';
 
-export const history = createBrowserHistory({forceRefresh: true});
+export const history = createBrowserHistory({forceRefresh:true});
 
 const styles = {
     // This group of buttons will be aligned to the right
@@ -57,7 +57,7 @@ const logout = () => {
 
 };
 
-const Navbar = ({classes, token}) => (
+const Navbar = ({classes, isAuthenticated}) => (
 
     <Router history={history}>
     
@@ -74,7 +74,7 @@ const Navbar = ({classes, token}) => (
                     <Typography classcolor="inherit" className={classes.rightt}>
 
 
-                    {!token && (
+                    {!isAuthenticated && (
 
                     <Button>
                         <Link to="/" className={classes.rightToolbar}>
@@ -83,7 +83,7 @@ const Navbar = ({classes, token}) => (
                     </Button>
 
                     )}
-                        {token && (
+                        {isAuthenticated && (
                             <Button>
                                 <Link className={classes.rightToolbar} to="/posts">
                                     Posts
@@ -92,7 +92,7 @@ const Navbar = ({classes, token}) => (
 
                         )}
 
-                        {!token && (
+                        {!isAuthenticated && (
 
                             <Button>
                                 <Link to="/signUp" className={classes.rightToolbar}>
@@ -102,7 +102,7 @@ const Navbar = ({classes, token}) => (
 
                         )}
 
-                        {!token && (
+                        {!isAuthenticated && (
 
                             <Button>
                                 <Link to="/signIn" className={classes.rightToolbar}>
@@ -112,7 +112,7 @@ const Navbar = ({classes, token}) => (
 
                         )}
 
-                        {token && (
+                        {isAuthenticated && (
                             <Button>
                                 <Link className={classes.rightToolbar} to="/Post">
                                     New Post
@@ -122,7 +122,7 @@ const Navbar = ({classes, token}) => (
                         )}
 
 
-                        {token && (
+                        {isAuthenticated && (
                             <Button>
                                 <Link to="/dashboard" className={classes.rightToolbar}>
                                     Dashboard
@@ -131,7 +131,7 @@ const Navbar = ({classes, token}) => (
 
                         )}
 
-                            {token && (
+                            {isAuthenticated && (
                             <Button onClick={logout}>
                                 <Link className={classes.rightToolbar} to={'/logout'}>
                                     LogOut
@@ -155,7 +155,7 @@ const Navbar = ({classes, token}) => (
             <Route path="/users" component={Users}/>
             <Route exact path="/dashboard" component={Dashboard}/>
             <Route exact path="/logout"/>
-            <Route exact path="http://127.0.0.1:5000/api/users/auth/github"/>
+            <Route exact path="http://127.0.0.1:8000/api/users/auth/github"/>
             <Route path="/test"/>
             <Route path="/reset/:token" component={ResetPassword}/>
             <Route exact path="/updatePassword/:username" component={updatePassword}/>
@@ -165,7 +165,8 @@ const Navbar = ({classes, token}) => (
 );
 
 const mapStateToProps = (state) => ({
-    token: state.user.getToken
+    token: state.user.getToken,
+    isAuthenticated: state.user.isAuthenticated
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -174,7 +175,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Navbar.propTypes = {
-    token: PropTypes.string
+    isAuthenticatd: PropTypes.string
 
 }
 

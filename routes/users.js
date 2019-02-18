@@ -16,14 +16,15 @@ require('dotenv').config();
 
 
 
-router.get('/auth/github', passport.authenticate('github',  { session: true, scope: ['profile'] }) );
+router.get('/auth/github', passport.authenticate('github',  { session: false, scope: ['profile'] }) );
 
 router.get('/auth/github/callback', 
   passport.authenticate('github', { failureRedirect: '/' }),
   function(req, res) {
     // Successful authentication, redirect home.
     var token = jwt.sign({ id: req.user.id},  'nodeauthsecret');
-		res.cookie("jwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
+    res.cookie("jwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
+    res.status(200).send({message:"github user signed in", auth: true});
     res.redirect('http://127.0.0.1:8001/dashboard');
     console.log(token)
     console.log('this works');
