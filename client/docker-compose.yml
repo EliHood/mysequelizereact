@@ -8,5 +8,7 @@ services:
       - ./:/home/node/app
     ports:
       - 8001:8001
+    expose:
+      - "8001"
     env_file:
       - .env
