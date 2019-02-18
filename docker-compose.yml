@@ -9,10 +9,10 @@ services:
       - 8000:8000
     environment:
       - POSTGRES_HOST=database
-    env_file:
-      - .env
   database:
     image: postgres:9.6.8-alpine
+    volumes:
+      - database:/var/lib/postgresql/database
     ports:
       - 8002:5432
     env_file:
@@ -29,3 +29,5 @@ services:
         - 8001:8001
       env_file:
         - ./client/.env
+volumes:
+  database:

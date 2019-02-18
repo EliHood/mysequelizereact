@@ -8,13 +8,13 @@
     "client": "cd ./client && npm start ",
     "server": "nodemon app.js",
     "build": "echo 'hello build'",
-    "start": "concurrently --kill-others  \"npm run client\"  \"npm run server\" "
+    "start": "concurrently --kill-others  \"npm run server\" "
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "async": "^2.6.1",
-    "bcrypt": "^3.0.3",
+    "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
     "concurrently": "^4.1.0",
     "cookie-parser": "^1.4.3",
