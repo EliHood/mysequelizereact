@@ -7,7 +7,6 @@
 * React
 * Redux
 
-
-## Docker 
-* `docker-compose up --build --force-recreate`
+## To Install
+* `./install.sh`
 
