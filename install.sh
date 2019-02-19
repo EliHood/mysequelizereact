@@ -13,8 +13,8 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     cp .env.dist .env
   fi
   cd client
-  sudo npm install react-scripts@2.1.3
-  sudo npm install @material-ui/core
+  sudo npm install react-scripts@2.1.3 --save
+  sudo npm install @material-ui/core --save
   cd ..
   #sudo docker-compose up --build --force-recreate
   sudo docker-compose up --build
