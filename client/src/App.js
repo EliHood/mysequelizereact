@@ -4,7 +4,7 @@ import Navbar from './components/layout/Navbar';
 import { withStyles } from '@material-ui/core/styles';
 import {compose} from 'redux';
 import { connect } from 'react-redux';
-import { getUser, setCurrentUser, signWithGithub} from './actions/';
+import { getUser, setCurrentUser} from './actions/';
 import setAuthToken from './setAuthToken';
 import jwt_decode from 'jwt-decode';
 import Axios from './Axios';
@@ -56,7 +56,7 @@ componentWillMount(){
 
 
 
-    this.props.signWithGithub();
+
 
 
 
@@ -85,14 +85,12 @@ componentWillMount(){
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.user.isAuthenticated,
-  githubAuth: state.user.githubAuth
+
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  //   logIn: (user) => dispatch(logIn(user))
-  // getUser: () => dispatch( getUser()),
+
   setCurrentUser: () => dispatch( setCurrentUser()),
-  signWithGithub: () => dispatch( signWithGithub())
 
 });
 

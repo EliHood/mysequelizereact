@@ -59,6 +59,7 @@ const logout = (e) => {
           history.push('/')
         }
        }).catch(err => {
+        // their will be an inevitable error, so you would need this for it to work
         localStorage.removeItem('auth')
         history.push('/')
        })
@@ -145,7 +146,7 @@ const Navbar = ({classes, isAuthenticated}) => (
                                 LogOut
                            
                         </Button>
-                       )}
+                     )} 
                       
 
                     </Typography>

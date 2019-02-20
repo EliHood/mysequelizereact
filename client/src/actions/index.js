@@ -65,19 +65,6 @@ export const setCurrentUser = decoded => {
     };
 };
 
-export const signWithGithub =  () => { 
-    return  (dispatch) => {  
-        Axios.get(process.env.REACT_APP_GET_USER, {
-            // withCredentials: true,
-        }).then( (res, payload) => {
-            // const token = res.data.body
-            // localStorage.setItem('gitToken', token );
-            const authGit = res.data.authenticated;
-            localStorage.setItem('gitAuth', authGit );
-            dispatch({type: SIGN_GITHUB});
-        });
-    }
-}
 
 export const register = (user) => { 
     return (dispatch) => {

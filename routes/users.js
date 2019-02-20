@@ -16,7 +16,15 @@ require('dotenv').config();
 
 
 
-router.get('/auth/github', passport.authenticate('github',  { session: false, scope: ['profile'] }) );
+router.get('/auth/github', 
+passport.authenticate('github',  { session: false, scope: ['profile'] }) ,
+function(req, res) {
+
+  req.session.save(function(){
+    console.log(`user should be set, ${req.user}`)
+  });
+
+});
 
 router.get('/auth/github/callback', 
   passport.authenticate('github', {  session: false,  failureRedirect: '/',  successRedirect : 'http://127.0.0.1:8001/dashboard',}),
@@ -31,7 +39,7 @@ router.get('/auth/github/callback',
 });
 
 router.get('/user', (req, res, next) => {
-  if(req.isAuthenticated()) {
+  if(req.user) {
     res.status(200).send({ message: "user is authenticated", user: req.user});
   }else{
     res.status(403).send({ message: "user is not authenticated"});
@@ -124,7 +132,7 @@ router.get('/logout', function( req, res){
 
   // req.session.destroy();
   // req.user.logout();
-  if( req.logOut() ){
+  if( req.session.destroy() ){
     res.status(200).send({ message: "logout successfully"});
   }else{
     res.status(403).send({ message: "something went wrong"});

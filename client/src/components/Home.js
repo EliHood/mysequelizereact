@@ -4,7 +4,6 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import {withStyles} from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
-import {signWithGithub} from '../actions/';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import Axios from '../Axios';
@@ -91,7 +90,6 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    signWithGithub: () => dispatch(signWithGithub()),
 
 
 });
