@@ -16,26 +16,15 @@ require('dotenv').config();
 
 
 
-router.get('/auth/github', 
-passport.authenticate('github',  { session: false, scope: ['profile'] }) ,
-function(req, res) {
-
-  req.session.save(function(){
-    console.log(`user should be set, ${req.user}`)
-  });
-
-});
+router.get('/auth/github', passport.authenticate('github',  { session: false, scope: ['profile'] }));
 
 router.get('/auth/github/callback', 
-  passport.authenticate('github', {  session: false,  failureRedirect: '/',  successRedirect : 'http://127.0.0.1:8001/dashboard',}),
+  passport.authenticate('github', {  session: true,  failureRedirect: '/',  successRedirect : 'http://127.0.0.1:8001/dashboard',}),
   function(req, res) {
     // Successful authentication, redirect home.
     var token = jwt.sign({ id: req.user.id},  process.env.JWT_SECRET);
     res.cookie("jwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
     res.status(200).send({ authenticated: true, token:token});
-    // res.session.token = req.user.token
-    console.log(req.user.token) // renders undefined
-    console.log('this works');
 });
 
 router.get('/user', (req, res, next) => {
@@ -44,6 +33,8 @@ router.get('/user', (req, res, next) => {
   }else{
     res.status(403).send({ message: "user is not authenticated"});
   }
+
+
 });
 
 router.get('/test', (req, res, next) => {

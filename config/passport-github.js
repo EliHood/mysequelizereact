@@ -23,8 +23,8 @@ module.exports = function(passport) {
           }
         })
         .spread(function(user, created) {
-          cb(null, user)
-          // console.log(token)
+          cb(null, user, accessToken)
+          // console.log(req.user)
         });
       
       
