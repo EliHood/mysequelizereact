@@ -50,8 +50,8 @@ const styles = {
     }
 };
 
-const logout = () => {
-
+const logout = (e) => {
+    e.preventDefault()
     Axios.get(process.env.REACT_APP_LOGOUT)
       .then(res => {
         if (res) {
@@ -60,6 +60,7 @@ const logout = () => {
         }
        }).catch(err => {
         localStorage.removeItem('auth')
+        history.push('/')
        })
    }
 
