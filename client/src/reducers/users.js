@@ -1,10 +1,10 @@
-import { SET_USER, POST_AUTH, GET_USER, SIGN_GITHUB,  REG_SUC, REG_FAIL, LOG_FAIL} from '../actions/';
+import { SET_USER,  GET_FOO, GET_FOO_ERR, POST_AUTH, GET_USER, SIGN_GITHUB,  REG_SUC, REG_FAIL, LOG_FAIL} from '../actions/';
 
 
 const initialState = {
     authError: null,
     isAuthenticated:localStorage.getItem('auth'),
-    githubAuth:localStorage.getItem('github'),
+    githubAuth:localStorage.getItem('gitAuth'),
     token: null,
     user: [],
     redirectPath: null
@@ -26,16 +26,18 @@ export default (state = initialState, action) => {
                 ...state,
                 authError:action.err.response.data
             });
+        
         case GET_USER:
             return({
                 ...state,
       
             });
+
         case SIGN_GITHUB:
             return({
                 ...state,
                 token:action.payload,
-                isAuthenticated:action.isAuthenticated
+                githubAuth:action.githubAuth
             })
         case REG_SUC:
             return({

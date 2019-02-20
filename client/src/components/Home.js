@@ -36,20 +36,11 @@ class Home extends Component {
             user: ""
         }
 
-        this.signGithub = this.signGithub.bind(this);
+     
 
     }
-    signGithub =  () => {
-    //    this.props.signWithGithub();
+   
 
-      Axios.get(process.env.REACT_APP_BASE_GITHUB_SIGNIN);
-  
-
-    };
-    
-
-  
-  
 
 
     render() {
@@ -65,18 +56,19 @@ class Home extends Component {
             <div className={classes.root}>
                 <Grid container justify="center" spacing={44}>
 
-                    <Grid item sm={6}>
+                    <Grid item sm={7}>
                         <Paper className={classes.paper}>
-                            <h2>Sign Up</h2>
+                            <h2>Sign Up</h2> 
 
                             <Chip
                                 label="Sign In with Github"
                                 clickable
                                 avatar={< Avatar alt = "Natacha" src = "https://avatars0.githubusercontent.com/u/9919?s=280&v=4" />}
-                                // href="http://localhost:8000/api/users/auth/github"
-                                onClick={this.signGithub}
                                 component="a"
+                                href="http://localhost:8000/api/users/auth/github"
                                 className={classes.chip}/>
+
+    
                             <Chip
                                 label="Sign Up with E-Mail"
                                 clickable
@@ -99,7 +91,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    signWithGithub: () => dispatch(signWithGithub())
+    signWithGithub: () => dispatch(signWithGithub()),
+
 
 });
 

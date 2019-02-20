@@ -20,6 +20,7 @@ import {createBrowserHistory} from 'history';
 import PropTypes from 'prop-types';
 import {compose} from 'redux';
 import axios from 'axios';
+import Axios from '../../Axios';
 import updatePassword from '../account/updatePassword';
 import ResetPassword from '../account/ResetPassword';
 
@@ -50,12 +51,17 @@ const styles = {
 };
 
 const logout = () => {
-    // e.preventDefault();
-    axios.get(process.env.REACT_APP_BASE_URL + '/api/users/logout');
-    localStorage.removeItem('auth');
-    history.push('/');
 
-};
+    Axios.get(process.env.REACT_APP_LOGOUT)
+      .then(res => {
+        if (res) {
+          localStorage.removeItem('auth')
+          history.push('/')
+        }
+       }).catch(err => {
+        localStorage.removeItem('auth')
+       })
+   }
 
 const Navbar = ({classes, isAuthenticated}) => (
 
@@ -122,7 +128,7 @@ const Navbar = ({classes, isAuthenticated}) => (
                         )}
 
 
-                        {isAuthenticated && (
+                        {isAuthenticated  &&  (
                             <Button>
                                 <Link to="/dashboard" className={classes.rightToolbar}>
                                     Dashboard
@@ -131,13 +137,14 @@ const Navbar = ({classes, isAuthenticated}) => (
 
                         )}
 
-                            {isAuthenticated && (
-                            <Button onClick={logout}>
-                                <Link className={classes.rightToolbar} to={'/logout'}>
-                                    LogOut
-                                </Link>
-                            </Button>
-                          )}
+                            
+                   {isAuthenticated  &&  (      
+                        <Button onClick={logout}>
+                       
+                                LogOut
+                           
+                        </Button>
+                       )}
                       
 
                     </Typography>
@@ -153,8 +160,8 @@ const Navbar = ({classes, isAuthenticated}) => (
             <Route exact path="/Posts" component={Posts}/>
             <Route path="/Forgot" component={Forgot}/>
             <Route path="/users" component={Users}/>
-            <Route exact path="/dashboard" component={Dashboard}/>
             <Route exact path="/logout"/>
+            <Route exact path="/dashboard" component={Dashboard}/>
             <Route exact path="http://127.0.0.1:8000/api/users/auth/github"/>
             <Route path="/test"/>
             <Route path="/reset/:token" component={ResetPassword}/>
@@ -166,6 +173,7 @@ const Navbar = ({classes, isAuthenticated}) => (
 
 const mapStateToProps = (state) => ({
     token: state.user.getToken,
+    githubAuth: state.user.githubAuth,
     isAuthenticated: state.user.isAuthenticated
 })
 

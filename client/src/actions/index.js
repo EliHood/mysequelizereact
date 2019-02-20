@@ -2,8 +2,8 @@ import axios from 'axios';
 import { history } from '../components/layout/Navbar';
 import Axios from '../Axios';
 import setAuthToken from '../setAuthToken';
-import jwt_decode from 'jwt-decode';
-import JWT from 'jsonwebtoken';
+import request from 'superagent';
+
 export const SET_USER = "SET_USER";
 export const LOG_FAIL = "LOG_FAIL";
 
@@ -29,10 +29,12 @@ export const POST_AUTH = "POST_AUTH";
 export const SIGN_GITHUB = "SIGN_GITHUB";
 
 export const GET_USER = "GET_USER";
+export const GET_FOO = "GET_FOO";
+export const GET_FOO_ERR = "GET_FOO_ERR";
 
 export const logIn =  (user) => { 
     return (dispatch) => {
-        axios.post(process.env.REACT_APP_BASE_SIGN_IN,{
+        Axios.post(process.env.REACT_APP_BASE_SIGN_IN,{
             username: user.username,
             password: user.password,
             
@@ -51,23 +53,9 @@ export const logIn =  (user) => {
     }
 }
 
-// export const getUser = () => {
 
-//     return async (dispatch) =>{
-//         Axios.get('/api/users/user', {
-//              headers: {
-//                  "Authorization" : `Bearer ${localStorage.getItem('auth')}`
-//             } 
-//         })
-//         .then( (res, decoded) => {
-//             console.log(res.data);
-//             localStorage.setItem('auth', res.data.authenticated);
-//             dispatch({type: GET_USER, payload: decoded});
-//         }).catch( (err) => {
-//             console.log(err);
-//         })
-//     }
-// }
+
+
 
 
 export const setCurrentUser = decoded => {
@@ -77,11 +65,17 @@ export const setCurrentUser = decoded => {
     };
 };
 
-
 export const signWithGithub =  () => { 
     return  (dispatch) => {  
-        dispatch({type: SIGN_GITHUB});    
-        console.log('im an owl');
+        Axios.get(process.env.REACT_APP_GET_USER, {
+            // withCredentials: true,
+        }).then( (res, payload) => {
+            // const token = res.data.body
+            // localStorage.setItem('gitToken', token );
+            const authGit = res.data.authenticated;
+            localStorage.setItem('gitAuth', authGit );
+            dispatch({type: SIGN_GITHUB});
+        });
     }
 }
 

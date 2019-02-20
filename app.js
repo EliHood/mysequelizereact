@@ -18,6 +18,26 @@ const path = require('path');
 const allowOrigin = process.env.ALLOW_ORIGIN || '*'
 
 // CORS Middleware
+app.use(function (req, res, next) {
+
+  // Website you wish to allow to connect
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
+
+  // Request methods you wish to allow
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+  // Request headers you wish to allow
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader('Access-Control-Allow-Credentials', true);
+
+  // Pass to next layer of middleware
+  next();
+});
+
+
 
 if (!process.env.PORT) {
   require('dotenv').config()
@@ -32,60 +52,44 @@ if (!process.env.PORT) {
   console.log(`[api][header] Access-Control-Allow-Origin: ${process.env.ALLOW_ORIGIN}`)
 }
 
-
+app.use(cors({
+  origin: process.env.ALLOW_ORIGIN,
+  credentials:false,
+  allowedHeaders: 'X-Requested-With, Content-Type, Authorization, origin, X-Custom-Header',
+  methods: 'GET, POST, PATCH, PUT, POST, DELETE, OPTIONS',
+  
+}))
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(bodyParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false })); 
+app.use(bodyParser.urlencoded({ extended:false })); 
 
 
-// allowCrossDomain = function(req, res, next) {
-// res.header('Access-Control-Allow-Origin', 'http://localhost:8000'); // your website
-// res.header('Access-Control-Allow-Credentials', 'true');
-// res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-// res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-// if ('OPTIONS' === req.method) {
-//     res.send(200);
-// } else {
-//     next();
-// }};
 
-app.use(cors({
-  origin: process.env.ALLOW_ORIGIN,
-  credentials: true,
-  allowedHeaders: 'X-Requested-With, Content-Type, Authorization',
-  methods: 'GET, POST, PATCH, PUT, POST, DELETE, OPTIONS'
-}))
 
 app.use(session({
-  secret : 'nodeauthsecret',
+  secret : process.env.JWT_SECRET,
   resave: false,
- saveUninitialized: true,
+ saveUninitialized:true,
 
 }));
+
+
 
 app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport')(passport);
 require('./config/passport-github')(passport);
-
+app.use('/api/users', userRoute )
+app.use('/api/posts',  postRoute )
 app.use(function(req, res, next) {
   res.locals.user = req.user; // This is the important line
   console.log(res.locals.user);
   next();
 });
-// app.use(function(req, res, next) {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-// });
 
-
-
-app.use('/api/users', userRoute )
-
-app.use('/api/posts',  postRoute )
 
 
 
