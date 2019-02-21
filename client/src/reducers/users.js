@@ -1,4 +1,4 @@
-import { SET_USER,  GET_FOO, GET_FOO_ERR, POST_AUTH, GET_USER, SIGN_GITHUB,  REG_SUC, REG_FAIL, LOG_FAIL} from '../actions/';
+import { SET_USER,  GET_CURRENT_USER,  GET_FOO, GET_FOO_ERR, POST_AUTH, GET_USER, SIGN_GITHUB,  REG_SUC, REG_FAIL, LOG_FAIL} from '../actions/';
 
 
 const initialState = {
@@ -7,6 +7,7 @@ const initialState = {
     githubAuth:localStorage.getItem('gitAuth'),
     token: null,
     user: [],
+    owl:localStorage.getItem('myAuth'),
     redirectPath: null
     
 }
@@ -31,8 +32,12 @@ export default (state = initialState, action) => {
             return({
                 ...state,
       
-            });
-
+            });  
+        case GET_CURRENT_USER:
+            return({
+                ...state,
+                owl: action.data.owl
+            })
         case SIGN_GITHUB:
             return({
                 ...state,

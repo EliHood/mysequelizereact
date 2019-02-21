@@ -7,6 +7,7 @@ module.exports = function(passport) {
 
   passport.serializeUser(function(user, done) {
     done(null, user.id);
+    // console.log
   });
 
   // from the user id, figure out who the user is...

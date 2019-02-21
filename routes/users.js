@@ -16,22 +16,31 @@ require('dotenv').config();
 
 
 
-router.get('/auth/github', passport.authenticate('github',  { session: false, scope: ['profile'] }));
+router.get('/auth/github', passport.authenticate('github',  { session: false,  scope: ['profile'] } ), function(req, res){
+  res.status(200).send({message: 'this is working'});
+});
 
 router.get('/auth/github/callback', 
   passport.authenticate('github', {  session: true,  failureRedirect: '/',  successRedirect : 'http://127.0.0.1:8001/dashboard',}),
   function(req, res) {
+  console.log(req.user);
     // Successful authentication, redirect home.
-    var token = jwt.sign({ id: req.user.id},  process.env.JWT_SECRET);
+    let token = jwt.sign({ id: req.user.id},  process.env.JWT_SECRET);
     res.cookie("gitjwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
-    console.log(token);
+    console.log(token); // renders undefined, don't know why :(
     res.status(200).send({ authenticated: true, token:token});
 });
 
 router.get('/user', (req, res, next) => {
-  res.json(req.cookies);
+  // res.json(req.cookies);
+  if(req.cookies.jwt){
+    res.status(200).send({ auth:true});
+  }
 
-
+  else{
+    res.status(403).send({ auth: false});
+  }
+  // res.json(req.user);
 });
 
 router.get('/test', (req, res, next) => {

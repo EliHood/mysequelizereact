@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PostList from './PostList';
+import Axios from '../Axios';
 
 const Styles = {
     myPaper:{
@@ -25,18 +26,17 @@ class Posts extends Component {
     }
   }
 
-  getPosts = async () => {
+  getPosts = () => {
 
-    const url = await fetch('/api/posts/myPosts')
-    console.log(url);
-    const json = await url.json();
-
-    this.setState({
-      posts: json,
-      loading: false
+    Axios.get(process.env.REACT_APP_GET_POSTS)
+    .then( (res) => {
+       this.setState({
+          posts: res.data,
+          loading: false
+        })
     })
-    
-    console.log(this.state.posts);
+
+    // console.log(this.state.posts);
 
   }
   componentWillMount(){

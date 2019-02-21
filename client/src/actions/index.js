@@ -32,6 +32,8 @@ export const GET_USER = "GET_USER";
 export const GET_FOO = "GET_FOO";
 export const GET_FOO_ERR = "GET_FOO_ERR";
 
+export const GET_CURRENT_USER = "GET_CURRENT_USER";
+
 export const logIn =  (user) => { 
     return (dispatch) => {
         Axios.post(process.env.REACT_APP_BASE_SIGN_IN,{
@@ -87,7 +89,20 @@ export const register = (user) => {
         
     }
 }
+export const getUser = () => {
+    return async (dispatch, getState) => {
+      const url = await Axios.get(process.env.REACT_APP_GET_USER, {
+          withCredentials: 'same-origin'
+      });
+      const response = url;
+      const data = response.data.auth;
+      console.log(data);
+      localStorage.setItem('myAuth', data)
+      dispatch({type: GET_CURRENT_USER, data})
+    
 
+    }
+}
 
 export const newPost = (post, req) => { 
     return (dispatch) => {

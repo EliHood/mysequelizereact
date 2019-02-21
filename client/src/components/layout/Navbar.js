@@ -58,11 +58,13 @@ const logout = (e) => {
       .then(res => {
         if (res) {
           localStorage.removeItem('auth')
+          localStorage.removeItem('myAuth')
           history.push('/')
         }
        }).catch(err => {
         // their will be an inevitable error, so you would need this for it to work
         localStorage.removeItem('auth')
+        localStorage.removeItem('myAuth')
         history.push('/')
        })
    }
@@ -166,7 +168,6 @@ const Navbar = ({classes, isAuthenticated}) => (
             <Route path="/users" component={Users}/>
             <Route exact path="/logout"/>
             <Route exact path="/dashboard" component={Dashboard}/>
-            <Route exact path="http://127.0.0.1:8000/api/users/auth/github"/>
             <Route path="/test"/>
             <Route path="/reset/:token" component={ResetPassword}/>
             <Route exact path="/updatePassword/:username" component={updatePassword}/>
@@ -178,6 +179,7 @@ const Navbar = ({classes, isAuthenticated}) => (
 const mapStateToProps = (state) => ({
     token: state.user.getToken,
     githubAuth: state.user.githubAuth,
+    owl: state.user.owl,
     isAuthenticated: state.user.isAuthenticated
 })
 

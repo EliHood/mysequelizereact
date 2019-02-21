@@ -8,6 +8,7 @@ import { getUser, setCurrentUser} from './actions/';
 import setAuthToken from './setAuthToken';
 import jwt_decode from 'jwt-decode';
 import Axios from './Axios';
+import { runInThisContext } from 'vm';
 
 
 const styles = theme => ({
@@ -56,7 +57,9 @@ componentWillMount(){
 
 
 
+    this.props.getUser();
 
+    console.log(this.props.owl);
 
 
 
@@ -85,11 +88,13 @@ componentWillMount(){
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.user.isAuthenticated,
+  owl: state.user.owl
+
 
 })
 
 const mapDispatchToProps = (dispatch) => ({
-
+  getUser: () => dispatch (getUser()),
   setCurrentUser: () => dispatch( setCurrentUser()),
 
 });

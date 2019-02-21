@@ -4,18 +4,15 @@ var userRoute = require('./routes/users');
 var postRoute  = require('./routes/posts');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
-var models = require('./models');
-var User = require('./models/user');
 var session = require('express-session');
 var cookieParser = require('cookie-parser') ;
-var cookieSession = require('cookie-session');
 var dotenv = require('dotenv');
 var env = dotenv.config();
 var cors = require('cors');
 const port = process.env.PORT || 8000;
 const passport = require('passport');
 const path = require('path');
-const allowOrigin = process.env.ALLOW_ORIGIN || '*'
+// const allowOrigin = process.env.ALLOW_ORIGIN || '*'
 
 // CORS Middleware
 app.use(function (req, res, next) {
