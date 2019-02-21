@@ -144,13 +144,13 @@ const Navbar = ({classes, isAuthenticated}) => (
                         )}
 
                             
-                   {/* {isAuthenticated  &&  (       */}
+                   {isAuthenticated  &&  (      
                         <Button onClick={logout}>
                        
                                 LogOut
                            
                         </Button>
-                     {/* )}  */}
+                   )}
                       
 
                     </Typography>
