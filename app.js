@@ -54,7 +54,7 @@ if (!process.env.PORT) {
 
 app.use(cors({
   origin: process.env.ALLOW_ORIGIN,
-  credentials:false,
+  credentials:true,
   allowedHeaders: 'X-Requested-With, Content-Type, Authorization, origin, X-Custom-Header',
   methods: 'GET, POST, PATCH, PUT, POST, DELETE, OPTIONS',
   
@@ -66,16 +66,11 @@ app.use(bodyParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:false })); 
 
-
-
-
 app.use(session({
   secret : process.env.JWT_SECRET,
   resave: false,
- saveUninitialized:true,
- cookie: {
-  maxAge: 3600000 //1 Hour
-}
+  saveUninitialized:true
+ 
 
 }));
 
@@ -85,10 +80,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport')(passport);
 require('./config/passport-github')(passport);
+
 app.use('/api/users', userRoute )
 app.use('/api/posts',  postRoute )
 app.use(function(req, res, next) {
   res.locals.user = req.user; // This is the important line
+  
   console.log(res.locals.user);
   next();
 });

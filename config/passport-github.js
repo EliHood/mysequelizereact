@@ -5,6 +5,22 @@ require('dotenv').config();
 
 module.exports = function(passport) {
 
+  passport.serializeUser(function(user, done) {
+    done(null, user.id);
+  });
+
+  // from the user id, figure out who the user is...
+  passport.deserializeUser(function(userId, done){
+    models.User
+      .find({ where: { id: userId } })
+      .then(function(user){
+        done(null, user);
+      }).catch(function(err){
+        done(err, null);
+      });
+  });
+
+
   passport.use(new GitHubStrategy({
       clientID: process.env.clientID,
       clientSecret: process.env.secret,
@@ -13,7 +29,7 @@ module.exports = function(passport) {
       passReqToCallback: true
   
     },
-    function(accessToken, req, refreshToken, profile, cb) {
+    function(accessToken, req, token, refreshToken, profile, cb) {
       // successfully makes a new user with id, and username equivalant to github username
         models.User
         .findOrCreate({
@@ -23,7 +39,7 @@ module.exports = function(passport) {
           }
         })
         .spread(function(user, created) {
-          cb(null, user, accessToken)
+          cb(null, user, token, accessToken)
           // console.log(req.user)
         });
       
@@ -31,20 +47,6 @@ module.exports = function(passport) {
     }
   ));
 
-    passport.serializeUser(function(user, done) {
-      done(null, user.id);
-    });
-
-    // from the user id, figure out who the user is...
-    passport.deserializeUser(function(userId, done){
-      models.User
-        .find({ where: { id: userId } })
-        .then(function(user){
-          done(null, user);
-        }).catch(function(err){
-          done(err, null);
-        });
-    });
 
 
 };

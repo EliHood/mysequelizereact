@@ -52,7 +52,9 @@ const styles = {
 
 const logout = (e) => {
     e.preventDefault()
-    Axios.get(process.env.REACT_APP_LOGOUT)
+    Axios.get(process.env.REACT_APP_LOGOUT, {
+        withCredentials:  true,
+    })
       .then(res => {
         if (res) {
           localStorage.removeItem('auth')
@@ -140,13 +142,13 @@ const Navbar = ({classes, isAuthenticated}) => (
                         )}
 
                             
-                   {isAuthenticated  &&  (      
+                   {/* {isAuthenticated  &&  (       */}
                         <Button onClick={logout}>
                        
                                 LogOut
                            
                         </Button>
-                     )} 
+                     {/* )}  */}
                       
 
                     </Typography>

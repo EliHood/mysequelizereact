@@ -23,16 +23,13 @@ router.get('/auth/github/callback',
   function(req, res) {
     // Successful authentication, redirect home.
     var token = jwt.sign({ id: req.user.id},  process.env.JWT_SECRET);
-    res.cookie("jwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
+    res.cookie("gitjwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
+    console.log(token);
     res.status(200).send({ authenticated: true, token:token});
 });
 
 router.get('/user', (req, res, next) => {
-  if(req.user) {
-    res.status(200).send({ message: "user is authenticated", user: req.user});
-  }else{
-    res.status(403).send({ message: "user is not authenticated"});
-  }
+  res.json(req.cookies);
 
 
 });
@@ -104,6 +101,7 @@ router.post('/loginUser',  passport.authenticate('login', {session: true}), (req
           },
         }).then(user => {
           const token = jwt.sign({ id: user.id  }, process.env.JWT_SECRET);
+          res.cookie("jwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
           res.status(200).send({
 
             auth: true,
@@ -120,15 +118,13 @@ router.post('/loginUser',  passport.authenticate('login', {session: true}), (req
 
 
 router.get('/logout', function( req, res){
+  req.logOut();
+  res.clearCookie('jwt');
+  req.session.destroy();
+  return res.status(200).send({message: "user logged out"});
+ 
 
-  // req.session.destroy();
-  // req.user.logout();
-  if( req.session.destroy() ){
-    res.status(200).send({ message: "logout successfully"});
-  }else{
-    res.status(403).send({ message: "something went wrong"});
-  }
-  
+
 });
 
 

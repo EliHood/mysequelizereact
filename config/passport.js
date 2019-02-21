@@ -1,8 +1,6 @@
 const BCRYPT_SALT_ROUNDS = 12;
 
-const passport = require('passport'),
-  
-  bcrypt = require('bcrypt'),
+const bcrypt = require('bcrypt'),
   JWTstrategy = require('passport-jwt').Strategy,
   ExtractJWT = require('passport-jwt').ExtractJwt,
   Sequelize = require('sequelize'),
