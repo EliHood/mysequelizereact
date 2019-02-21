@@ -32,15 +32,15 @@ router.get('/auth/github/callback',
 });
 
 router.get('/user', (req, res, next) => {
-  // res.json(req.cookies);
-  if(req.cookies.jwt){
-    res.status(200).send({ auth:true});
-  }
+  res.json(req.cookies);
+  // if(req.cookies.jwt){
+  //   res.status(200).send({ auth:true});
+  // }
 
-  else{
-    res.status(403).send({ auth: false});
-  }
-  // res.json(req.user);
+  // else{
+  //   res.status(403).send({ auth: false});
+  // }
+  // // res.json(req.user);
 });
 
 router.get('/test', (req, res, next) => {

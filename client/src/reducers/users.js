@@ -36,7 +36,7 @@ export default (state = initialState, action) => {
         case GET_CURRENT_USER:
             return({
                 ...state,
-                owl: action.data.owl
+            
             })
         case SIGN_GITHUB:
             return({
