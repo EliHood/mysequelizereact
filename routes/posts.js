@@ -4,7 +4,9 @@ var models = require( '../models/');
 const passport = require('passport');
 
 router.get('/myPosts',  (req, res) =>{
-    models.Post.findAll()
+    models.Post.findAll({ order:[ 
+        ['createdAt', 'DESC'],
+        ], limit: 6 })
        .then( (posts) =>{
            res.json(posts);
         //    console.log(posts);
