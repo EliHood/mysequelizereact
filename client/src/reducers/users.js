@@ -25,7 +25,7 @@ export default (state = initialState, action) => {
         case LOG_FAIL:
             return({
                 ...state,
-                authError:action.err.response.data
+                authError:action.err.response.data 
             });
         
         case GET_USER:
@@ -36,6 +36,7 @@ export default (state = initialState, action) => {
         case GET_CURRENT_USER:
             return({
                 ...state,
+                owl: action.data.owl 
             
             })
         case SIGN_GITHUB:

@@ -28,7 +28,7 @@ app.use(function (req, res, next) {
 
   // Set to true if you need the website to include cookies in the requests sent
   // to the API (e.g. in case you use sessions)
-  res.setHeader('Access-Control-Allow-Credentials', false);
+  res.setHeader('Access-Control-Allow-Credentials', true);
 
   // Pass to next layer of middleware
   next();
@@ -61,13 +61,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(bodyParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended:false })); 
+app.use(bodyParser.urlencoded({ extended:true})); 
 
 app.use(session({
   secret : process.env.JWT_SECRET,
   resave: false,
-  saveUninitialized:true
- 
+  saveUninitialized: false
 
 }));
 
@@ -82,6 +81,7 @@ app.use('/api/users', userRoute )
 app.use('/api/posts',  postRoute )
 app.use(function(req, res, next) {
   res.locals.user = req.user; // This is the important line
+  // req.session.user = user
   
   console.log(res.locals.user);
   next();

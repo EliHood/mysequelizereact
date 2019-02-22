@@ -150,7 +150,7 @@ const Navbar = ({classes, isAuthenticated}) => (
                                 LogOut
                            
                         </Button>
-                   )}
+                 )}
                       
 
                     </Typography>

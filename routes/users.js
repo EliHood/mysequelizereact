@@ -16,32 +16,36 @@ require('dotenv').config();
 
 
 
-router.get('/auth/github', passport.authenticate('github',  { session: false,  scope: ['profile'] } ), function(req, res){
-  res.status(200).send({message: 'this is working'});
-});
+router.get('/auth/github', passport.authenticate('github') );
 
 router.get('/auth/github/callback', 
-  passport.authenticate('github', {  session: true,  failureRedirect: '/',  successRedirect : 'http://127.0.0.1:8001/dashboard',}),
+  passport.authenticate('github', { failureRedirect: '/' }),
   function(req, res) {
-  console.log(req.user);
     // Successful authentication, redirect home.
-    let token = jwt.sign({ id: req.user.id},  process.env.JWT_SECRET);
-    res.cookie("gitjwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
-    console.log(token); // renders undefined, don't know why :(
-    res.status(200).send({ authenticated: true, token:token});
+    var token = jwt.sign({ id: req.user.id},  'nodeauthsecret');
+    res.cookie("gwtjwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
+    // res.status(200).send({message:"github user signed in", auth: true});
+    req.session.save(function(err) {
+      res.redirect('http://127.0.0.1:8001/dashboard');
+    });
+    console.log(token)
+    console.log('this works');
 });
-
 router.get('/user', (req, res, next) => {
-  res.json(req.cookies);
-  // if(req.cookies.jwt){
-  //   res.status(200).send({ auth:true});
-  // }
+  // res.json(req.cookies);
+  if(req.cookies.jwt || req.cookies.gwtjwt){
+    res.status(200).send({ auth:true});
+  }
 
-  // else{
-  //   res.status(403).send({ auth: false});
-  // }
-  // // res.json(req.user);
+  else{
+    res.status(403).send({ auth: false});
+  }
+ 
 });
+
+router.get('/current_user', (req, res, user) => {
+  res.json(req.session);
+})
 
 router.get('/test', (req, res, next) => {
   res.status(200).send({message: "this works"});
@@ -127,8 +131,9 @@ router.post('/loginUser',  passport.authenticate('login', {session: true}), (req
 
 
 router.get('/logout', function( req, res){
-  req.logOut();
+  req.logout();
   res.clearCookie('jwt');
+  res.clearCookie('gwtjwt');
   req.session.destroy();
   return res.status(200).send({message: "user logged out"});
  
