@@ -8,7 +8,7 @@
 * Redux
 
 
-#### Github has an issue with logging out, its being worked on.  
+#### Passport Github has an issue with logging out, its being worked on.  
 
 ## Docker 
 * `docker-compose up --build --force-recreate`
