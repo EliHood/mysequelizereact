@@ -13,6 +13,25 @@ const ourStyles = theme => ({
     },
     button: {
         marginLeft: 15
+    },
+    rightToolbar: {
+        color: '#fff',
+        textDecoration: 'none',
+        a: {
+            color: '#fff'
+
+        }
+    },
+    rightt: {
+        marginLeft: 'auto',
+        marginRight: 24
+    },
+    navRoot: {
+        flexGrow: 1
+    },
+    menuButton: {
+        marginRight: 16,
+        marginLeft: -12
     }
     
 });

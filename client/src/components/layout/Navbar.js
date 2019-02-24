@@ -20,32 +20,9 @@ import {compose} from 'redux';
 import Axios from '../../Axios';
 import updatePassword from '../account/updatePassword';
 import ResetPassword from '../account/ResetPassword';
-
+import ourStyles from '../../styles/ourStyles';
 export const history = createBrowserHistory({forceRefresh: true});
 
-const styles = {
-    // This group of buttons will be aligned to the right
-
-    rightToolbar: {
-        color: '#fff',
-        textDecoration: 'none',
-        a: {
-            color: '#fff'
-
-        }
-    },
-    rightt: {
-        marginLeft: 'auto',
-        marginRight: 24
-    },
-    root: {
-        flexGrow: 1
-    },
-    menuButton: {
-        marginRight: 16,
-        marginLeft: -12
-    }
-};
 
 const logout = (e) => {
     e.preventDefault()
@@ -70,7 +47,7 @@ const Navbar = ({classes, isAuthenticated}) => (
 
     <Router history={history}>
 
-        <div className={classes.root}>
+        <div className={classes.navRoot}>
 
             <AppBar position="static" className={classes.navbar}>
                 <Toolbar>
@@ -184,4 +161,4 @@ Navbar.propTypes = {
 }
 
 // export default withStyles(styles)(Navbar);
-export default compose(connect(mapStateToProps, mapDispatchToProps), withStyles(styles))(Navbar);
+export default compose(connect(mapStateToProps, mapDispatchToProps), withStyles(ourStyles))(Navbar);
