@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PostList from './PostList';
 import Axios from '../Axios';
-
+import {connect} from 'react-redux';
+import { withRouter, Redirect} from 'react-router-dom';
 const Styles = {
     myPaper:{
       margin: '20px 0px',
@@ -48,6 +49,11 @@ class Posts extends Component {
   render() {
     const {loading, posts} = this.state;
 
+    if (!this.props.isAuthenticated) {
+      return (<Redirect to='/signIn' />);
+    }
+
+
     if(loading){
       return "loading..."
     }
@@ -63,4 +69,13 @@ class Posts extends Component {
   }
 }
 
-export default Posts;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.user.isAuthenticated
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  // newPost: (post) => dispatch(newPost(post))
+
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Posts));

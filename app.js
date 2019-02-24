@@ -9,6 +9,7 @@ var cookieParser = require('cookie-parser') ;
 var dotenv = require('dotenv');
 var env = dotenv.config();
 var cors = require('cors');
+var models = require('./models/');
 const port = process.env.PORT || 8000;
 const passport = require('passport');
 const path = require('path');
@@ -55,30 +56,43 @@ app.use(cors({
   allowedHeaders: 'X-Requested-With, Content-Type, Authorization, origin, X-Custom-Header',
   methods: 'GET, POST, PATCH, PUT, POST, DELETE, OPTIONS',
   
-}))
-app.use(logger('dev'));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(cookieParser());
-app.use(bodyParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended:true})); 
-
-app.use(session({
-  secret : process.env.JWT_SECRET,
-  resave: false,
-  saveUninitialized: false
-
 }));
 
 
 
+require('./config/passport-github');
+require('./config/passport');
+
+app.use(logger('dev'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser());
+
+app.use(session({
+  secret : process.env.JWT_SECRET,
+  saveUninitialized: false,
+  maxAge: 1000 * 60 * 60 * 84,
+  resave: false
+
+}));
+
 app.use(passport.initialize());
 app.use(passport.session());
-require('./config/passport')(passport);
-require('./config/passport-github')(passport);
 
-app.use('/api/users', userRoute )
-app.use('/api/posts',  postRoute )
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended:false})); 
+
+const isAuthenticated = function(req, res, next){
+  if(req.isAuthenticated()){
+    next();
+    console.log('this works');
+  }else{
+   res.redirect('http://127.0.0.1:8001/signIn');
+  }
+}
+
+app.use('/api/users', userRoute );
+app.use('/api/posts', isAuthenticated,  postRoute );
 app.use(function(req, res, next) {
   res.locals.user = req.user; // This is the important line
   // req.session.user = user
@@ -89,9 +103,13 @@ app.use(function(req, res, next) {
 
 
 
+models.sequelize.sync().then(() => {
+  const server = app.listen(port, () => {
+    console.log(`Server is up and running on port ${port}`);
+  });
+});
 
 
 
-app.listen(port, () => {
-  console.log('[api][listen] http://localhost:' + port)
-})
+
+

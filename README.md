@@ -8,7 +8,9 @@
 * Redux
 
 
-#### Passport Github has an issue with logging out, its being worked on.  
+##### Passport Github has been temporaliy removed until log in functionality is fixed. 
+
+
 
 ## Docker 
 * `docker-compose up --build --force-recreate`

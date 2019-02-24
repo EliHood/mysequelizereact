@@ -2,7 +2,6 @@ import axios from 'axios';
 import { history } from '../components/layout/Navbar';
 import Axios from '../Axios';
 import setAuthToken from '../setAuthToken';
-import request from 'superagent';
 
 export const SET_USER = "SET_USER";
 export const LOG_FAIL = "LOG_FAIL";
@@ -25,12 +24,8 @@ export const RESET_FAIL = "RESET_FAIL";
 export const UPDATEPASS = "UPDATEPASS";
 export const UPDATEPASS_FAIL = "UPDATEPASS_FAIL";
 
-export const POST_AUTH = "POST_AUTH";
-export const SIGN_GITHUB = "SIGN_GITHUB";
-
 export const GET_USER = "GET_USER";
-export const GET_FOO = "GET_FOO";
-export const GET_FOO_ERR = "GET_FOO_ERR";
+
 
 export const GET_CURRENT_USER = "GET_CURRENT_USER";
 

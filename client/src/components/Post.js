@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {connect} from 'react-redux';
 import {newPost} from '../actions/';
-import {Redirect, withRouter} from 'react-router-dom';
+import { withRouter, Redirect} from 'react-router-dom';
 class Post extends Component {
 
     constructor(props) {
@@ -61,7 +61,9 @@ class Post extends Component {
 
     render() {
   
-
+        if (!this.props.isAuthenticated) {
+            return (<Redirect to='/signIn' />);
+        }
         return (
             <div style={{
                 padding: '20px 100px'
@@ -131,7 +133,8 @@ class Post extends Component {
 
 const mapStateToProps = (state) => ({
     token: state.user.getToken, 
-    error: state.post.postError
+    error: state.post.postError,
+    isAuthenticated: state.user.isAuthenticated
 })
 
 const mapDispatchToProps = (dispatch) => ({

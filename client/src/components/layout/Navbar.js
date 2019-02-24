@@ -19,7 +19,6 @@ import {connect} from 'react-redux';
 import {createBrowserHistory} from 'history';
 import PropTypes from 'prop-types';
 import {compose} from 'redux';
-import axios from 'axios';
 import Axios from '../../Axios';
 import updatePassword from '../account/updatePassword';
 import ResetPassword from '../account/ResetPassword';
@@ -150,7 +149,7 @@ const Navbar = ({classes, isAuthenticated}) => (
                                 LogOut
                            
                         </Button>
-                 )}
+                   )} 
                       
 
                     </Typography>
@@ -179,7 +178,7 @@ const Navbar = ({classes, isAuthenticated}) => (
 const mapStateToProps = (state) => ({
     token: state.user.getToken,
     githubAuth: state.user.githubAuth,
-    owl: state.user.owl,
+    // owl: state.user.owl,
     isAuthenticated: state.user.isAuthenticated
 })
 

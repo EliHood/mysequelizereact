@@ -7,8 +7,6 @@ import { connect } from 'react-redux';
 import { getUser, setCurrentUser} from './actions/';
 import setAuthToken from './setAuthToken';
 import jwt_decode from 'jwt-decode';
-import Axios from './Axios';
-import { runInThisContext } from 'vm';
 
 
 const styles = theme => ({
@@ -57,9 +55,9 @@ componentWillMount(){
 
 
 
-    this.props.getUser();
+    // this.props.getUser();
 
-    console.log(this.props.owl);
+    // console.log(this.props.owl);
 
 
 

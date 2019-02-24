@@ -1,28 +1,26 @@
-const BCRYPT_SALT_ROUNDS = 12;
-
 const bcrypt = require('bcrypt'),
-  JWTstrategy = require('passport-jwt').Strategy,
-  ExtractJWT = require('passport-jwt').ExtractJwt,
-  Sequelize = require('sequelize'),
-  Op = Sequelize.Op;
+      BCRYPT_SALT_ROUNDS = 12,
+      JWTstrategy = require('passport-jwt').Strategy,
+      ExtractJWT = require('passport-jwt').ExtractJwt,
+      Sequelize = require('sequelize'),
+      Op = Sequelize.Op,
+      models = require( '../models/'),
+      localStrategy = require('passport-local').Strategy,
+      passport = require("passport");
 
-module.exports = function(passport, user) {
-  const models = require( '../models/index');
-  const localStrategy = require('passport-local').Strategy;
 // serialize session, only store user id in the session information
   passport.serializeUser(function(user, done) {
     done(null, user.id);
   });
 
   // from the user id, figure out who the user is...
-  passport.deserializeUser(function(userId, done){
-    models.User
-      .find({ where: { id: userId } })
-      .then(function(user){
-        done(null, user);
-      }).catch(function(err){
-        done(err, null);
-      });
+  passport.deserializeUser(function(id, done){
+    models.User.findOne({
+      where: {
+        id,
+      },
+    }).then(user => done(null, user))
+    .catch(done);
   });
 
   passport.use(
@@ -150,5 +148,4 @@ passport.use(
   }),
 );
 
-
-}
+module.exports = passport

@@ -19,18 +19,36 @@ require('dotenv').config();
 router.get('/auth/github', passport.authenticate('github') );
 
 router.get('/auth/github/callback', 
-  passport.authenticate('github', { failureRedirect: '/' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    var token = jwt.sign({ id: req.user.id},  'nodeauthsecret');
-    res.cookie("gwtjwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
-    // res.status(200).send({message:"github user signed in", auth: true});
-    req.session.save(function(err) {
-      res.redirect('http://127.0.0.1:8001/dashboard');
-    });
-    console.log(token)
-    console.log('this works');
-});
+  passport.authenticate('github', { failureRedirect: '/'}),
+  function(req, res, done) {
+
+     console.log(`session ${req.session.passport.user} `); // renders the user id
+      const user = req.session.passport.user;
+        if(user){   
+          const data = {
+             id: req.session.passport.user
+          
+          };
+          models.User.findOne({
+            where: {
+              id: data.id,
+            },
+          }).then((user) => {
+          
+            req.login(user, err => {
+              return res.redirect('http://127.0.0.1:8001/dashboard');
+            });
+           
+          });
+    
+        } else if(user == null) {
+            console.log(info.message);
+            res.status(403).send(info.message);
+        }
+  
+  });
+  
+
 router.get('/user', (req, res, next) => {
   // res.json(req.cookies);
   if(req.cookies.jwt || req.cookies.gwtjwt){
@@ -43,9 +61,14 @@ router.get('/user', (req, res, next) => {
  
 });
 
-router.get('/current_user', (req, res, user) => {
-  res.json(req.session);
-})
+router.get("/current_user", (req, res) => {
+  if(req.user){
+    res.status(200).send({ user: req.user});
+  } else {
+    res.json({ user:null})
+  }
+  
+});
 
 router.get('/test', (req, res, next) => {
   res.status(200).send({message: "this works"});
@@ -132,10 +155,7 @@ router.post('/loginUser',  passport.authenticate('login', {session: true}), (req
 
 router.get('/logout', function( req, res){
   req.logout();
-  res.clearCookie('jwt');
-  res.clearCookie('gwtjwt');
-  req.session.destroy();
-  return res.status(200).send({message: "user logged out"});
+  res.sendStatus(200);
  
 
 

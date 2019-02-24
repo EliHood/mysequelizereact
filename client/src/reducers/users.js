@@ -1,4 +1,4 @@
-import { SET_USER,  GET_CURRENT_USER,  GET_FOO, GET_FOO_ERR, POST_AUTH, GET_USER, SIGN_GITHUB,  REG_SUC, REG_FAIL, LOG_FAIL} from '../actions/';
+import { SET_USER,  GET_CURRENT_USER, GET_USER,  REG_SUC, REG_FAIL, LOG_FAIL} from '../actions/';
 
 
 const initialState = {
@@ -38,12 +38,6 @@ export default (state = initialState, action) => {
                 ...state,
                 owl: action.data.owl 
             
-            })
-        case SIGN_GITHUB:
-            return({
-                ...state,
-                token:action.payload,
-                githubAuth:action.githubAuth
             })
         case REG_SUC:
             return({

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import {register} from  '../../actions/';
 import { Redirect, withRouter } from 'react-router-dom';

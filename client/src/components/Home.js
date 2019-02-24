@@ -6,10 +6,8 @@ import {withStyles} from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
-import Axios from '../Axios';
-import Avatar from '@material-ui/core/Avatar';
-import {Redirect, withRouter} from 'react-router-dom';
-import { history } from '../components/layout/Navbar';
+import {Redirect} from 'react-router-dom';
+
 const styles = theme => ({
     root: {
         flexGrow: 1,
@@ -57,9 +55,9 @@ class Home extends Component {
 
                     <Grid item sm={7}>
                         <Paper className={classes.paper}>
-                            <h2>Sign Up</h2> 
+                            <h1>Sign Up</h1> 
 
-                            <Chip
+                            {/* <Chip
                                 label="Sign In with Github"
                                 clickable
                                 avatar={< Avatar alt = "Natacha" src = "https://avatars0.githubusercontent.com/u/9919?s=280&v=4" />}
@@ -67,7 +65,7 @@ class Home extends Component {
                                 href="http://localhost:8000/api/users/auth/github"
                                 className={classes.chip}/>
 
-    
+     */}
                             <Chip
                                 label="Sign Up with E-Mail"
                                 clickable
@@ -86,6 +84,7 @@ class Home extends Component {
 }
 const mapStateToProps = (state) => ({
     token: state.user.getToken,
+    isAuthenticated: state.user.isAuthenticated,
     redirectTo: state.user.redirectTo
 })
 

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
-import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
-import {Redirect, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import { updatePass, Reset} from '../../actions';
 const loading = {
