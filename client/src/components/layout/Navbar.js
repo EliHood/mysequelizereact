@@ -10,8 +10,6 @@ import Users from '../account/Users';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core';
 import Dashboard from '../account/dashBoard';
@@ -23,7 +21,7 @@ import Axios from '../../Axios';
 import updatePassword from '../account/updatePassword';
 import ResetPassword from '../account/ResetPassword';
 
-export const history = createBrowserHistory({forceRefresh:true});
+export const history = createBrowserHistory({forceRefresh: true});
 
 const styles = {
     // This group of buttons will be aligned to the right
@@ -51,49 +49,47 @@ const styles = {
 
 const logout = (e) => {
     e.preventDefault()
-    Axios.get(process.env.REACT_APP_LOGOUT, {
-        withCredentials:  true,
-    })
-      .then(res => {
-        if (res) {
-          localStorage.removeItem('auth')
-          localStorage.removeItem('myAuth')
-          history.push('/')
-        }
-       }).catch(err => {
-        // their will be an inevitable error, so you would need this for it to work
-        localStorage.removeItem('auth')
-        localStorage.removeItem('myAuth')
-        history.push('/')
-       })
-   }
+    Axios
+        .get(process.env.REACT_APP_LOGOUT, {withCredentials: true})
+        .then(res => {
+            if (res) {
+                localStorage.removeItem('auth')
+                localStorage.removeItem('myAuth')
+                history.push('/')
+            }
+        })
+        .catch(err => {
+            // their will be an inevitable error, so you would need this for it to work
+            localStorage.removeItem('auth')
+            localStorage.removeItem('myAuth')
+            history.push('/')
+        })
+}
 
 const Navbar = ({classes, isAuthenticated}) => (
 
     <Router history={history}>
-    
+
         <div className={classes.root}>
 
             <AppBar position="static" className={classes.navbar}>
                 <Toolbar>
-                    <IconButton color="inherit" aria-label="Menu">
-                        <MenuIcon/>
-                    </IconButton>
+
                     <Typography variant="h6" color="inherit">
                         Express Seqeuelize App
                     </Typography>
+
                     <Typography classcolor="inherit" className={classes.rightt}>
 
+                        {!isAuthenticated && (
 
-                    {!isAuthenticated && (
+                            <Button>
+                                <Link to="/" className={classes.rightToolbar}>
+                                    Home
+                                </Link>
+                            </Button>
 
-                    <Button>
-                        <Link to="/" className={classes.rightToolbar}>
-                            Home
-                        </Link>
-                    </Button>
-
-                    )}
+                        )}
                         {isAuthenticated && (
                             <Button>
                                 <Link className={classes.rightToolbar} to="/posts">
@@ -132,8 +128,7 @@ const Navbar = ({classes, isAuthenticated}) => (
 
                         )}
 
-
-                        {isAuthenticated  &&  (
+                        {isAuthenticated && (
                             <Button>
                                 <Link to="/dashboard" className={classes.rightToolbar}>
                                     Dashboard
@@ -142,22 +137,19 @@ const Navbar = ({classes, isAuthenticated}) => (
 
                         )}
 
-                            
-                   {isAuthenticated  &&  (      
-                        <Button onClick={logout}>
-                       
+                        {isAuthenticated && (
+                            <Button onClick={logout}>
+
                                 LogOut
-                           
-                        </Button>
-                   )} 
-                      
+
+                            </Button>
+                        )}
 
                     </Typography>
 
                 </Toolbar>
             </AppBar>
 
-   
             <Route exact path="/signUp" component={signUp}/>
             <Route exact path="/" component={Home}/>
             <Route exact path="/signIn" component={signIn}/>
@@ -176,8 +168,7 @@ const Navbar = ({classes, isAuthenticated}) => (
 );
 
 const mapStateToProps = (state) => ({
-    token: state.user.getToken,
-    githubAuth: state.user.githubAuth,
+    token: state.user.getToken, githubAuth: state.user.githubAuth,
     // owl: state.user.owl,
     isAuthenticated: state.user.isAuthenticated
 })
