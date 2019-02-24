@@ -11,15 +11,10 @@ const Styles = {
     wrapper:{
       padding:'0px 60px'
     }
-  
-  
 }
-
 class Dashboard extends Component {
-
   constructor(props){
     super(props);
-
     this.state = { 
       first_name: '',
       last_name: '',
@@ -31,37 +26,21 @@ class Dashboard extends Component {
       error: false,
     }
   }
-
-
-
   componentWillMount(){
-
   }
-
-  
   render() {
- 
     if (!this.props.isAuthenticated) {
       return (<Redirect to='/signIn' />);
     }
-   
     return (
       <div className="App" style={Styles.wrapper}>
         <h1> Welcome</h1>
-
-    
-     
       </div>
     );
   }
 }
-
 const mapStateToProps = (state) => ({
   isAuthenticated: state.user.isAuthenticated,
-
 })
-
-
-
 // export default withStyles(styles)(Navbar);
 export default compose(connect(mapStateToProps, null))(Dashboard);

@@ -7,7 +7,6 @@ import Chip from '@material-ui/core/Chip';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {Redirect} from 'react-router-dom';
-
 const styles = theme => ({
     root: {
         flexGrow: 1,
@@ -18,45 +17,28 @@ const styles = theme => ({
         textAlign: 'center',
         color: theme.palette.text.secondary
     },
-
     chip: {
         margin: theme.spacing.unit
     }
 });
-
 class Home extends Component {
-
     constructor(props) {
         super(props);
-
         this.state = {
             user: ""
         }
-
-     
-
     }
-   
-
-
-
     render() {
-
         const {classes} = this.props;
-
         if (this.props.isAuthenticated) {
             return (<Redirect to='/dashboard' />);
         }
-
         return (
-
             <div className={classes.root}>
                 <Grid container justify="center" spacing={44}>
-
                     <Grid item sm={7}>
                         <Paper className={classes.paper}>
-                            <h1>Sign Up</h1> 
-
+                            <h1>Sign Up</h1>
                             {/* <Chip
                                 label="Sign In with Github"
                                 clickable
@@ -64,7 +46,6 @@ class Home extends Component {
                                 component="a"
                                 href="http://localhost:8000/api/users/auth/github"
                                 className={classes.chip}/>
-
      */}
                             <Chip
                                 label="Sign Up with E-Mail"
@@ -72,12 +53,9 @@ class Home extends Component {
                                 href="/signUp"
                                 component="a"
                                 className={classes.chip}/>
-
                         </Paper>
-
                     </Grid>
                 </Grid>
-
             </div>
         );
     }
@@ -87,11 +65,7 @@ const mapStateToProps = (state) => ({
     isAuthenticated: state.user.isAuthenticated,
     redirectTo: state.user.redirectTo
 })
-
 const mapDispatchToProps = (dispatch) => ({
-
-
 });
-
 // export default withStyles(styles)(Navbar);
 export default compose(connect(mapStateToProps, mapDispatchToProps), withStyles(styles))(Home);

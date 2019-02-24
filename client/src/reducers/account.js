@@ -1,5 +1,4 @@
 import {FORGOT, RESET, RESET_FAIL,UPDATEPASS, UPDATEPASS_FAIL,  FORGOT_ERR } from '../actions/';
-
 const initialState = {
     showError: false,
     messageFromServer: null,
@@ -9,9 +8,7 @@ const initialState = {
     isLoading: false,
     error: false,
     errorMessage: null
-
 }
-
 export default (state = initialState, action) => {
     switch (action.type) {
         case FORGOT:
@@ -20,14 +17,12 @@ export default (state = initialState, action) => {
                 showError:false,
                 messageFromServer:'recovery email sent'
             });
-
         case FORGOT_ERR:
             return({
                 ...state,
                 showError: true,
                 messageFromServer: '',
                 showNullError: false,
-                
             });
         case RESET:
             return({
@@ -36,7 +31,6 @@ export default (state = initialState, action) => {
                 update: false,
                 isLoading: false,
                 error: false,
-
             });
         case RESET_FAIL:
             return({
@@ -45,22 +39,18 @@ export default (state = initialState, action) => {
                 isLoading: false,
                 error: true,
             })
-
         case UPDATEPASS:
             return({
                 ...state,
                 update: 'Your password has been successfully reset, please try logging in again',
                 error: false
-
             });
         case UPDATEPASS_FAIL:
             return({
                 ...state, 
                 update: 'Please Enter An Email' ,
                 error: true,
-               
             })
-        
         default:
             return state
     }

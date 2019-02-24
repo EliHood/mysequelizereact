@@ -11,7 +11,6 @@ import {connect} from 'react-redux';
 import {logIn} from '../../actions/';
 import {compose} from 'redux';
 import {Link} from 'react-router-dom';
-
 const styles = theme => ({
     root: {
         flexGrow: 1,
@@ -22,24 +21,17 @@ const styles = theme => ({
         textAlign: 'center',
         color: theme.palette.text.secondary
     },
-
     chip: {
         margin: theme.spacing.unit
     },
-
     button: {
         marginLeft: 15
     }
-
 });
-
 const MyLink = props => <Link to="/Forgot" {...props}/>
-
 class signIn extends Component {
-
     constructor(props) {
         super(props)
-
         this.state = {
             formData: {
                 username: "",
@@ -55,7 +47,6 @@ class signIn extends Component {
             passwordInValid: false,
             // token:localStorage.getItem('JWT')
         }
-
         this.handleChange = this
             .handleChange
             .bind(this);
@@ -63,26 +54,20 @@ class signIn extends Component {
             .handleSubmit
             .bind(this);
     }
-
     handleChange = (e) => {
         e.preventDefault();
         const {formData} = this.state;
-
         this.setState({
             formData: {
                 ...formData,
                 [e.target.name]: e.target.value
             }
         });
-
     }
-
     handleSubmit = (e) => {
         e.preventDefault();
-
         const {formData} = this.state;
         const {username, password} = formData;
-
         const creds = {
             username,
             password
@@ -91,25 +76,19 @@ class signIn extends Component {
             .props
             .logIn(creds);
         console.log(creds);
-
     }
-
     render() {
         const {classes} = this.props;
-
         if (this.props.isAuthenticated) {
             return (<Redirect to="/dashboard"/>);
         }
-
         return (
             <Grid container spacing={44}>
                 <Grid item sm={7}>
-
                     <div
                         style={{
                         padding: '20px 100px'
                     }}>
-
                         {this.props.error && (
                             <div
                                 style={{
@@ -118,7 +97,6 @@ class signIn extends Component {
                                 {this.props.error}
                             </div>
                         )}
-
                         <h1>Sign In</h1>
                         <form onSubmit={this.handleSubmit}>
                             <Grid item sm={10}>
@@ -148,13 +126,10 @@ class signIn extends Component {
                                     onChange={this.handleChange}
                                     margin="normal"
                                     variant="outlined"/>
-
                                 <br></br>
-                                
                                 <Button variant="outlined" color="primary" type="submit">
                                     Log In
                                 </Button>
-
                                 <Button
                                     component={MyLink}
                                     variant="outlined"
@@ -165,24 +140,17 @@ class signIn extends Component {
                             </Grid>
                         </form>
                     </div>
-
                 </Grid>
             </Grid>
-
         );
     }
-
 }
-
 const mapStateToProps = (state) => ({
     token: state.user.getToken, 
     isAuthenticated: state.user.isAuthenticated,
     error: state.user.authError
 });
-
 const mapDispatchToProps = (dispatch) => ({
     logIn: (user) => dispatch(logIn(user))
-
 });
-
 export default compose(connect(mapStateToProps, mapDispatchToProps), withStyles(styles))(signIn);

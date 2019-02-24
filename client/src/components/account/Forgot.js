@@ -12,57 +12,42 @@ const Styles = {
     wrapper: {
         padding: '0px 60px'
     },
-
     textF: {
         width: '500px'
     }
-
 }
-
 class Forgot extends Component {
-
     constructor(props) {
         super(props);
-
         this.state = {
             email: ''
         };
-
         this.handleChange = this.handleChange.bind(this);
         this.sendEmail = this.sendEmail.bind(this);
-
     }
-
     handleChange = name => event => {
         this.setState({[name]: event.target.value});
     };
-
     sendEmail = e => {
         e.preventDefault();
         const { email } = this.state
         const creds = {
             email
         }
-
         console.log(creds);
         this.props.Forget(creds);
     };
-
     render() {
         const {email, messageFromServer, showNullError, showError} = this.state;
-
         return (
             <div className="App" style={Styles.wrapper}>
                 <h1> Forgot Password</h1>
-
-
                 {this.props.showError && (
                   <div>
                     <p>
                       That email address isn't recognized. Please try again or register
                       for a new account.
                     </p>
-                  
                   </div>
                 )}
                 {this.props.messageFromServer === 'recovery email sent' && (
