@@ -7,20 +7,8 @@ import Chip from '@material-ui/core/Chip';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {Redirect} from 'react-router-dom';
-const styles = theme => ({
-    root: {
-        flexGrow: 1,
-        padding: 20
-    },
-    paper: {
-        padding: theme.spacing.unit * 2,
-        textAlign: 'center',
-        color: theme.palette.text.secondary
-    },
-    chip: {
-        margin: theme.spacing.unit
-    }
-});
+import ourStyles from '../styles/ourStyles';
+
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -68,4 +56,4 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 });
 // export default withStyles(styles)(Navbar);
-export default compose(connect(mapStateToProps, mapDispatchToProps), withStyles(styles))(Home);
+export default compose(connect(mapStateToProps, mapDispatchToProps), withStyles(ourStyles))(Home);

@@ -11,23 +11,8 @@ import {connect} from 'react-redux';
 import {logIn} from '../../actions/';
 import {compose} from 'redux';
 import {Link} from 'react-router-dom';
-const styles = theme => ({
-    root: {
-        flexGrow: 1,
-        padding: 20
-    },
-    paper: {
-        padding: theme.spacing.unit * 2,
-        textAlign: 'center',
-        color: theme.palette.text.secondary
-    },
-    chip: {
-        margin: theme.spacing.unit
-    },
-    button: {
-        marginLeft: 15
-    }
-});
+import ourStyles from '../../styles/ourStyles';
+
 const MyLink = props => <Link to="/Forgot" {...props}/>
 class signIn extends Component {
     constructor(props) {
@@ -153,4 +138,4 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     logIn: (user) => dispatch(logIn(user))
 });
-export default compose(connect(mapStateToProps, mapDispatchToProps), withStyles(styles))(signIn);
+export default compose(connect(mapStateToProps, mapDispatchToProps), withStyles(ourStyles))(signIn);

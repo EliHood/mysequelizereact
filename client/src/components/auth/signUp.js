@@ -7,23 +7,8 @@ import {withStyles} from '@material-ui/core/styles';
 import {register} from '../../actions/';
 import {Redirect, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
-const styles = theme => ({
-    root: {
-        flexGrow: 1,
-        padding: 20
-    },
-    paper: {
-        padding: theme.spacing.unit * 2,
-        textAlign: 'center',
-        color: theme.palette.text.secondary
-    },
-    chip: {
-        margin: theme.spacing.unit
-    },
-    button: {
-        marginLeft: 15
-    }
-});
+import ourStyles from '../../styles/ourStyles';
+
 class signUp extends Component {
     constructor(props) {
         super(props)
@@ -163,4 +148,4 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     register: (user) => dispatch(register(user))
 });
-export default compose(connect(mapStateToProps, mapDispatchToProps), withStyles(styles))(signUp);
+export default compose(connect(mapStateToProps, mapDispatchToProps), withStyles(ourStyles))(signUp);
