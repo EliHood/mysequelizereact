@@ -39,16 +39,19 @@ class signUp extends Component {
         e.preventDefault();
         const {formData} = this.state;
         const {username, email, password, passwordConf} = formData;
-        this.setState({username: this.state.username, password: this.state.password, passwordConf: this.state.passwordConf, email: this.state.email});
+        this.setState({
+            username: this.state.username,
+            password: this.state.password,
+            passwordConf: this.state.passwordConf,
+            email: this.state.email
+        });
         const creds = {
             username,
             email,
             password
         }
         if (password === passwordConf) {
-            this
-                .props
-                .register(creds);
+            this.props.register(creds);
         } else {
             this.setState({passErr: "Passwords Don't Match"})
         }

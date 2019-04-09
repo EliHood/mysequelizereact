@@ -29,9 +29,9 @@ class Dashboard extends Component {
   componentWillMount(){
   }
   render() {
-    if (!this.props.isAuthenticated) {
-      return (<Redirect to='/signIn' />);
-    }
+    // if (!this.props.isAuthenticated) {
+    //   return (<Redirect to='/signIn' />);
+    // }
     return (
       <div className="App" style={Styles.wrapper}>
         <h1> Welcome</h1>

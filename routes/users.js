@@ -25,20 +25,26 @@ router.get('/auth/github/callback',
      console.log(`session ${req.session.passport.user} `); // renders the user id
       const user = req.session.passport.user;
         if(user){   
-          const data = {
-             id: req.session.passport.user
-          
-          };
-          models.User.findOne({
-            where: {
-              id: data.id,
-            },
-          }).then((user) => {
-          
-            req.login(user, err => {
-              return res.redirect('http://127.0.0.1:8001/dashboard');
-            });
-           
+          req.login(user, err => {
+            const data = {
+                id: req.session.passport.user   
+            };
+            models.User.findOne({
+              where: {
+                id: data.id,
+              },
+            }).then(user => {
+              const token = jwt.sign({ id: user.id  }, process.env.JWT_SECRET);
+              res.cookie("jwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
+              res.status(200).send({
+                auth: true,
+                token: token,
+                message: 'user found & logged in',
+              });
+            })
+          // res.cookie("jwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
+          // res.redirect('http://127.0.0.1:8001/dashboard')   
+        
           });
     
         } else if(user == null) {

@@ -26,21 +26,21 @@ export const history = createBrowserHistory({forceRefresh: true});
 
 const logout = (e) => {
     e.preventDefault()
-    Axios
-        .get(process.env.REACT_APP_LOGOUT, {withCredentials: true})
+    Axios.get(process.env.REACT_APP_LOGOUT, {withCredentials: true})
         .then(res => {
-            if (res) {
+            // console.log(res);
+            if (res.status === 200) {
                 localStorage.removeItem('auth')
                 localStorage.removeItem('myAuth')
                 history.push('/')
             }
         })
         .catch(err => {
-            // their will be an inevitable error, so you would need this for it to work
+        //     // their will be an inevitable error, so you would need this for it to work
             localStorage.removeItem('auth')
-            localStorage.removeItem('myAuth')
+             localStorage.removeItem('myAuth')
             history.push('/')
-        })
+         })
 }
 
 const Navbar = ({classes, isAuthenticated}) => (
@@ -114,13 +114,13 @@ const Navbar = ({classes, isAuthenticated}) => (
 
                         )}
 
-                        {isAuthenticated && (
+                        {/* {isAuthenticated && ( */}
                             <Button onClick={logout}>
 
                                 LogOut
 
                             </Button>
-                        )}
+                        {/* )} */}
 
                     </Typography>
 

@@ -25,7 +25,7 @@ passport.use(
       clientID: process.env.clientID,
       clientSecret: process.env.secret,
       callbackURL: 'http://127.0.0.1:8000/api/users/auth/github/callback',
-      passReqToCallback: true,
+      passReqToCallback: true
       // profileFields: ['id', 'login']
     },
      (req, accessToken, refreshToken, profile, done) => {

@@ -6,6 +6,8 @@
 * Express
 * React
 * Redux
+* Chai & Mocha for current unit testing
+
 
 
 ##### Passport Github has been temporaliy removed until log in functionality is fixed. 

@@ -2,11 +2,11 @@ import Axios from 'axios'
 
 let AxiosInstance = Axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
-  withCredentials: true,
-  headers : {
-    'Content-Type' : 'application/json',
-    'Accept' : 'application/json',
-  }
+  // withCredentials: true,
+  // headers : {
+  //   'Content-Type' : 'application/json',
+  //   'Accept' : 'application/json',
+  // }
 
 })
 

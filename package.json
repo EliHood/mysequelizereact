@@ -8,7 +8,7 @@
     "client": "cd ./client && npm start ",
     "server": "nodemon app.js",
     "build": "echo 'hello build'",
-    "start": "concurrently --kill-others  \"npm run server\" "
+    "start": "concurrently --kill-others  \"npm run client\" \"npm run server\" "
   },
   "author": "",
   "license": "ISC",
@@ -37,5 +37,9 @@
     "pg": "^7.8.0",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.42.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.2"
   }
 }

@@ -7,20 +7,8 @@ import { connect } from 'react-redux';
 import { getUser, setCurrentUser} from './actions/';
 import setAuthToken from './setAuthToken';
 import jwt_decode from 'jwt-decode';
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    padding: 20
-  },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-  chip: {
-    margin: theme.spacing.unit,
-  },
-});
+import ourStyles from './styles/ourStyles';
+
 class App extends Component {
   constructor(props){
     super(props);
@@ -60,4 +48,4 @@ const mapDispatchToProps = (dispatch) => ({
   getUser: () => dispatch (getUser()),
   setCurrentUser: () => dispatch( setCurrentUser()),
 });
-export default compose(connect(mapStateToProps, mapDispatchToProps), withStyles(styles))(App);
+export default compose(connect(mapStateToProps, mapDispatchToProps), withStyles(ourStyles))(App);

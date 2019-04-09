@@ -32,12 +32,8 @@ class signIn extends Component {
             passwordInValid: false,
             // token:localStorage.getItem('JWT')
         }
-        this.handleChange = this
-            .handleChange
-            .bind(this);
-        this.handleSubmit = this
-            .handleSubmit
-            .bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleChange = (e) => {
         e.preventDefault();

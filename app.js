@@ -16,24 +16,8 @@ const path = require('path');
 // const allowOrigin = process.env.ALLOW_ORIGIN || '*'
 
 // CORS Middleware
-app.use(function (req, res, next) {
 
-  // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
-
-  // Request methods you wish to allow
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-  // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader('Access-Control-Allow-Credentials', true);
-
-  // Pass to next layer of middleware
-  next();
-});
+  
 
 
 
@@ -50,13 +34,8 @@ if (!process.env.PORT) {
   console.log(`[api][header] Access-Control-Allow-Origin: ${process.env.ALLOW_ORIGIN}`)
 }
 
-app.use(cors({
-  origin: process.env.ALLOW_ORIGIN,
-  credentials:true,
-  allowedHeaders: 'X-Requested-With, Content-Type, Authorization, origin, X-Custom-Header',
-  methods: 'GET, POST, PATCH, PUT, POST, DELETE, OPTIONS',
-  
-}));
+
+
 
 
 
@@ -90,6 +69,22 @@ const isAuthenticated = function(req, res, next){
    res.redirect('http://127.0.0.1:8001/signIn');
   }
 }
+// app.use(function(req, res, next) {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   // res.header('Access-Control-Allow-Credentials',  true);
+//   res.header("preflightContinue", false)
+//   // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+//   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//   next();
+// });
+
+app.use(cors({
+    'allowedHeaders': ['Content-Type'], // headers that React is sending to the API
+    'exposedHeaders': ['Content-Type'], // headers that you are sending back to React
+    'origin': '*',
+    'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    'preflightContinue': false
+}));
 
 app.use('/api/users', userRoute );
 app.use('/api/posts', isAuthenticated,  postRoute );
@@ -100,6 +95,7 @@ app.use(function(req, res, next) {
   console.log(res.locals.user);
   next();
 });
+
 
 
 

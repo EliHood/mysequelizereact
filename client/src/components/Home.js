@@ -2,22 +2,53 @@ import React, {Component} from 'react';
 // import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Avatar from '@material-ui/core/Avatar';
 import {withStyles} from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {Redirect} from 'react-router-dom';
 import ourStyles from '../styles/ourStyles';
-
+import github from './github/github';
+import Axios from '../Axios';
+import { history } from '../components/layout/Navbar';
 class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
             user: ""
         }
+
+
     }
+
+    componentWillMount = () => {
+
+        // this.fetchData();
+    }
+
+    fetchData = () => {
+      
+        fetch(process.env.REACT_APP_BASE_GITHUB_SIGNIN, { 
+            method: "GET",
+            mode: 'cors'
+              
+                 
+            })
+            .then( (res)=> {
+                console.log(res)
+                // history.push('/dashboard')   
+            })
+            .catch( (err) => {
+
+            })
+
+    }
+
+
     render() {
         const {classes} = this.props;
+  
         if (this.props.isAuthenticated) {
             return (<Redirect to='/dashboard' />);
         }
@@ -27,14 +58,17 @@ class Home extends Component {
                     <Grid item sm={7}>
                         <Paper className={classes.paper}>
                             <h1>Sign Up</h1>
-                            {/* <Chip
+                            <Chip
                                 label="Sign In with Github"
                                 clickable
+                                onClick={this.fetchData}
                                 avatar={< Avatar alt = "Natacha" src = "https://avatars0.githubusercontent.com/u/9919?s=280&v=4" />}
+                                // href={process.env.REACT_APP_BASE_GITHUB_SIGNIN}
                                 component="a"
-                                href="http://localhost:8000/api/users/auth/github"
                                 className={classes.chip}/>
-     */}
+
+                           
+    
                             <Chip
                                 label="Sign Up with E-Mail"
                                 clickable
