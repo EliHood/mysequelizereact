@@ -70,6 +70,16 @@ app.use(cors({
 }));
 app.use('/api/users', userRoute );
 app.use('/api/posts', isAuthenticated,  postRoute );
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+//production mode
+if(process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+  //
+  app.get('*', (req, res) => {
+    res.sendfile(path.join(__dirname = 'client/build/index.html'));
+  })
+}
 app.use(function(req, res, next) {
   res.locals.user = req.user; // This is the important line
   // req.session.user = user
