@@ -76,7 +76,7 @@ app.use(function(req, res, next) {
   next();
 });
 models.sequelize.sync().then(() => {
-  const server = app.listen(process.env.PORT || 5000, () => {
+  const server = app.listen(PORT, () => {
     console.log(`Server is up and running on port ${PORT}`);
   });
 });
