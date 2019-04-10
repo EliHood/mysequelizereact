@@ -9,7 +9,7 @@
     "server": "nodemon app.js",
     "build": "echo 'hello build'",
     "start": "concurrently --kill-others  \"npm run client\" \"npm run server\" ",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
