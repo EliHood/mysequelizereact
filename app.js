@@ -10,7 +10,7 @@ var dotenv = require('dotenv');
 var env = dotenv.config();
 var cors = require('cors');
 var models = require('./models/');
-const port = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8000;
 const passport = require('passport');
 const path = require('path');
 // const allowOrigin = process.env.ALLOW_ORIGIN || '*'
@@ -75,7 +75,7 @@ app.use(function(req, res, next) {
   next();
 });
 models.sequelize.sync().then(() => {
-  const server = app.listen(port, () => {
-    console.log(`Server is up and running on port ${port}`);
+  const server = app.listen(PORT, () => {
+    console.log(`Server is up and running on port ${PORT}`);
   });
 });
