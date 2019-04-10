@@ -76,8 +76,8 @@ app.use(function(req, res, next) {
   console.log(res.locals.user);
   next();
 });
-models.sequelize.sync().then(() => {
-  const server = app.listen(PORT, host,  () => {
+
+app.listen(PORT, host,  () => {
     console.log(`Server is up and running on port ${PORT}`);
-  });
 });
+
