@@ -33,7 +33,7 @@
     "extends": "react-app"
   },
 
-  "proxy": "http://localhost:8000",
+
   "browserslist": [
     ">0.2%",
     "not dead",
