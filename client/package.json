@@ -28,9 +28,12 @@
     "eject": "react-scripts eject",
     "heroku-postbuild": "npm run build"
   },
+  
   "eslintConfig": {
     "extends": "react-app"
   },
+
+  "proxy": "http://localhost:8000",
   "browserslist": [
     ">0.2%",
     "not dead",
