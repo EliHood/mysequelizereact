@@ -12,7 +12,7 @@ const Op = Sequelize.Op;
 const BCRYPT_SALT_ROUNDS = 12;
 const bcrypt = require('bcrypt');
 var passportGitHub = require('../config/passport-github');
-require('dotenv').config();
+// require('dotenv').config();
 
 
 

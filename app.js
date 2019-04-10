@@ -6,8 +6,8 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 var session = require('express-session');
 var cookieParser = require('cookie-parser') ;
-var dotenv = require('dotenv');
-var env = dotenv.config();
+// var dotenv = require('dotenv');
+// var env = dotenv.config();
 var cors = require('cors');
 var models = require('./models/');
 const PORT = process.env.PORT || 8000;
@@ -16,7 +16,7 @@ const path = require('path');
 // const allowOrigin = process.env.ALLOW_ORIGIN || '*'
 // CORS Middleware
 if (!process.env.PORT) {
-  require('dotenv').config()
+  // require('dotenv').config()
 }
 
 // console.log(process.env.DATABASE_URL);
