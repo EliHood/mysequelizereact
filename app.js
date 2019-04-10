@@ -7,7 +7,7 @@ var logger = require('morgan');
 var session = require('express-session');
 var cookieParser = require('cookie-parser') ;
 var dotenv = require('dotenv');
-var env = dotenv.config();
+// var env = dotenv.config();
 var cors = require('cors');
 var models = require('./models/');
 const port = process.env.PORT || 8000;
@@ -22,7 +22,7 @@ const path = require('path');
 
 
 if (!process.env.PORT) {
-  require('dotenv').config()
+  // require('dotenv').config()
 }
 
 if (!process.env.PORT) {
