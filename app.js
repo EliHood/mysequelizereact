@@ -11,7 +11,7 @@ var cookieParser = require('cookie-parser') ;
 var cors = require('cors');
 var models = require('./models/');
 const host = '0.0.0.0';
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 5000;
 const passport = require('passport');
 const path = require('path');
 // const allowOrigin = process.env.ALLOW_ORIGIN || '*'
@@ -77,7 +77,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.listen(PORT, host,  () => {
+app.listen(PORT, host, () => {
     console.log(`Server is up and running on port ${PORT}`);
-});
+  });
 
