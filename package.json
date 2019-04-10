@@ -8,7 +8,7 @@
     "client": "cd ./client && npm start ",
     "server": "nodemon app.js",
     "start": "concurrently --kill-others  \"npm run client\" \"npm run server\" ",
-    "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "",
   "license": "ISC",
@@ -35,7 +35,7 @@
     "passport-github2": "^0.1.11",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "pg": "^7.8.0",
+    "pg": "7.9.0",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.42.0"
   },
