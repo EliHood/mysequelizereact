@@ -18,6 +18,8 @@ const path = require('path');
 if (!process.env.PORT) {
   require('dotenv').config()
 }
+
+// console.log(process.env.DATABASE_URL);
 if (!process.env.PORT) {
   console.log('[api][port] 8000 set as default')
   console.log('[api][header] Access-Control-Allow-Origin: * set as default')
