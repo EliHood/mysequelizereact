@@ -32,6 +32,7 @@ require('./config/passport-github');
 require('./config/passport');
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'build')));
 app.use(cookieParser());
 app.use(session({
   secret : process.env.JWT_SECRET,
