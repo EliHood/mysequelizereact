@@ -10,6 +10,7 @@ var cookieParser = require('cookie-parser') ;
 // var env = dotenv.config();
 var cors = require('cors');
 var models = require('./models/');
+const host = '0.0.0.0';
 const PORT = process.env.PORT || 5000;
 const passport = require('passport');
 const path = require('path');
@@ -76,7 +77,7 @@ app.use(function(req, res, next) {
   next();
 });
 models.sequelize.sync().then(() => {
-  const server = app.listen(PORT, () => {
+  const server = app.listen(PORT, host,  () => {
     console.log(`Server is up and running on port ${PORT}`);
   });
 });
