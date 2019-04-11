@@ -63,7 +63,7 @@ class signUp extends Component {
         }
         return (
             <Grid container spacing={44}>
-                <Grid item sm={7}>
+                <Grid item sm={10}>
                     <div
                         style={{
                         padding: '20px 100px'

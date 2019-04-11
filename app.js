@@ -53,23 +53,23 @@ const isAuthenticated = function(req, res, next){
    res.redirect('http://127.0.0.1:8001/signIn');
   }
 }
-// app.use(function(req, res, next) {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   // res.header('Access-Control-Allow-Credentials',  true);
-//   res.header("preflightContinue", false)
-//   // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-//   next();
-// });
+
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Credentials',  true);
+  res.header("preflightContinue", false)
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 app.use(cors({
-    'allowedHeaders': ['Content-Type'], // headers that React is sending to the API
-    'exposedHeaders': ['Content-Type'], // headers that you are sending back to React
-    'origin': '*',
-    'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    'preflightContinue': false
-}));
+  origin: process.env.ALLOW_ORIGIN,
+  credentials: false,
+  allowedHeaders: 'X-Requested-With, Content-Type, Authorization',
+  methods: 'GET, POST, PATCH, PUT, POST, DELETE, OPTIONS'
+}))
 app.use('/api/users', userRoute );
-app.use('/api/posts', isAuthenticated,  postRoute );
+app.use('/api/posts', postRoute );
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
@@ -95,7 +95,12 @@ app.use(function(req, res, next) {
   next();
 });
 
+
+
+
+
 app.listen(PORT, host, () => {
-    console.log(`Server is up and running on port ${PORT}`);
-});
+  console.log('[api][listen] http://localhost:' + PORT)
+})
+
 
