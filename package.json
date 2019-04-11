@@ -11,6 +11,7 @@
     "server-prod": "node app.js",
     "server": "nodemon app.js",
     "start": "node app.js",
+    "start:dev": "concurrently --kill-others  \"npm run client\" \"npm run server\" ",
     "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "",
