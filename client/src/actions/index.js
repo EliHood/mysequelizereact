@@ -20,7 +20,7 @@ export const GET_USER = "GET_USER";
 export const GET_CURRENT_USER = "GET_CURRENT_USER";
 export const logIn =  (user) => { 
     return (dispatch) => {
-        Axios.post(process.env.REACT_APP_BASE_SIGN_IN,{
+        Axios.post('/api/users/loginUser',{
             username: user.username,
             password: user.password,
         }).then( (res) => {
