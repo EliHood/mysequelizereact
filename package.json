@@ -10,7 +10,7 @@
     "client": "cd ./client && npm start ",
     "server-prod": "node app.js",
     "server": "nodemon app.js",
-    "start": "concurrently \"cd client && PORT=8000 npm start\" \"PORT=8001 npm run server \"",
+    "start": "concurrently --kill-others  \"npm run client\" \"npm run server\" ",
     "heroku-postbuild": "npm run build --prefix client"
   },
   "author": "",
