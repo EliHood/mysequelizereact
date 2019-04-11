@@ -5,14 +5,13 @@
   "main": "index.js",
   "scripts": {
     "client-install": "npm install --prefix client",
-    "install": "cd client && npm install && npm run build",
     "build": "concurrently \"cd client && npm run build\" \"npm build \"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "cd ./client && npm start ",
     "server-prod": "node app.js",
     "server": "nodemon app.js",
     "start": "concurrently --kill-others  \"npm run client\" \"npm run server\" ",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd ./client && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
