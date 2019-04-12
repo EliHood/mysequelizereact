@@ -14,9 +14,7 @@ import {Link} from 'react-router-dom';
 import ourStyles from '../../styles/ourStyles';
 const MyLink = props => <Link to="/Forgot" {...props}/>
 class signIn extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
+       state = {
             formData: {
                 username: "",
                 password: ""
@@ -31,9 +29,7 @@ class signIn extends Component {
             passwordInValid: false,
             // token:localStorage.getItem('JWT')
         }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    
     handleChange = (e) => {
         e.preventDefault();
         const {formData} = this.state;

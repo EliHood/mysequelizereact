@@ -9,9 +9,7 @@ import {Redirect, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import ourStyles from '../../styles/ourStyles';
 class signUp extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
+        state = {
             formData: {
                 username: "",
                 password: "",
@@ -21,9 +19,7 @@ class signUp extends Component {
             passErr: "",
             regSuccess: false
         }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+  
     handleChange = (e) => {
         e.preventDefault();
         const {formData} = this.state;

@@ -13,9 +13,7 @@ const Styles = {
     }
 }
 class Dashboard extends Component {
-  constructor(props){
-    super(props);
-    this.state = { 
+  state = { 
       first_name: '',
       last_name: '',
       email: '',
@@ -25,9 +23,7 @@ class Dashboard extends Component {
       deleted: false,
       error: false,
     }
-  }
-  componentWillMount(){
-  }
+  
   render() {
     // if (!this.props.isAuthenticated) {
     //   return (<Redirect to='/signIn' />);

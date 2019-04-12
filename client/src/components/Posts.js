@@ -14,13 +14,11 @@ const Styles = {
     }
 }
 class Posts extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
+   state = {
       posts: [],
       loading: true,
     }
-  }
+  
   getPosts = () => {
     Axios.get(process.env.REACT_APP_GET_POSTS)
     .then( (res) => {

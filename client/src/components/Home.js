@@ -13,42 +13,30 @@ import github from './github/github';
 import Axios from '../Axios';
 import { history } from '../components/layout/Navbar';
 class Home extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            user: ""
-        }
+      state = {
+        user: ""
 
-
-    }
-
+      }
+        
+    
     componentWillMount = () => {
-
         // this.fetchData();
     }
-
     fetchData = () => {
-      
+        // experiementing not actually anything useful.
         fetch(process.env.REACT_APP_BASE_GITHUB_SIGNIN, { 
             method: "GET",
             mode: 'cors'
-              
-                 
             })
             .then( (res)=> {
                 console.log(res)
                 // history.push('/dashboard')   
             })
             .catch( (err) => {
-
             })
-
     }
-
-
     render() {
         const {classes} = this.props;
-  
         if (this.props.isAuthenticated) {
             return (<Redirect to='/dashboard' />);
         }
@@ -66,9 +54,6 @@ class Home extends Component {
                                 // href={process.env.REACT_APP_BASE_GITHUB_SIGNIN}
                                 component="a"
                                 className={classes.chip}/>
-
-                           
-    
                             <Chip
                                 label="Sign Up with E-Mail"
                                 clickable
