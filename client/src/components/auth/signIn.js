@@ -12,7 +12,6 @@ import {logIn} from '../../actions/';
 import {compose} from 'redux';
 import {Link} from 'react-router-dom';
 import ourStyles from '../../styles/ourStyles';
-
 const MyLink = props => <Link to="/Forgot" {...props}/>
 class signIn extends Component {
     constructor(props) {
@@ -64,12 +63,9 @@ class signIn extends Component {
             return (<Redirect to="/dashboard"/>);
         }
         return (
-            <Grid container spacing={44}>
-                <Grid item sm={7}>
-                    <div
-                        style={{
-                        padding: '20px 100px'
-                    }}>
+        <div className={classes.signIn}>
+            <Grid justify="center"  container >
+                <Grid item xs={12} sm={'auto'} md={4} >   
                         {this.props.error && (
                             <div
                                 style={{
@@ -80,28 +76,22 @@ class signIn extends Component {
                         )}
                         <h1>Sign In</h1>
                         <form onSubmit={this.handleSubmit}>
-                            <Grid item sm={10}>
                                 <TextField
                                     id="outlined-name2"
                                     label="Username"
                                     className=""
-                                    style={{
-                                    width: '100%'
-                                }}
+                                    fullWidth
                                     name="username"
                                     value={this.state.username}
                                     onChange={this.handleChange}
                                     margin="normal"
                                     variant="outlined"/>
-                                <br></br>
                                 <TextField
                                     id="outlined-name"
                                     label="Password"
                                     name="password"
                                     type="password"
-                                    style={{
-                                    width: '100%'
-                                }}
+                                    fullWidth
                                     className=""
                                     value={this.state.password}
                                     onChange={this.handleChange}
@@ -118,11 +108,10 @@ class signIn extends Component {
                                     className={classes.button}>
                                     Forgot Password ?
                                 </Button>
-                            </Grid>
                         </form>
-                    </div>
                 </Grid>
             </Grid>
+        </div>
         );
     }
 }

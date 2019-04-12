@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { history } from '../components/layout/Navbar';
 import Axios from '../Axios';
+
 import setAuthToken from '../setAuthToken';
 export const SET_USER = "SET_USER";
 export const LOG_FAIL = "LOG_FAIL";
@@ -18,6 +19,9 @@ export const UPDATEPASS = "UPDATEPASS";
 export const UPDATEPASS_FAIL = "UPDATEPASS_FAIL";
 export const GET_USER = "GET_USER";
 export const GET_CURRENT_USER = "GET_CURRENT_USER";
+
+// Were using a custom Axios because the base url is consistent with the express server port 8000.
+// if we used "axios" it would use port:8001, which is consistent with the express server.
 export const logIn =  (user) => { 
     return (dispatch) => {
         Axios.post('/api/users/loginUser',{
@@ -90,7 +94,7 @@ export const newPost = (post, req) => {
 }
 export const Forget = (creds)  => {
     return  (dispatch) =>{
-       axios.post('/api/users/forgotPassword',{
+       Axios.post('/api/users/forgotPassword',{
             email: creds.email
         }).then(response => {
             console.log(creds.email);
@@ -108,7 +112,7 @@ export const Forget = (creds)  => {
 }
 export const updatePass = (creds)  => {
     return  (dispatch) =>{
-        axios.put('/api/users/updatePasswordViaEmail', {
+        Axios.put('/api/users/updatePasswordViaEmail', {
             username: creds.username,
             password: creds.password,
         }).then(response => {
@@ -122,7 +126,7 @@ export const updatePass = (creds)  => {
 }
 export const Reset = () => {
     return async (dispatch) =>{
-        await axios
+        await Axios
             .get('/api/users/reset', {
                 params: {
                     resetPasswordToken: this.props.match.params.token,

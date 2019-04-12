@@ -1,7 +1,7 @@
 const ourStyles = theme => ({
     root: {
         flexGrow: 1,
-        padding: 20
+        padding: 10
     },
     paper: {
         padding: theme.spacing.unit * 2,
@@ -12,7 +12,14 @@ const ourStyles = theme => ({
         margin: theme.spacing.unit
     },
     button: {
-        marginLeft: 15
+        marginLeft: 10,
+        margin: 0,
+        flexGrow: 1,
+        display:'inline-block',
+      
+    },
+    box:{
+        width:'500px'
     },
     rightToolbar: {
         color: '#fff',
@@ -21,6 +28,18 @@ const ourStyles = theme => ({
             color: '#fff'
 
         }
+    },
+    signIn:{
+        margin:'40px',
+        padding:0,
+        flexGrow: 1,
+    },
+    signUp:{
+        margin:'40px',
+        padding:0,
+        flexGrow: 1,
+       
+
     },
     rightt: {
         marginLeft: 'auto',

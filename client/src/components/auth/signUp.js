@@ -8,7 +8,6 @@ import {register} from '../../actions/';
 import {Redirect, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import ourStyles from '../../styles/ourStyles';
-
 class signUp extends Component {
     constructor(props) {
         super(props)
@@ -62,12 +61,9 @@ class signUp extends Component {
             return <Redirect to='/dashboard'/>
         }
         return (
-            <Grid container spacing={44}>
-                <Grid item sm={10}>
-                    <div
-                        style={{
-                        padding: '20px 100px'
-                    }}>
+            <Grid justify="center" container >
+                <Grid item xs={12} sm={10} md={5} >
+                    <div className={classes.signUp}>
                         {this.props.error && (
                             <div
                                 style={{
@@ -86,7 +82,6 @@ class signUp extends Component {
                         )}
                         <h1>Sign Up</h1>
                         <form onSubmit={this.handleSubmit}>
-                            <Grid item sm={10}>
                                 <TextField
                                     id="outlined-name"
                                     label="Username"
@@ -132,10 +127,9 @@ class signUp extends Component {
                                     margin="normal"
                                     variant="outlined"/>
                                 <br></br>
-                                <Button variant="outlined" color="primary" type="submit">
+                                <Button m={2}variant="outlined" color="primary" type="submit">
                                     Sign Up
                                 </Button>
-                            </Grid>
                         </form>
                     </div>
                 </Grid>
