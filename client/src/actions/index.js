@@ -43,7 +43,7 @@ export const setCurrentUser = decoded => {
 };
 export const register = (user) => { 
     return (dispatch) => {
-        Axios.post(process.env.REACT_APP_REGISTER,{
+        Axios.post('/api/users/new', {
             username: user.username,
             password: user.password,
             email: user.email 
@@ -63,7 +63,7 @@ export const register = (user) => {
 }
 export const getUser = () => {
     return async (dispatch, getState) => {
-      const url = await Axios.get(process.env.REACT_APP_GET_USER, {
+      const url = await Axios.get('/api/users/current_user', {
           withCredentials: 'same-origin'
       });
       const response = url;
