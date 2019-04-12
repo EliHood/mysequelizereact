@@ -75,7 +75,7 @@ export const getUser = () => {
 }
 export const newPost = (post, req) => { 
     return (dispatch) => {
-        Axios.post(process.env.REACT_APP_NEWPOST ,{
+        Axios.post('/api/posts/newPost' ,{
             title: post.title,
             post_content: post.postContent
         }).then( (res) => {
