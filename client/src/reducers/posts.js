@@ -1,8 +1,9 @@
-import { POST_FAIL, POST_SUCC} from '../actions/';
+import { POST_FAIL, POST_SUCC, DELETE_POST} from '../actions/';
 
 const initialState = {
     post: [],
-    postError: null
+    postError: null,
+    posts:[]
 }
 
 export default (state = initialState, action) => {
@@ -18,7 +19,12 @@ export default (state = initialState, action) => {
                 ...state,
                 postError: action.err.response.data
             })
-  
+
+        case DELETE_POST:
+            return ({
+                ...state,
+               posts: state.posts.filter(post=> post.id !== action.id)
+            })
         default:
             return state
     }

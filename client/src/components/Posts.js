@@ -3,6 +3,8 @@ import PostList from './PostList';
 import Axios from '../Axios';
 import {connect} from 'react-redux';
 import { withRouter, Redirect} from 'react-router-dom';
+import {DeletePost} from '../actions/';
+
 const Styles = {
     myPaper:{
       margin: '20px 0px',
@@ -32,6 +34,15 @@ class Posts extends Component {
   componentWillMount(){
     this.getPosts();
   }
+
+  onDelete = (id) => {
+    Axios.post(`/api/posts/delete/${id}`);
+    this.setState({
+      posts: this.state.posts.filter(post => post.id !== id)
+    })
+  }
+
+
   render() {
     const {loading, posts} = this.state;
     if (!this.props.isAuthenticated) {
@@ -43,7 +54,7 @@ class Posts extends Component {
     return (
       <div className="App" style={Styles.wrapper}>
         <h1> Posts </h1>
-        <PostList posts={posts}/>
+        <PostList DeletePost={this.onDelete} posts={posts}/>
       </div>
     );
   }
@@ -52,6 +63,7 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.user.isAuthenticated
 })
 const mapDispatchToProps = (dispatch) => ({
-  // newPost: (post) => dispatch(newPost(post))
+  // newPost: (post) => dispatch(newPost(post)),
+  // DeletePost: (id) => dispatch( DeletePost(id))
 });
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Posts));

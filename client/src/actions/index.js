@@ -19,6 +19,7 @@ export const UPDATEPASS = "UPDATEPASS";
 export const UPDATEPASS_FAIL = "UPDATEPASS_FAIL";
 export const GET_USER = "GET_USER";
 export const GET_CURRENT_USER = "GET_CURRENT_USER";
+export const DELETE_POST = "DELETE_POST"
 
 // Were using a custom Axios because the base url is consistent with the express server port 8000.
 // if we used "axios" it would use port:8001, which is consistent with the express server.
@@ -39,11 +40,22 @@ export const logIn =  (user) => {
         })
     }
 }
+
+
+
+export const DeletePost =  (id) => { 
+    return (dispatch) => {
+       return Axios.post(`/api/posts/delete/${id}`)
+            .then( () => {
+                dispatch({type: DELETE_POST, id});
+            });
+    }
+}
 export const setCurrentUser = decoded => {
     return {
         type: GET_USER,
         payload: decoded
-    };
+    }; 
 };
 export const register = (user) => { 
     return (dispatch) => {

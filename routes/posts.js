@@ -8,7 +8,7 @@ router.get('/myPosts',  (req, res) =>{
         ], limit: 6 })
        .then( (posts) =>{
            res.json(posts);
-        //    console.log(posts);
+        
        })
 });
 const isAuthenticated = function(req, res, next){
@@ -22,6 +22,24 @@ const isAuthenticated = function(req, res, next){
 router.get('/post', (req, res, user) => {
     console.log('post get found');
 });
+
+router.post('/delete/:id', (req, res) => {
+    const id = req.params.id;
+
+    console.log('this works' + id);
+    models.Post.destroy({
+        where: {
+            id: id
+        }
+    }).then( ()=> {
+        res.status(200).send('Post has been deleted!')
+    }).catch(err => {
+        res.status(401).send("Failed to delete");
+    })
+});
+
+
+
 router.post('/newPost' ,  (req, res, user) => {
     const data = {
         title: req.body.title,
