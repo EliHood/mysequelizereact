@@ -3,8 +3,7 @@ import PostList from './PostList';
 import Axios from '../Axios';
 import {connect} from 'react-redux';
 import { withRouter, Redirect} from 'react-router-dom';
-import {DeletePost} from '../actions/';
-
+import {GetPosts} from '../actions/';
 const Styles = {
     myPaper:{
       margin: '20px 0px',
@@ -16,35 +15,21 @@ const Styles = {
     }
 }
 class Posts extends Component {
-   state = {
+    state = {
       posts: [],
       loading: true,
     }
-  
-  getPosts = () => {
-    Axios.get(process.env.REACT_APP_GET_POSTS)
-    .then( (res) => {
-       this.setState({
-          posts: res.data,
-          loading: false
-        })
-    })
-    // console.log(this.state.posts);
+  async componentWillMount(){
+    await this.props.GetPosts();
+    this.setState({ loading: false })
+    const reduxPosts = this.props.myPosts;
+    const ourPosts = reduxPosts  
+    console.log(reduxPosts); // shows posts line 35
   }
-  componentWillMount(){
-    this.getPosts();
-  }
-
-  onDelete = (id) => {
-    Axios.post(`/api/posts/delete/${id}`);
-    this.setState({
-      posts: this.state.posts.filter(post => post.id !== id)
-    })
-  }
-
 
   render() {
-    const {loading, posts} = this.state;
+    const {loading} = this.state;
+    const { myPosts} = this.props
     if (!this.props.isAuthenticated) {
       return (<Redirect to='/signIn' />);
     }
@@ -54,16 +39,16 @@ class Posts extends Component {
     return (
       <div className="App" style={Styles.wrapper}>
         <h1> Posts </h1>
-        <PostList DeletePost={this.onDelete} posts={posts}/>
+        <PostList posts={myPosts}/>
       </div>
     );
   }
 }
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.user.isAuthenticated
+  isAuthenticated: state.user.isAuthenticated,
+  myPosts: state.post.posts
 })
-const mapDispatchToProps = (dispatch) => ({
-  // newPost: (post) => dispatch(newPost(post)),
-  // DeletePost: (id) => dispatch( DeletePost(id))
+const mapDispatchToProps = (dispatch, state) => ({
+  GetPosts: () => dispatch( GetPosts())
 });
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Posts));
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Posts));

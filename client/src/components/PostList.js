@@ -11,7 +11,13 @@ const Styles = {
     padding:'20px'
   }
 }
-const PostList = ({ DeletePost, posts}) =>  {
+
+const PostList = ({DeletePost, posts}) => {
+  // Return a new function. Otherwise the DeletePost action will be dispatch each time the Component rerenders.
+  const removePost = (id) => () => {
+    DeletePost(id);
+  }
+
   return(
     <div>
     {posts.map( (post, i) => (
@@ -22,18 +28,25 @@ const PostList = ({ DeletePost, posts}) =>  {
         <Typography component="p">
           {post.post_content}
           <h5> by: {post.username}</h5>
-          <h5> {moment(post.createdAt).calendar()}</h5>
+         <Typography color="textSecondary">{moment(post.createdAt).calendar()}</Typography>
         </Typography>
         <Button 
           variant="outlined" 
           color="primary" 
           type="submit"
-          onClick={() => DeletePost(post.id)}>
+          // onClick={() => DeletePost(post.id)}
+           onClick={removePost(post.id)}>
           Remove
         </Button>
       </Paper>
      ))}
   </div>
   )
-  };
-export default PostList;
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  // Pass id to the DeletePost functions.
+  DeletePost: (id) => dispatch(DeletePost(id))
+});
+
+export default connect(null, mapDispatchToProps) (PostList);
