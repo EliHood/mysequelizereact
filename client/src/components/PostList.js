@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import {connect} from 'react-redux';
-import {DeletePost, UpdatePost} from '../actions/';
+import {DeletePost, UpdatePost,EditChange, DisableButton} from '../actions/';
 import PostItem from './PostItem';
 const Styles = {
     myPaper: {
@@ -16,8 +16,6 @@ class PostList extends Component{
     constructor(props){
         super(props);
         this.state ={
-            isEditing:false,
-            isEditingId:null,
             title: ''
         }
     }
@@ -31,34 +29,47 @@ class PostList extends Component{
         this.setState({
             title: e.target.value
         })
+        
+        
     }
-    
+
   
-    formEditing = (id) => ()=> {
-        this.setState({
-            isEditingId: id
-          });
+    formEditing = (id) => ()=> {;
+
+        this.props.EditChange(id);
     }
       
     render(){
-        const {posts, editForm, isEditing, editChange} = this.props;
+        const {posts} = this.props;
         return (
             <div>
                 {posts.map((post, i) => (
                     <Paper key={post.id} style={Styles.myPaper}>
                     {/* {...post} prevents us from writing all of the properties out */}
-                        <PostItem  myTitle={this.state.title} editChange={this.onChange} editForm={this.formEditing} isEditing={this.state.isEditingId === post.id} removePost={this.removePost} {...post} />
+                        <PostItem
+                             myTitle={this.state.title} 
+                             editChange={this.onChange} 
+                             editForm={this.formEditing} 
+                             isEditing={this.props.isEditingId === post.id} 
+                             removePost={this.removePost} 
+                             {...post} 
+                        />
                     </Paper>
                 ))}
             </div>
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+    isEditingId: state.post.isEditingId
+})
 const mapDispatchToProps = (dispatch) => ({
     // pass creds which can be called anything, but i just call it credentials but it should be called something more 
     // specific.
+    EditChange: (id) => dispatch(EditChange(id)),
     UpdatePost: (creds) => dispatch(UpdatePost(creds)),
     // Pass id to the DeletePost functions.
     DeletePost: (id) => dispatch(DeletePost(id))
 });
-export default connect(null, mapDispatchToProps)(PostList);
+export default connect(mapStateToProps, mapDispatchToProps)(PostList);

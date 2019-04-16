@@ -45,7 +45,7 @@ class PostItem extends Component{
                    <Typography variant="h6" component="h3">
                    {/* if else teneray operator */}
                    {isEditing ? (
-                       <Editable editField={myTitle ? myTitle : title} editChange={editChange}/>
+                          <Editable editField={myTitle ? myTitle : title} editChange={editChange}/>
                    ): (
                        <div>
                            {title}
@@ -62,26 +62,46 @@ class PostItem extends Component{
                        <Button variant="outlined" type="submit" onClick={editForm(id)}>
                            Edit
                        </Button>
-                   ):(
+                   ):(     
                        // pass id, and myTitle which as we remember myTitle is the new value when updating the title
-                       <Button   variant="outlined" onClick={this.onUpdate(id, myTitle)}>
-                           Update
-                       </Button>
+                        <div>
+                            <Button 
+                                disabled={myTitle.length <= 3}
+                                variant="outlined" 
+                                onClick={this.onUpdate(id, myTitle)}>
+                                Update
+                            </Button>
+                            <Button 
+                                variant="outlined" 
+                                style={{marginLeft: '0.7%'}}
+                                onClick={editForm(null)}>
+                                Close
+                            </Button>
+                        </div>
+                        
                    )}
-                   <Button
-                       style={{marginLeft: '0.7%'}}
-                       variant="outlined"
-                       color="primary"
-                       type="submit"
-                       onClick={removePost(id)}>
-                       Remove
-                   </Button>
+                   {!isEditing && (
+                    <Button
+                        style={{marginLeft: '0.7%'}}
+                        variant="outlined"
+                        color="primary"
+                        type="submit"
+                        onClick={removePost(id)}>
+                        Remove
+                    </Button>
+                    )}
            </div>
        )
         
     }
 
 }
+
+const mapStateToProps = (state) => ({
+
+})
+
+
 const mapDispatchToProps = (dispatch) => ({
     // pass creds which can be called anything, but i just call it credentials but it should be called something more 
     // specific.

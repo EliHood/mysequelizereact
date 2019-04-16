@@ -1,9 +1,11 @@
-import { POST_FAIL, GET_POSTS, EDIT_POST, POST_SUCC, DELETE_POST,UPDATE_POST} from '../actions/';
+import { POST_FAIL, GET_POSTS, EDIT_POST, DISABLED, EDIT_CHANGE, POST_SUCC, DELETE_POST,UPDATE_POST} from '../actions/';
 
 const initialState = {
     post: [],
     postError: null,
-    posts:[]
+    posts:[],
+    isEditing:false,
+    isEditingId:null,
 }
 
 export default (state = initialState, action) => {
@@ -35,6 +37,14 @@ export default (state = initialState, action) => {
                 ...state,
                 
             })
+        case EDIT_CHANGE:
+            // console.log(action.id)
+            return({
+                ...state,
+                isEditingId: action.id
+            })
+  
+            
         default:
             return state
     }

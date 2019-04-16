@@ -24,6 +24,8 @@ export const EDIT_POST = "EDIT_POST"
 export const GET_POSTS = "GET_POSTS";
 export const SET_POSTS = "SET_POSTS";
 export const UPDATE_POST = "UPDATE_POST";
+export const EDIT_CHANGE = "EDIT_CHANGE";
+export const DISABLED = "DISABLED";
 // Were using a custom Axios because the base url is consistent with the express server port 8000.
 // if we used "axios" it would use port:8001, which is consistent with the express server.
 export const logIn =  (user) => { 
@@ -79,6 +81,15 @@ export const UpdatePost =  (post) => {
                 history.push('/posts');
             });
     }
+}
+
+
+export const EditChange = (id) => {
+    return(dispatch) => {
+        dispatch({type: EDIT_CHANGE, id});
+        // console.log(id);
+    }
+ 
 }
 
 

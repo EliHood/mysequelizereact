@@ -53,7 +53,7 @@ const isAuthenticated = function(req, res, next){
    res.redirect('http://127.0.0.1:8001/signIn');
   }
 }
-
+// this code may be useless or useful, still trying to understand cors. 
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Credentials',  true);
@@ -70,6 +70,11 @@ app.use(cors({
 }))
 app.use('/api/users', userRoute );
 app.use('/api/posts', postRoute );
+
+
+// In order to use REACT + EXPRESS we need the following code, alone with a build
+// in the client folder we run a npm run build in the client folder then it is referred
+// in the following code. 
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
