@@ -38,6 +38,22 @@ router.post('/delete/:id', (req, res) => {
     })
 });
 
+router.put('/edit/:id', (req, res) => {
+    const id = req.params.id;
+
+    console.log('this works' + id);
+    models.Post.update({
+        title: req.body.title
+    }, { where: {
+            id: id
+        }
+    }).then( (post)=> {
+        res.status(200).send('Post has been edited!' + post.title)
+    }).catch(err => {
+        res.status(401).send("Failed to edit");
+    })
+});
+
 
 
 router.post('/newPost' ,  (req, res, user) => {

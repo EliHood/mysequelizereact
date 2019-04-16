@@ -5,10 +5,8 @@ import {connect} from 'react-redux';
 import {newPost} from '../actions/';
 import { withRouter, Redirect} from 'react-router-dom';
 class Post extends Component {
-
     constructor(props) {
         super(props)
-
         this.state = {
             formData: {
                 title: "",
@@ -18,57 +16,40 @@ class Post extends Component {
             passErr: "",
             regSuccess: false
         }
-
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
     componentDidMount(){
         console.log(this.props.token);
     }
-
     handleChange = (e) => {
         e.preventDefault();
-
         const {formData} = this.state;
-
         this.setState({
             formData: {
                 ...formData,
                 [e.target.name]: e.target.value
             }
         });
-
     }
-
     handleSubmit = (e) => {
         e.preventDefault();
-
         const {formData} = this.state;
         const {title, postContent} = formData;
         this.setState({title: this.state.title, postContent: this.state.postContent});
-
         const creds = {
             title,
             postContent
         }
-
-        this
-            .props
-            .newPost(creds);
+        this.props.newPost(creds);
         console.log(creds);
     }
-
     render() {
-  
         if (!this.props.isAuthenticated) {
             return (<Redirect to='/signIn' />);
         }
         return (
-            <div style={{
-                padding: '20px 100px'
-            }}>
-
+            <div style={{padding: '20px 100px'}}>
                 {this.props.error && (
                     <div style={{
                         color: 'red'
@@ -76,7 +57,6 @@ class Post extends Component {
                         {this.props.error}
                     </div>
                 )}
-
                 {this.state.passErr && (
                     <div style={{
                         color: 'red'
@@ -84,11 +64,8 @@ class Post extends Component {
                         {this.state.passErr}
                     </div>
                 )}
-
                 <h1>New Post</h1>
-
                 <form onSubmit={this.handleSubmit}>
-
                     <TextField
                         id="outlined-name"
                         label="Title"
@@ -117,29 +94,20 @@ class Post extends Component {
                         variant="outlined"/>
                     <br></br>
                     <br></br>
-
                     <Button variant="outlined" color="primary" type="submit">
                         Submit
                     </Button>
-
                 </form>
-
             </div>
-
         );
     }
-
 }
-
 const mapStateToProps = (state) => ({
     token: state.user.getToken, 
     error: state.post.postError,
     isAuthenticated: state.user.isAuthenticated
 })
-
 const mapDispatchToProps = (dispatch) => ({
     newPost: (post) => dispatch(newPost(post))
-
 });
-
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Post));

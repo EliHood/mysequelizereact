@@ -1,4 +1,4 @@
-import { POST_FAIL, GET_POSTS, POST_SUCC, DELETE_POST} from '../actions/';
+import { POST_FAIL, GET_POSTS, EDIT_POST, POST_SUCC, DELETE_POST,UPDATE_POST} from '../actions/';
 
 const initialState = {
     post: [],
@@ -26,8 +26,14 @@ export default (state = initialState, action) => {
             // console.log(state.posts) gets posts from posts initialState so we can iterate and delete post
             return ({
                 ...state,
-                // action.id refers to the id from the DeletePost Actions
+                // action.id refers to the id from the DeletePost Action
                posts: state.posts.filter(post => post.id !== action.id) 
+            })
+
+        case UPDATE_POST:
+            return({
+                ...state,
+                
             })
         default:
             return state

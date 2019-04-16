@@ -20,9 +20,10 @@ export const UPDATEPASS_FAIL = "UPDATEPASS_FAIL";
 export const GET_USER = "GET_USER";
 export const GET_CURRENT_USER = "GET_CURRENT_USER";
 export const DELETE_POST = "DELETE_POST"
+export const EDIT_POST = "EDIT_POST"
 export const GET_POSTS = "GET_POSTS";
 export const SET_POSTS = "SET_POSTS";
-export const UPDATE_POSTS = "UPDATE_POSTS";
+export const UPDATE_POST = "UPDATE_POST";
 // Were using a custom Axios because the base url is consistent with the express server port 8000.
 // if we used "axios" it would use port:8001, which is consistent with the express server.
 export const logIn =  (user) => { 
@@ -65,6 +66,22 @@ export const DeletePost =  (id) => {
             });
     }
 }
+
+
+export const UpdatePost =  (post) => {
+    // we will use post, to avoid using 2 paramters, post.id and post.title 
+    return (dispatch, getState) => {
+       return Axios.put(`/api/posts/edit/${post.id}`, {
+        // we need to know what were updating in this case where updating
+            title: post.title,
+         }).then( () => {
+                dispatch({type: UPDATE_POST, post});
+                history.push('/posts');
+            });
+    }
+}
+
+
 export const setCurrentUser = decoded => {
     return {
         type: GET_USER,

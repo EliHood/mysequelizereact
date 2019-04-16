@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PostList from './PostList';
-import Axios from '../Axios';
 import {connect} from 'react-redux';
 import { withRouter, Redirect} from 'react-router-dom';
 import {GetPosts} from '../actions/';
@@ -15,10 +14,11 @@ const Styles = {
     }
 }
 class Posts extends Component {
-    state = {
-      posts: [],
-      loading: true,
-    }
+  state = {
+    posts: [],
+    loading: true,
+    isEditing: false, 
+  }
   async componentWillMount(){
     await this.props.GetPosts();
     this.setState({ loading: false })
@@ -26,7 +26,7 @@ class Posts extends Component {
     const ourPosts = reduxPosts  
     console.log(reduxPosts); // shows posts line 35
   }
-
+  
   render() {
     const {loading} = this.state;
     const { myPosts} = this.props
