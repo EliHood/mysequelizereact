@@ -34,7 +34,7 @@ build/Release
 
 # Dependency directories
 node_modules/
-
+session.sqlite
 
 # TypeScript v1 declaration files
 typings/
