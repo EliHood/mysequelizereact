@@ -18,7 +18,7 @@
 ## Make Sequelize Database & Migrate, then npm start
 
 * `sequelize:db migrate`
-* `npm start`
+* `npm run startdev`
 
 
 ## Docker 

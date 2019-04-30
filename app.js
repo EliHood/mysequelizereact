@@ -1,21 +1,21 @@
-var express = require('express');
-var app = express();
-var userRoute = require('./routes/users');
-var postRoute  = require('./routes/posts');
-var bodyParser = require('body-parser');
-var logger = require('morgan');
-var session = require('express-session');
-var cookieParser = require('cookie-parser') ;
-var dotenv = require('dotenv');
-var env = dotenv.config();
-var cors = require('cors');
-var models = require('./models/');
+const express = require('express');
+const app = express();
+const userRoute = require('./routes/users');
+const postRoute  = require('./routes/posts');
+const bodyParser = require('body-parser');
+const logger = require('morgan');
+const session = require('express-session');
+const  cookieParser = require('cookie-parser') ;
+const dotenv = require('dotenv');
+const env = dotenv.config();
+const cors = require('cors');
+const models = require('./models/');
 const host = '0.0.0.0';
 const PORT = process.env.PORT || 8000;
 const passport = require('passport');
 const path = require('path');
 const Sequelize = require('sequelize');
-var SequelizeStore = require('connect-session-sequelize')(session.Store);
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 
 var sequelize = new Sequelize(
@@ -48,6 +48,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.use(cookieParser());
 
 
+// We need a store in order to save sessions, instead of the sessions clearing out on us :)
 app.use(session({
   store: myStore,
   resave: true,
@@ -84,6 +85,7 @@ app.use(cors({
 }))
 app.use('/api/users', userRoute );
 app.use('/api/posts', postRoute );
+
 // In order to use REACT + EXPRESS we need the following code, alone with a build
 // in the client folder we run a npm run build in the client folder then it is referred
 // in the following code. 
