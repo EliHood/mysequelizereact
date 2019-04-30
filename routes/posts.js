@@ -2,23 +2,22 @@ var express = require('express');
 var router = express.Router();
 var models = require( '../models/');
 const passport = require('passport');
-router.get('/myPosts',  (req, res) =>{
-    models.Post.findAll({ order:[ 
+const util = require('../util');
+const sequelize = require('sequelize');
+router.get('/myPosts',  async  (req, res) =>{
+   await models.Post.findAll({ 
+        include:[{
+            model:models.Likes,    
+        }],  
+        order:[ 
         ['createdAt', 'DESC'],
-        ], limit: 6 })
+        ], limit: 6 }, )
+      
        .then( (posts) =>{
            res.json(posts);
-        
+            
        })
 });
-const isAuthenticated = function(req, res, next){
-    if(req.isAuthenticated()){
-      next();
-      console.log('this works');
-    }else{
-      next( new Error(401));
-    }
-}
 router.get('/post', (req, res, user) => {
     console.log('post get found');
 });
@@ -54,9 +53,27 @@ router.put('/edit/:id', (req, res) => {
     })
 });
 
+router.post('/like', (req, res)=> {
+  
+    models.Likes.create({
+        postId: req.body.postId,
+        userId:  req.user.id,
+        like:true
+    }).then( () => {
+        res.status(200).send({
+            message: 'You have like this post',
+        });
+    }).catch( (err) => {
+        res.status(401).send({
+            message: "Something went wrong",
+            err: err
+        })
+    })
+
+})
 
 
-router.post('/newPost' ,  (req, res, user) => {
+router.post('/newPost', util.ensureAuthenticated ,  (req, res, user) => {
     const data = {
         title: req.body.title,
         post_content: req.body.post_content,

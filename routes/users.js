@@ -11,8 +11,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const BCRYPT_SALT_ROUNDS = 12;
 const bcrypt = require('bcrypt');
-var passportGitHub = require('../config/passport-github');
-// require('dotenv').config();
+require('dotenv').config();
 
 
 
@@ -79,18 +78,6 @@ router.get("/current_user", (req, res) => {
 router.get('/test', (req, res, next) => {
   res.status(200).send({message: "this works"});
 });
-router.get('/', async (req, res, next) =>{
-  if(req.isAuthenticated()) {
-
-      const user = await models.User.findAll();
-      res.json(user);
-      // res.status(200).send({ message: "users found", user:user});
-  } else{
-      res.status(401).send({ user: req.user, message: "log in again" });
-      // console.log("something went wrong")
-  }
-
-});
 
 
 
@@ -143,7 +130,11 @@ router.post('/loginUser',  passport.authenticate('login', {session: true}), (req
           },
         }).then(user => {
           const token = jwt.sign({ id: user.id  }, process.env.JWT_SECRET);
-          res.cookie("jwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
+          // res.cookie("jwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
+          jwt.verify(token, process.env.JWT_SECRET, function(err, data){
+            console.log(err, data);
+          })
+          
           res.status(200).send({
 
             auth: true,

@@ -5,23 +5,13 @@ const bcrypt = require('bcrypt'),
       Sequelize = require('sequelize'),
       Op = Sequelize.Op,
       models = require( '../models/'),
-      localStrategy = require('passport-local').Strategy,
-      passport = require("passport");
+      localStrategy = require('passport-local').Strategy;
+      // passport = require("passport");
 
 // serialize session, only store user id in the session information
-  passport.serializeUser(function(user, done) {
-    done(null, user.id);
-  });
+  
 
-  // from the user id, figure out who the user is...
-  passport.deserializeUser(function(id, done){
-    models.User.findOne({
-      where: {
-        id,
-      },
-    }).then(user => done(null, user))
-    .catch(done);
-  });
+module.exports = async (passport) => {
 
   passport.use(
     'register',
@@ -77,7 +67,7 @@ passport.use(
     {
       usernameField: 'username',
       passwordField: 'password',
-      session: false
+      session: false,
     },
     (username, password, done, req) => {
       try {
@@ -148,4 +138,19 @@ passport.use(
   }),
 );
 
-module.exports = passport
+passport.serializeUser(function(user, done) {
+   done(null, user.id);
+   console.log(user.id); // gets user id
+});
+
+// from the user id, figure out who the user is...
+passport.deserializeUser(function(id, done){
+  models.User.findOne({
+    where: {
+      id,
+    },
+  }).then(user => done(null, user))
+  .catch(done);
+});
+
+}

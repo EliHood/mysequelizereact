@@ -1,4 +1,4 @@
-import { POST_FAIL, GET_POSTS, EDIT_POST, DISABLED, EDIT_CHANGE, POST_SUCC, DELETE_POST,UPDATE_POST} from '../actions/';
+import { POST_FAIL, GET_POSTS, EDIT_POST, DISABLED,  ADD_LIKE, GET_LIKES_COUNT, EDIT_CHANGE, POST_SUCC, DELETE_POST,UPDATE_POST} from '../actions/';
 
 const initialState = {
     post: [],
@@ -6,6 +6,9 @@ const initialState = {
     posts:[],
     isEditing:false,
     isEditingId:null,
+    likes:[],
+    someLike:[],
+    postId:null
 }
 
 export default (state = initialState, action) => {
@@ -22,8 +25,21 @@ export default (state = initialState, action) => {
                 postError: action.err.response.data
             })
         case GET_POSTS:
-            // console.log(action.data)
-            return {...state, posts: action.data}
+        console.log(action.data)
+        // console.log(action.id)
+        //  const owl =  action.data.filter((post) => action.id.includes(post.id)).map((a) => {
+        //     return { postlikes: a.Likes.length }
+        // })
+        // console.log(owl)
+        // const filtered = action.data.filter((post) => action.id.includes(post.id))
+        const filtered = action.data.filter((post) => action.id.includes(post.id))
+        // console.log( filtered.map((post) => post.Likes.length))
+            return {
+                ...state, 
+                posts: action.data, // maps posts fine,
+                likes: filtered.map((post) => post.Likes.length)
+
+        }
         case DELETE_POST:
             // console.log(state.posts) gets posts from posts initialState so we can iterate and delete post
             return ({
@@ -37,6 +53,7 @@ export default (state = initialState, action) => {
                 ...state,
                 
             })
+
         case EDIT_CHANGE:
             // console.log(action.id)
             return({
@@ -44,7 +61,12 @@ export default (state = initialState, action) => {
                 isEditingId: action.id
             })
   
-            
+        case ADD_LIKE:
+            const newState = {...state};  // here I am trying to shallow  copy the existing state;
+            const existingLikesOfPost = newState.posts.find(post => post.id === action.id).Likes;
+            newState.posts.find(post => post.id === action.id).Likes = [...existingLikesOfPost, action.newLikeObject]; // using this approach I got some code duplication so I suggested the first approach of using **push** method of array.
+            // console.log(newState)
+            return newState    
         default:
             return state
     }

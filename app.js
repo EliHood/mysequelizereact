@@ -29,30 +29,22 @@ if (!process.env.PORT) {
   console.log(`[api][port] ${process.env.PORT}`)
   console.log(`[api][header] Access-Control-Allow-Origin: ${process.env.ALLOW_ORIGIN}`)
 }
-require('./config/passport-github');
-require('./config/passport');
+
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(cookieParser());
 app.use(session({
   secret : process.env.JWT_SECRET,
-  saveUninitialized: false,
-  maxAge: 1000 * 60 * 60 * 84,
-  resave: false
 }));
+
+require('./config/passport.js')(passport); // PASSPORT Init
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(bodyParser.json());
+
+
 app.use(bodyParser.urlencoded({ extended:false})); 
-const isAuthenticated = function(req, res, next){
-  if(req.isAuthenticated()){
-    next();
-    console.log('this works');
-  }else{
-   res.redirect('http://127.0.0.1:8001/signIn');
-  }
-}
+app.use(bodyParser.json());
 // this code may be useless or useful, still trying to understand cors. 
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -62,15 +54,17 @@ app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
 });
+
+
 app.use(cors({
   origin: process.env.ALLOW_ORIGIN,
-  credentials: false,
+  credentials: true,
   allowedHeaders: 'X-Requested-With, Content-Type, Authorization',
   methods: 'GET, POST, PATCH, PUT, POST, DELETE, OPTIONS'
 }))
+
 app.use('/api/users', userRoute );
 app.use('/api/posts', postRoute );
-
 
 // In order to use REACT + EXPRESS we need the following code, alone with a build
 // in the client folder we run a npm run build in the client folder then it is referred
@@ -92,7 +86,6 @@ app.get('*', (req, res) => {
 
 
 
-
 app.use(function(req, res, next) {
   res.locals.user = req.user; // This is the important line
   // req.session.user = user
@@ -102,10 +95,10 @@ app.use(function(req, res, next) {
 
 
 
+models.sequelize.sync().then(function() {
 
+  app.listen(PORT, host, () => {
+    console.log('[api][listen] http://localhost:' + PORT)
+  })
 
-app.listen(PORT, host, () => {
-  console.log('[api][listen] http://localhost:' + PORT)
 })
-
-

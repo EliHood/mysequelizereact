@@ -5,7 +5,9 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import Editable from './Editable';
 import {connect} from 'react-redux';
-import {UpdatePost} from '../actions/';
+import {UpdatePost, postLike, getCount} from '../actions/';
+import Like from './Like';
+import Axios from '../Axios';
 const Styles = {
     myPaper: {
         margin: '20px 0px',
@@ -15,19 +17,17 @@ const Styles = {
         marginRight:'30px'
     }
 }
-
-
 class PostItem extends Component{
-
     constructor(props){
         super(props);
-
         this.state = {
             disabled: false,
+            myId: 0,
+            likes:0
         }
     }
 
-
+ 
     onUpdate = (id, title) => () => {
         // we need the id so expres knows what post to update, and the title being that only editing the title. 
         if(this.props.myTitle !== null){
@@ -36,10 +36,10 @@ class PostItem extends Component{
             }
             this.props.UpdatePost(creds); 
         }
-       
     }
+
     render(){
-        const {title, id, removePost, createdAt, post_content, username, editForm, isEditing, editChange, myTitle, postUpdate} = this.props
+        const {title, id, userId, removePost, createdAt, post_content, username, editForm, isEditing, editChange, myTitle, postUpdate, Likes, clickLike, myLikes} = this.props
         return(
             <div>
                    <Typography variant="h6" component="h3">
@@ -52,11 +52,13 @@ class PostItem extends Component{
                        </div>    
                    )}         
                    </Typography>
-                   <Typography component="p">
+                   <Typography  component={'span'} variant={'body2'}>
                        {post_content}
-                       <h5>
-                           by: {username}</h5>
-                       <Typography color="textSecondary">{moment(createdAt).calendar()}</Typography>
+                       <h5>by: {username} </h5>
+                       {/*  component span cancels out the cant be a decedent of error */}
+                       <Typography  component={'span'} variant={'body2'} color="textSecondary">{moment(createdAt).calendar()}</Typography>
+                      {/* likes get like counts */}
+                       <Like like={id} likes={myLikes} />
                    </Typography>
                    {!isEditing ? (
                        <Button variant="outlined" type="submit" onClick={editForm(id)}>
@@ -78,7 +80,6 @@ class PostItem extends Component{
                                 Close
                             </Button>
                         </div>
-                        
                    )}
                    {!isEditing && (
                     <Button
@@ -92,20 +93,18 @@ class PostItem extends Component{
                     )}
            </div>
        )
-        
     }
-
 }
-
 const mapStateToProps = (state) => ({
-
+    isEditingId: state.post.isEditingId,
+    // myLikes: state.post.likes
 })
-
-
 const mapDispatchToProps = (dispatch) => ({
     // pass creds which can be called anything, but i just call it credentials but it should be called something more 
     // specific.
     UpdatePost: (creds) => dispatch(UpdatePost(creds)),
+    postLike: (id) => dispatch( postLike(id)),
+ 
     // Pass id to the DeletePost functions.
 });
-export default connect(null, mapDispatchToProps)(PostItem);
+export default connect(mapStateToProps, mapDispatchToProps)(PostItem);

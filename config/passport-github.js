@@ -7,6 +7,7 @@ const models = require("../models/");
 passport.serializeUser((user, done) => {
   // push to session
   done(null, user.id);
+  console.log(user.id)
 });
 
 

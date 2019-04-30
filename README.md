@@ -6,15 +6,16 @@
 * Express
 * React
 * Redux
-* Chai & Mocha for current unit testing
+* Chai & Mocha for current unit testing(coming soon)
 
 
 
-##### Passport Github has been temporaliy removed until log in functionality is fixed. 
+##### Passport Github has been temporaliy removed until log in functionality is fixed. Some authentication issues that are being worked on
 
 
-## Run Localy Make Sequelize Database
+## Make Sequelize Database & Migrate, then npm start
 
+* `sequelize:db migrate`
 * `npm start`
 
 

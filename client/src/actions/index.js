@@ -26,6 +26,8 @@ export const SET_POSTS = "SET_POSTS";
 export const UPDATE_POST = "UPDATE_POST";
 export const EDIT_CHANGE = "EDIT_CHANGE";
 export const DISABLED = "DISABLED";
+export const ADD_LIKE = "ADD_LIKE";
+export const GET_LIKES_COUNT = "GET_LIKES_COUNT";
 // Were using a custom Axios because the base url is consistent with the express server port 8000.
 // if we used "axios" it would use port:8001, which is consistent with the express server.
 export const logIn =  (user) => { 
@@ -46,19 +48,29 @@ export const logIn =  (user) => {
     }
 }
 
+
+export const getCount = (count) => {
+    return (dispatch) => {
+       dispatch({type: GET_LIKES_COUNT, count})
+    }
+
+   
+}
+
 export const GetPosts = () => {
     return (dispatch, getState) => {
         return Axios.get('/api/posts/myPosts')
             .then( (res) => {
                  const data = res.data
-                 
-                 console.log(data); // logs data and i can see an array 
-              
-                 dispatch({type: GET_POSTS, data})
+                 const id = data.map( (post) => post.id)  // gets posts id [5,3]
+                 dispatch({type: GET_POSTS, data, id})
              })
        
     }
 }
+
+
+
 export const DeletePost =  (id) => { 
     return (dispatch, getState) => {
        return Axios.post(`/api/posts/delete/${id}`)
@@ -68,6 +80,34 @@ export const DeletePost =  (id) => {
             });
     }
 }
+
+export const postLike = (id) => {
+    return (dispatch) => {
+        // console.log(userId);
+        return Axios.post('/api/posts/like', {
+            postId: id
+        }).then( (like) => {
+
+            dispatch({type: ADD_LIKE, id})
+                // console.log('you have liked this', like)
+        }).catch( (err)=> {
+                console.log('there seem to be an error', err);
+        })
+        
+    }
+}
+
+// export const getLikeCount = (id) => {
+//     return (dispatch, getState) => {
+//         return Axios.get(`/api/posts/likes/count/${id}`)
+//             .then( (res) => {
+//                  const data = res.data
+//                 //  console.log(data); // logs like counts 
+//                  dispatch({type: GET_LIKES_COUNT,id, data})
+//              })
+       
+//     }
+// }
 
 
 export const UpdatePost =  (post) => {

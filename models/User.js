@@ -12,11 +12,10 @@ const User = (sequelize, DataTypes) => {
   myUser.associate = function(models) {
 
     myUser.hasMany(models.Post, { foreignKey: 'userId', as:'users' });
+    myUser.hasMany(models.Likes, {foreignKey: 'postId', as:'likes' });
   };
 
   return myUser;
 };
 
 module.exports = User;
-
-

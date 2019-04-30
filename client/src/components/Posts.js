@@ -15,40 +15,25 @@ const Styles = {
 }
 class Posts extends Component {
   state = {
-    posts: [],
-    loading: true,
-    isEditing: false, 
+
   }
-  async componentWillMount(){
-    await this.props.GetPosts();
-    this.setState({ loading: false })
-    const reduxPosts = this.props.myPosts;
-    const ourPosts = reduxPosts  
-    console.log(reduxPosts); // shows posts line 35
-  }
-  
+
   render() {
-    const {loading} = this.state;
-    const { myPosts} = this.props
     if (!this.props.isAuthenticated) {
       return (<Redirect to='/signIn' />);
     }
-    if(loading){
-      return "loading..."
-    }
+ 
     return (
       <div className="App" style={Styles.wrapper}>
         <h1> Posts </h1>
-        <PostList posts={myPosts}/>
+        <PostList />
       </div>
     );
   }
 }
 const mapStateToProps = (state) => ({
   isAuthenticated: state.user.isAuthenticated,
-  myPosts: state.post.posts
+
 })
-const mapDispatchToProps = (dispatch, state) => ({
-  GetPosts: () => dispatch( GetPosts())
-});
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Posts));
+
+export default connect(mapStateToProps)(Posts);

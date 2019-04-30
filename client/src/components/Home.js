@@ -42,8 +42,8 @@ class Home extends Component {
         }
         return (
             <div className={classes.root}>
-                <Grid container justify="center" spacing={44}>
-                    <Grid item sm={7}>
+                <Grid container justify="center" spacing={12}>
+                    <Grid item sm={6}>
                         <Paper className={classes.paper}>
                             <h1>Sign Up</h1>
                             <Chip

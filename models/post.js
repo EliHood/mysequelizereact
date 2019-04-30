@@ -6,6 +6,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Post.associate = function(models) {
     Post.belongsTo(models.User, {  foreignKey: 'userId',  targetKey: 'id' });
+    // foreign key id will attach a postId to the likes table. 
+    Post.hasMany(models.Likes, {  foreignKey: 'postId', targetKey: 'id',  onDelete: 'CASCADE' });
   };
   return Post;
 };

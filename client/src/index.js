@@ -10,7 +10,6 @@ import rootReducer from './reducers';
 import { Provider } from 'react-redux';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 // import indigo from '@material-ui/core/colors/indigo';
-
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -20,12 +19,17 @@ const theme = createMuiTheme({
     secondary: {
       main: '#9fa8da',
     },
+    typography: {
+      useNextVariants: true,
+      suppressDeprecationWarnings: true,
+    },
   },
 });
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
-const store = createStoreWithMiddleware(rootReducer);
+const store = createStoreWithMiddleware(rootReducer,  window.__REDUX_DEVTOOLS_EXTENSION__ && 
+  window.__REDUX_DEVTOOLS_EXTENSION__());
 
 ReactDOM.render(
 <Provider store={store}>   

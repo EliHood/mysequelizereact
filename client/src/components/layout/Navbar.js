@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Link} from "react-router-dom";
+import {BrowserRouter as Router, Route, Link, Switch} from "react-router-dom";
 import signUp from '../auth/signUp';
 import signIn from '../auth/signIn';
 import Post from '../Post';
@@ -45,7 +45,7 @@ const logout = (e) => {
 
 const Navbar = ({classes, isAuthenticated}) => (
 
-    <Router history={history}>
+<Router history={history}>
 
         <div className={classes.navRoot}>
 
@@ -126,7 +126,7 @@ const Navbar = ({classes, isAuthenticated}) => (
 
                 </Toolbar>
             </AppBar>
-
+            <Switch>
             <Route exact path="/signUp" component={signUp}/>
             <Route exact path="/" component={Home}/>
             <Route exact path="/signIn" component={signIn}/>
@@ -139,8 +139,9 @@ const Navbar = ({classes, isAuthenticated}) => (
             <Route path="/test"/>
             <Route path="/reset/:token" component={ResetPassword}/>
             <Route exact path="/updatePassword/:username" component={updatePassword}/>
+            </Switch>
         </div>
-    </Router>
+ </Router>
 
 );
 
