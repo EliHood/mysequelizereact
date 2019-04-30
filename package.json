@@ -21,6 +21,8 @@
     "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
     "concurrently": "^4.1.0",
+    "connect-pg-simple": "^5.0.0",
+    "connect-session-sequelize": "^6.0.0",
     "cookie-parser": "^1.4.3",
     "cookie-session": "^2.0.0-beta.3",
     "cors": "^2.8.5",
@@ -39,10 +41,12 @@
     "passport-github2": "^0.1.11",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "pg": "7.9.0",
+    "pg": "^7.9.0",
     "pg-hstore": "^2.3.2",
+    "pg-pool": "^2.0.6",
     "sequelize": "^4.42.0",
-    "sequelize-cli": "^5.4.0"
+    "sequelize-cli": "^5.4.0",
+    "sqlite3": "^4.0.6"
   },
   "devDependencies": {
     "chai": "^4.2.0",

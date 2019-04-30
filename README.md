@@ -9,8 +9,10 @@
 * Chai & Mocha for current unit testing(coming soon)
 
 
+#### Update
+* Use of Session Store(so sessions can be saved, instead of clearing out when making code changes)
 
-##### Passport Github has been temporaliy removed until log in functionality is fixed. Some authentication issues that are being worked on
+##### Passport Github has been temporaliy removed until log in functionality is fixed. 
 
 
 ## Make Sequelize Database & Migrate, then npm start

@@ -14,8 +14,22 @@ const host = '0.0.0.0';
 const PORT = process.env.PORT || 8000;
 const passport = require('passport');
 const path = require('path');
-// const allowOrigin = process.env.ALLOW_ORIGIN || '*'
-// CORS Middleware
+const Sequelize = require('sequelize');
+var SequelizeStore = require('connect-session-sequelize')(session.Store);
+
+
+var sequelize = new Sequelize(
+  process.env.POSTGRES_DB, 
+  process.env.POSTGRES_USER, 
+  process.env.POSTGRES_PASSWORD,{
+    "dialect": "sqlite",
+    "storage": "./session.sqlite"
+});
+
+myStore = new SequelizeStore({
+  db:sequelize,
+})
+
 if (!process.env.PORT) {
   require('dotenv').config()
 }
@@ -32,9 +46,17 @@ app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(cookieParser());
+
+
 app.use(session({
+  store: myStore,
+  resave: true,
+  saveUninitialized: true,
   secret : process.env.JWT_SECRET,
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },  // 30 days
 }));
+
+myStore.sync();
 require('./config/passport.js')(passport); // PASSPORT Init
 app.use(passport.initialize());
 app.use(passport.session());

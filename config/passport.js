@@ -19,7 +19,7 @@ module.exports = async (passport) => {
       {
         usernameField: 'username',
         passwordField: 'password',
-        passReqToCallback: true,
+        // passReqToCallback: true,
         session: false,
       },
       (req, username, password, done) => {
