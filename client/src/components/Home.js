@@ -9,8 +9,8 @@ import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {Redirect} from 'react-router-dom';
 import ourStyles from '../styles/ourStyles';
-import github from './github/github';
 import Axios from '../Axios';
+import Button from '@material-ui/core/Button';
 import { history } from '../components/layout/Navbar';
 class Home extends Component {
       state = {
@@ -19,22 +19,8 @@ class Home extends Component {
       }
         
     
-    componentWillMount = () => {
-        // this.fetchData();
-    }
-    fetchData = () => {
-        // experiementing not actually anything useful.
-        fetch(process.env.REACT_APP_BASE_GITHUB_SIGNIN, { 
-            method: "GET",
-            mode: 'cors'
-            })
-            .then( (res)=> {
-                console.log(res)
-                // history.push('/dashboard')   
-            })
-            .catch( (err) => {
-            })
-    }
+   
+ 
     render() {
         const {classes} = this.props;
         if (this.props.isAuthenticated) {
@@ -42,18 +28,13 @@ class Home extends Component {
         }
         return (
             <div className={classes.root}>
-                <Grid container justify="center" spacing={12}>
+            
+                <Grid container justify="center" spacing={16}>
                     <Grid item sm={6}>
                         <Paper className={classes.paper}>
                             <h1>Sign Up</h1>
-                            <Chip
-                                label="Sign In with Github"
-                                clickable
-                                onClick={this.fetchData}
-                                avatar={< Avatar alt = "Natacha" src = "https://avatars0.githubusercontent.com/u/9919?s=280&v=4" />}
-                                // href={process.env.REACT_APP_BASE_GITHUB_SIGNIN}
-                                component="a"
-                                className={classes.chip}/>
+                    
+
                             <Chip
                                 label="Sign Up with E-Mail"
                                 clickable
@@ -63,6 +44,7 @@ class Home extends Component {
                         </Paper>
                     </Grid>
                 </Grid>
+                
             </div>
         );
     }

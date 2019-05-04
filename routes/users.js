@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var models = require( '../models/');
-var flash = require('express-flash');
-var async = require('async');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
@@ -15,73 +13,25 @@ require('dotenv').config();
 
 
 
-router.get('/auth/github', passport.authenticate('github') );
-
-router.get('/auth/github/callback', 
-  passport.authenticate('github', { failureRedirect: '/'}),
-  function(req, res, done) {
-
-     console.log(`session ${req.session.passport.user} `); // renders the user id
-      const user = req.session.passport.user;
-        if(user){   
-          req.login(user, err => {
-            const data = {
-                id: req.session.passport.user   
-            };
-            models.User.findOne({
-              where: {
-                id: data.id,
-              },
-            }).then(user => {
-              const token = jwt.sign({ id: user.id  }, process.env.JWT_SECRET);
-              res.cookie("jwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
-              res.status(200).send({
-                auth: true,
-                token: token,
-                message: 'user found & logged in',
-              });
-            })
-          // res.cookie("jwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
-          // res.redirect('http://127.0.0.1:8001/dashboard')   
-        
-          });
-    
-        } else if(user == null) {
-            console.log(info.message);
-            res.status(403).send(info.message);
-        }
-  
-  });
-  
-
 router.get('/user', (req, res, next) => {
   // res.json(req.cookies);
   if(req.cookies.jwt || req.cookies.gwtjwt){
     res.status(200).send({ auth:true});
   }
-
   else{
     res.status(403).send({ auth: false});
   }
- 
 });
-
 router.get("/current_user", (req, res) => {
   if(req.user){
     res.status(200).send({ user: req.user});
   } else {
     res.json({ user:null})
   }
-  
 });
-
 router.get('/test', (req, res, next) => {
   res.status(200).send({message: "this works"});
 });
-
-
-
-
 router.post('/new', (req, res, next) => {
   passport.authenticate('register', (err, user, info) => {
     if (err) {
@@ -107,18 +57,15 @@ router.post('/new', (req, res, next) => {
             console.log('user created in db');
             res.status(200).send({ message: 'user created', token: token,  auth: true  });
           });
-     
       });
     }
   })(req, res, next);
 });
-
 router.post('/loginUser',  passport.authenticate('login', {session: true}), (req, res, next) => {
   passport.authenticate('login', (err, user, info) => {
     if (err) {
       console.log(err);
     }
-
     if (info != undefined) {
       console.log(info.message);
       res.status(401).send(info.message);
@@ -134,31 +81,21 @@ router.post('/loginUser',  passport.authenticate('login', {session: true}), (req
           jwt.verify(token, process.env.JWT_SECRET, function(err, data){
             console.log(err, data);
           })
-          
           res.status(200).send({
-
             auth: true,
             token: token,
             message: 'user found & logged in',
           });
           // console.log(req.user)
-
         });
       });
     }
   })(req, res, next);
 });
-
-
 router.get('/logout', function( req, res){
   req.logout();
   res.sendStatus(200);
- 
-
-
 });
-
-
 router.post('/forgotPassword', (req, res, next) => {
   if (req.body.email === '') {
     res.status(400).send('email required');
@@ -178,7 +115,6 @@ router.post('/forgotPassword', (req, res, next) => {
         resetPasswordToken: token,
         resetPasswordExpires: Date.now() + 360000,
       });
-
       const transporter = nodemailer.createTransport({
         service: 'SendGrid',
         auth: {
@@ -186,7 +122,6 @@ router.post('/forgotPassword', (req, res, next) => {
           pass:`${process.env.MAIL_PASS}`
         },
       });
-
       const mailOptions = {
         from: `${process.env.EMAIL}`,
         to: `${user.email}`,
@@ -197,9 +132,7 @@ router.post('/forgotPassword', (req, res, next) => {
           `http://localhost:3000/reset/${token}\n\n` +
           `If you did not request this, please ignore this email and your password will remain unchanged.\n`,
       };
-
       console.log('sending mail');
-
       transporter.sendMail(mailOptions, function(err, response) {
         if (err) {
           console.error('there was an error: ', err);
@@ -211,7 +144,6 @@ router.post('/forgotPassword', (req, res, next) => {
     }
   });
 });
-
 router.get('/reset', (req, res, next) => {
   models.User.findOne({
     where: {
@@ -232,7 +164,6 @@ router.get('/reset', (req, res, next) => {
     }
   });
 });
-
 router.put('/updatePassword', (req, res, next) => {
   passport.authenticate('jwt', { session: false }, (err, user, info) => {
     if (err) {
@@ -270,8 +201,6 @@ router.put('/updatePassword', (req, res, next) => {
     }
   })(req, res, next);
 });
-
-
 router.put('/updatePassword', (req, res, next) => {
   passport.authenticate('jwt', { session: false }, (err, user, info) => {
     if (err) {
@@ -309,7 +238,6 @@ router.put('/updatePassword', (req, res, next) => {
     }
   })(req, res, next);
 });
-
 router.get('/findUser', (req, res, next) => {
   passport.authenticate('jwt', { session: false }, (err, user, info) => {
     if (err) {
@@ -344,14 +272,12 @@ router.get('/findUser', (req, res, next) => {
     }
   })(req, res, next);
 });
-
 router.put('/updatePasswordViaEmail', (req, res, next) => {
   models.User.findOne({
     where: {
       username: req.body.username,
     },
   }).then(user => {
-
     if (req.body.password === '') {
       console.log('please enter email');
       res.status(401).send('enter an email');
@@ -374,14 +300,4 @@ router.put('/updatePasswordViaEmail', (req, res, next) => {
     } 
   });
 });
-
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) return next();
-
-  res.redirect('/signin');
-}
-
-
 module.exports = router;
-
-

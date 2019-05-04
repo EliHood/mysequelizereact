@@ -12,8 +12,6 @@
 #### Update
 * Use of Session Store(so sessions can be saved, instead of clearing out when making code changes)
 
-##### Passport Github has been temporaliy removed until log in functionality is fixed. 
-
 
 ## Make Sequelize Database & Migrate, then npm start
 

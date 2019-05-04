@@ -127,6 +127,7 @@ const Navbar = ({classes, isAuthenticated}) => (
                 </Toolbar>
             </AppBar>
             <Switch>
+            <Route exact path="/github" />
             <Route exact path="/signUp" component={signUp}/>
             <Route exact path="/" component={Home}/>
             <Route exact path="/signIn" component={signIn}/>

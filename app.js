@@ -16,8 +16,16 @@ const passport = require('passport');
 const path = require('path');
 const Sequelize = require('sequelize');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const proxy = require('express-http-proxy');
 
 
+app.use(cors({
+  origin: process.env.ALLOW_ORIGIN,
+  credentials: true,
+  allowedHeaders: 'X-Requested-With, Content-Type, Authorization',
+  methods: 'GET, POST, PATCH, PUT, POST, DELETE, OPTIONS',
+  exposedHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
+}))
 var sequelize = new Sequelize(
   process.env.POSTGRES_DB, 
   process.env.POSTGRES_USER, 
@@ -45,44 +53,39 @@ if (!process.env.PORT) {
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'build')));
-app.use(cookieParser());
+
 
 
 // We need a store in order to save sessions, instead of the sessions clearing out on us :)
+
+require('./config/passport')(passport); // PASSPORT Init
+app.use(cookieParser());
+app.use(bodyParser.json());
+
+
 app.use(session({
   store: myStore,
-  resave: true,
-  saveUninitialized: true,
+  saveUninitialized: false,
+  resave:false,
+  cookie: {   maxAge: 30 * 24 * 60 * 60 * 1000 },  // 30 days
   secret : process.env.JWT_SECRET,
-  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },  // 30 days
+  
 }));
-
-myStore.sync();
-require('./config/passport.js')(passport); // PASSPORT Init
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(bodyParser.urlencoded({ extended:false})); 
-app.use(bodyParser.json());
 app.use(function(req, res, next) {
   res.locals.user = req.user; // This is the important line
   // req.session.user = user
   console.log(res.locals.user);
   next();
 });
+
+myStore.sync();
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(bodyParser.urlencoded({ extended:false})); 
+
 // this code may be useless or useful, still trying to understand cors. 
-app.use((req, res, next) => {
-  const { headers } = req;
-  res.header('Access-Control-Allow-Origin', headers.origin);
-  res.header('Access-Control-Allow-Headers', headers);
-  res.header('Access-Control-Allow-Credentials', true);
-  next();
-});
-app.use(cors({
-  origin: process.env.ALLOW_ORIGIN,
-  credentials: true,
-  allowedHeaders: 'X-Requested-With, Content-Type, Authorization',
-  methods: 'GET, POST, PATCH, PUT, POST, DELETE, OPTIONS'
-}))
+
 app.use('/api/users', userRoute );
 app.use('/api/posts', postRoute );
 
