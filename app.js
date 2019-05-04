@@ -16,8 +16,7 @@ const passport = require('passport');
 const path = require('path');
 const Sequelize = require('sequelize');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const proxy = require('express-http-proxy');
-
+const util = require('./util');
 
 app.use(cors({
   origin: process.env.ALLOW_ORIGIN,
@@ -87,7 +86,7 @@ app.use(bodyParser.urlencoded({ extended:false}));
 // this code may be useless or useful, still trying to understand cors. 
 
 app.use('/api/users', userRoute );
-app.use('/api/posts', postRoute );
+app.use('/api/posts', util.ensureAuthenticated,  postRoute );
 
 // In order to use REACT + EXPRESS we need the following code, alone with a build
 // in the client folder we run a npm run build in the client folder then it is referred

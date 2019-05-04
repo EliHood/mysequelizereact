@@ -9,6 +9,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const BCRYPT_SALT_ROUNDS = 12;
 const bcrypt = require('bcrypt');
+
 require('dotenv').config();
 
 

@@ -4,6 +4,7 @@ var models = require( '../models/');
 const passport = require('passport');
 const util = require('../util');
 const sequelize = require('sequelize');
+
 router.get('/myPosts',  async  (req, res) =>{
    await models.Post.findAll({ 
         include:[{
@@ -73,7 +74,7 @@ router.post('/like', (req, res)=> {
 })
 
 
-router.post('/newPost', util.ensureAuthenticated ,  (req, res, user) => {
+router.post('/newPost',  (req, res, user) => {
     const data = {
         title: req.body.title,
         post_content: req.body.post_content,
