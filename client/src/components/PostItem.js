@@ -28,6 +28,8 @@ class PostItem extends Component{
         }
     }
 
+ 
+
     render(){
         const {title, id, userId, removePost, createdAt, post_content, username, editForm, isEditing, editChange, myTitle, myLikes} = this.props
         return(
@@ -51,8 +53,41 @@ class PostItem extends Component{
                       {/* likes get like counts */}
                        <Like like={id} likes={myLikes} />
                    </Typography>
+                    {/* if current user doesnt equal user id equal to the userId from the posts... user will not edit that post
+                        in a nutshell, you cant edit other peoples post.
+                    */}
+                   {this.props.current_user.user.id === userId ? (
+                    <span>
 
-                   {!isEditing && this.props.current_user.id !== userId ? (
+                    {!isEditing  ? (
+                       <Button variant="outlined" type="submit" onClick={editForm(id)}>
+                           Edit
+                       </Button>
+                     ):(     
+                       // pass id, and myTitle which as we remember myTitle is the new value when updating the title
+                        <span>
+                            <Button 
+                                disabled={myTitle.length <= 3}
+                                variant="outlined" 
+                                onClick={this.onUpdate(id, myTitle)}>
+                                Update
+                            </Button>
+                            <Button 
+                                variant="outlined" 
+                                style={{marginLeft: '0.7%'}}
+                                onClick={editForm(null)}>
+                                Close
+                            </Button>
+                        </span>
+                   )}        
+                    </span>
+                   ) : (
+                       <div>
+                            {null}
+                         </div>
+                   )}
+
+                   {/* {!isEditing  ? (
                        <Button variant="outlined" type="submit" onClick={editForm(id)}>
                            Edit
                        </Button>
@@ -72,7 +107,7 @@ class PostItem extends Component{
                                 Close
                             </Button>
                         </div>
-                   )}
+                   )} */}
                    {!isEditing && (
                     <Button
                         style={{marginLeft: '0.7%'}}
