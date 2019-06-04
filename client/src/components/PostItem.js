@@ -16,8 +16,6 @@ class PostItem extends Component{
             likes:0
         }
     }
-
- 
     onUpdate = (id, title) => () => {
         // we need the id so expres knows what post to update, and the title being that only editing the title. 
         if(this.props.myTitle !== null){
@@ -27,16 +25,12 @@ class PostItem extends Component{
             this.props.UpdatePost(creds); 
         }
     }
-
- 
-
     render(){
         const {title, id, userId, removePost, createdAt, post_content, username, editForm, isEditing, editChange, myTitle, myLikes} = this.props
         return(
             <div>
                    <Typography variant="h6" component="h3">
                    {/* if else teneray operator */}
-                
                    {isEditing ? (
                           <Editable editField={myTitle ? myTitle : title} editChange={editChange}/>
                    ): (
@@ -58,7 +52,6 @@ class PostItem extends Component{
                     */}
                    {this.props.current_user.user.id === userId ? (
                     <span>
-
                     {!isEditing  ? (
                        <Button variant="outlined" type="submit" onClick={editForm(id)}>
                            Edit
@@ -86,28 +79,6 @@ class PostItem extends Component{
                             {null}
                          </div>
                    )}
-
-                   {/* {!isEditing  ? (
-                       <Button variant="outlined" type="submit" onClick={editForm(id)}>
-                           Edit
-                       </Button>
-                   ):(     
-                       // pass id, and myTitle which as we remember myTitle is the new value when updating the title
-                        <div>
-                            <Button 
-                                disabled={myTitle.length <= 3}
-                                variant="outlined" 
-                                onClick={this.onUpdate(id, myTitle)}>
-                                Update
-                            </Button>
-                            <Button 
-                                variant="outlined" 
-                                style={{marginLeft: '0.7%'}}
-                                onClick={editForm(null)}>
-                                Close
-                            </Button>
-                        </div>
-                   )} */}
                    {!isEditing && (
                     <Button
                         style={{marginLeft: '0.7%'}}
@@ -133,7 +104,6 @@ const mapDispatchToProps = (dispatch) => ({
     // specific.
     UpdatePost: (creds) => dispatch(UpdatePost(creds)),
     postLike: (id) => dispatch( postLike(id)),
- 
     // Pass id to the DeletePost functions.
 });
 export default connect(mapStateToProps, mapDispatchToProps)(PostItem);
