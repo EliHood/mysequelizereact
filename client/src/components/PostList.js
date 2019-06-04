@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import moment from 'moment';
 import {connect} from 'react-redux';
-import { withRouter, Redirect} from 'react-router-dom';
-import {DeletePost, postLike, UpdatePost,EditChange, GetPosts, getCount, DisableButton} from '../actions/';
+import { withRouter} from 'react-router-dom';
+import {DeletePost, postLike, UpdatePost,EditChange, GetPosts} from '../actions/';
 import PostItem from './PostItem';
-import _ from 'lodash';
 const Styles = {
     myPaper: {
         margin: '20px 0px',
@@ -57,7 +53,7 @@ class PostList extends Component{
         this.props.EditChange(id);
     }
     render(){
-        const { posts, loading} = this.state;
+        const {loading} = this.state;
          
         // console.log(this.props.posts)
         // console.log(this.props.ourLikes);

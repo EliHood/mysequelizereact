@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PostList from './PostList';
 import {connect} from 'react-redux';
-import { withRouter, Redirect} from 'react-router-dom';
-import {GetPosts} from '../actions/';
+import { Redirect} from 'react-router-dom';
 const Styles = {
     myPaper:{
       margin: '20px 0px',

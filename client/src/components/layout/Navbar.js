@@ -147,8 +147,6 @@ const Navbar = ({classes, isAuthenticated}) => (
 );
 
 const mapStateToProps = (state) => ({
-    token: state.user.getToken, githubAuth: state.user.githubAuth,
-    // owl: state.user.owl,
     isAuthenticated: state.user.isAuthenticated
 })
 

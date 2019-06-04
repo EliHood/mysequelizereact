@@ -109,7 +109,7 @@ class updatePassword extends Component {
   };
 
   render() {
-    const { username, password, updated, error, loadingUser } = this.state;
+    const {  password, updated, error, loadingUser } = this.state;
 
     if (error) {
       return (

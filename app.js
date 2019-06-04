@@ -18,13 +18,7 @@ const Sequelize = require('sequelize');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const util = require('./util');
 
-app.use(cors({
-  origin: process.env.ALLOW_ORIGIN,
-  credentials: true,
-  allowedHeaders: 'X-Requested-With, Content-Type, Authorization',
-  methods: 'GET, POST, PATCH, PUT, POST, DELETE, OPTIONS',
-  exposedHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
-}))
+
 var sequelize = new Sequelize(
   process.env.POSTGRES_DB, 
   process.env.POSTGRES_USER, 
@@ -56,8 +50,9 @@ app.use(express.static(path.join(__dirname, 'build')));
 
 
 // We need a store in order to save sessions, instead of the sessions clearing out on us :)
-
+// PASSPORT Init
 require('./config/passport')(passport); // PASSPORT Init
+// require('./config/passport-github')(passport); 
 app.use(cookieParser());
 app.use(bodyParser.json());
 
@@ -82,7 +77,13 @@ myStore.sync();
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.urlencoded({ extended:false})); 
-
+app.use(cors({
+  origin: process.env.ALLOW_ORIGIN,
+  credentials: true,
+  allowedHeaders: 'X-Requested-With, Content-Type, Authorization',
+  methods: 'GET, POST, PATCH, PUT, POST, DELETE, OPTIONS',
+  exposedHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
+}))
 // this code may be useless or useful, still trying to understand cors. 
 
 app.use('/api/users', userRoute );

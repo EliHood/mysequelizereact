@@ -2,24 +2,17 @@ import React, {Component} from 'react';
 // import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Avatar from '@material-ui/core/Avatar';
 import {withStyles} from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {Redirect} from 'react-router-dom';
 import ourStyles from '../styles/ourStyles';
-import Axios from '../Axios';
-import Button from '@material-ui/core/Button';
-import { history } from '../components/layout/Navbar';
 class Home extends Component {
       state = {
         user: ""
 
       }
-        
-    
-   
  
     render() {
         const {classes} = this.props;

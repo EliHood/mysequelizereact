@@ -11,7 +11,7 @@ const bcrypt = require('bcrypt'),
 // serialize session, only store user id in the session information
   
 
-module.exports = async (passport) => {
+module.exports =  async (passport) => {
 
   passport.use(
     'register',
@@ -19,7 +19,7 @@ module.exports = async (passport) => {
       {
         usernameField: 'username',
         passwordField: 'password',
-        // passReqToCallback: true,
+        passReqToCallback: true,
         session: false,
       },
       (req, username, password, done) => {

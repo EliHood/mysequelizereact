@@ -5,14 +5,7 @@ import Button from '@material-ui/core/Button';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import { updatePass, Reset} from '../../actions';
-const loading = {
-  margin: '1em',
-  fontSize: '24px',
-};
 
-const title = {
-  pageTitle: 'Password Reset Screen',
-};
 const Styles = {
   myPaper: {
       margin: '20px 0px',
@@ -117,7 +110,7 @@ async componentDidMount() {
   };
 
   render() {
-    const { password, error, isLoading, updated } = this.state;
+    const { password } = this.state;
 
   
       return (

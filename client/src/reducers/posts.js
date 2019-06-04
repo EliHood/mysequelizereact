@@ -1,4 +1,4 @@
-import { POST_FAIL, GET_POSTS, EDIT_POST, DISABLED,  ADD_LIKE, GET_LIKES_COUNT, EDIT_CHANGE, POST_SUCC, DELETE_POST,UPDATE_POST} from '../actions/';
+import { POST_FAIL, GET_POSTS,  ADD_LIKE, EDIT_CHANGE, POST_SUCC, DELETE_POST,UPDATE_POST} from '../actions/';
 
 const initialState = {
     post: [],

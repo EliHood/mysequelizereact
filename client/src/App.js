@@ -28,11 +28,15 @@ componentWillMount(){
     // // Set user and isAuthenticated
     this.props.setCurrentUser(decoded);
   }
-    // this.props.getUser();
-    // console.log(this.props.owl);
+    this.props.getUser();
+    console.log(this.props.current_user);
+}
+
+componentDidUpdate(){
+  // const currentUser = localStorage.getItem('myAuth');
+  console.log(this.props.current_user);
 }
   render() {
-    const { classes, isAuthenticated } = this.props;
     return (
       <div className="App">
         <Navbar />
@@ -42,7 +46,7 @@ componentWillMount(){
 }
 const mapStateToProps = (state) => ({
   isAuthenticated: state.user.isAuthenticated,
-  owl: state.user.owl
+  current_user: state.user.current_user
 })
 const mapDispatchToProps = (dispatch) => ({
   getUser: () => dispatch (getUser()),

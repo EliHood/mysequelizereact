@@ -38,7 +38,7 @@ class Forgot extends Component {
         this.props.Forget(creds);
     };
     render() {
-        const {email, messageFromServer, showNullError, showError} = this.state;
+        const {email} = this.state;
         return (
             <div className="App" style={Styles.wrapper}>
                 <h1> Forgot Password</h1>

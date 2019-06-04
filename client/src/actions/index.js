@@ -1,4 +1,4 @@
-import axios from 'axios';
+
 import { history } from '../components/layout/Navbar';
 import Axios from '../Axios';
 
@@ -161,14 +161,16 @@ export const register = (user) => {
 }
 export const getUser = () => {
     return async (dispatch, getState) => {
-      const url = await Axios.get('/api/users/current_user', {
-          withCredentials: 'same-origin'
-      });
-      const response = url;
-      const data = response.data.auth;
-      console.log(data);
-      localStorage.setItem('myAuth', data)
-      dispatch({type: GET_CURRENT_USER, data})
+        return Axios.get('/api/users/current_user', {
+            // withCredentials: 'same-origin'
+        }).then( res => {
+            const data = res.data
+            console.log(data);
+            localStorage.setItem('myAuth', data)
+            dispatch({type: GET_CURRENT_USER, data})
+        })
+ 
+   
     }
 }
 export const newPost = (post, req) => { 

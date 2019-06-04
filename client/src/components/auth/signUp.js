@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import {connect} from 'react-redux';
 import {withStyles} from '@material-ui/core/styles';
 import {register} from '../../actions/';
-import {Redirect, withRouter} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {compose} from 'redux';
 import ourStyles from '../../styles/ourStyles';
 class signUp extends Component {
@@ -79,7 +79,6 @@ class signUp extends Component {
                         <h1>Sign Up</h1>
                         <form onSubmit={this.handleSubmit}>
                                 <TextField
-                                    id="outlined-name"
                                     label="Username"
                                     style={{width: '100%' }}
                                     name="username"
@@ -89,7 +88,6 @@ class signUp extends Component {
                                     variant="outlined"/>
                                 <br></br>
                                 <TextField
-                                    id="outlined-name"
                                     label="Email"
                                     className=""
                                     style={{width: '100%' }}
@@ -100,7 +98,6 @@ class signUp extends Component {
                                     variant="outlined"/>
                                 <br></br>
                                 <TextField
-                                    id="outlined-name"
                                     label="Password"
                                     name="password"
                                     type="password"
@@ -110,9 +107,9 @@ class signUp extends Component {
                                     onChange={this.handleChange}
                                     margin="normal"
                                     variant="outlined"/>
+                                    
                                 <br></br>
                                 <TextField
-                                    id="outlined-name"
                                     label="Confirm Password"
                                     name="passwordConf"
                                     type="password"

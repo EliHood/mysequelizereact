@@ -13,7 +13,30 @@ const bcrypt = require('bcrypt');
 require('dotenv').config();
 
 
+// router.get('/auth/github', passport.authenticate('github', { 
+//   session: false, 
+//   scope:[ 'profile', 'id']
+// }));
+// router.get('/auth/github/callback', 
+//   passport.authenticate('github', { session:true, failureRedirect: 'http:localhost:8001/signIn' }),
+//   function(req, res) {
 
+//     const token = jwt.sign({id: req.user.id}, process.env.JWT_SECRET, { expiresIn: 86400 })
+//     // res.redirect(`http://localhost:8001/?token=${token}`)
+//     res.send({
+//       token:token
+//     })
+
+//   });
+
+router.get("/current_user", (req, res) => {
+  if(req.user){
+    res.status(200).send({ user: req.user});
+  } else {
+    res.json({ user:null})
+  }
+
+});
 router.get('/user', (req, res, next) => {
   // res.json(req.cookies);
   if(req.cookies.jwt || req.cookies.gwtjwt){
@@ -23,13 +46,7 @@ router.get('/user', (req, res, next) => {
     res.status(403).send({ auth: false});
   }
 });
-router.get("/current_user", (req, res) => {
-  if(req.user){
-    res.status(200).send({ user: req.user});
-  } else {
-    res.json({ user:null})
-  }
-});
+
 router.get('/test', (req, res, next) => {
   res.status(200).send({message: "this works"});
 });
@@ -55,6 +72,11 @@ router.post('/new', (req, res, next) => {
           },
         }) .then(() => {
             const token = jwt.sign({ id: user.id  }, process.env.JWT_SECRET);
+            // res.cookie("jwt", token, { expires: new Date(Date.now() + 10*1000*60*60*24)});
+            // jwt.verify(token, process.env.JWT_SECRET, function(err, data){
+            //   console.log(err, data);
+            // })
+              
             console.log('user created in db');
             res.status(200).send({ message: 'user created', token: token,  auth: true  });
           });

@@ -1,22 +1,12 @@
 import React, { Component } from 'react';
-import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import Editable from './Editable';
 import {connect} from 'react-redux';
-import {UpdatePost, postLike, getCount} from '../actions/';
+import {UpdatePost, postLike} from '../actions/';
 import Like from './Like';
-import Axios from '../Axios';
-const Styles = {
-    myPaper: {
-        margin: '20px 0px',
-        padding: '20px'
-    },
-    button:{
-        marginRight:'30px'
-    }
-}
+// import Axios from '../Axios';
 class PostItem extends Component{
     constructor(props){
         super(props);
@@ -39,11 +29,12 @@ class PostItem extends Component{
     }
 
     render(){
-        const {title, id, userId, removePost, createdAt, post_content, username, editForm, isEditing, editChange, myTitle, postUpdate, Likes, clickLike, myLikes} = this.props
+        const {title, id, userId, removePost, createdAt, post_content, username, editForm, isEditing, editChange, myTitle, myLikes} = this.props
         return(
             <div>
                    <Typography variant="h6" component="h3">
                    {/* if else teneray operator */}
+                
                    {isEditing ? (
                           <Editable editField={myTitle ? myTitle : title} editChange={editChange}/>
                    ): (
@@ -60,7 +51,8 @@ class PostItem extends Component{
                       {/* likes get like counts */}
                        <Like like={id} likes={myLikes} />
                    </Typography>
-                   {!isEditing ? (
+
+                   {!isEditing && this.props.current_user.id !== userId ? (
                        <Button variant="outlined" type="submit" onClick={editForm(id)}>
                            Edit
                        </Button>
@@ -97,6 +89,8 @@ class PostItem extends Component{
 }
 const mapStateToProps = (state) => ({
     isEditingId: state.post.isEditingId,
+    isAuthenticated: state.user.isAuthenticated,
+    current_user: state.user.current_user
     // myLikes: state.post.likes
 })
 const mapDispatchToProps = (dispatch) => ({

@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import {withStyles} from '@material-ui/core/styles';
 // import axios from 'axios';
-import {withRouter, Redirect} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 // import { history } from '../components/Navbar';
 import {connect} from 'react-redux';
 import {logIn} from '../../actions/';
