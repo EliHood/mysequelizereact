@@ -13,7 +13,7 @@
 * Use of Session Store(so sessions can be saved, instead of clearing out when making code changes)
 * Users cant edit other users post.
 * passport github is no longer being used in this project. 
-* Reset Password code works, but use your own send grid account, my account got disabled :p. 
+* Reset password code works, but use your own send grid account, my account got disabled :p. 
 
 ## Make Sequelize Database & Migrate, then npm start
 
