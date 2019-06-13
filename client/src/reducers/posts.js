@@ -7,8 +7,6 @@ const initialState = {
     isEditing:false,
     isEditingId:null,
     likes:[],
-    someLike:[],
-    postId:null
 }
 
 export default (state = initialState, action) => {

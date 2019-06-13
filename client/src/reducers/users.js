@@ -6,8 +6,6 @@ const initialState = {
     isAuthenticated:localStorage.getItem('auth'),
     token: null,
     user: [],
-    isAuthenticated2:[],
-    redirectPath: null
     
 }
 

@@ -7,7 +7,6 @@ const initialState = {
     update: null,
     isLoading: false,
     error: false,
-    errorMessage: null
 }
 export default (state = initialState, action) => {
     switch (action.type) {

@@ -10,7 +10,7 @@ import {Redirect} from 'react-router-dom';
 import ourStyles from '../styles/ourStyles';
 class Home extends Component {
       state = {
-        user: ""
+       
 
       }
  

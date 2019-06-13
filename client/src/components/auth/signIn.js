@@ -18,15 +18,6 @@ class signIn extends Component {
                 username: "",
                 password: ""
             },
-            loggedEmail: "",
-            loginError: "",
-            myToken: "",
-            userLoggedIn: false,
-            emailBlank: true,
-            passwordBlank: true,
-            emailInvalid: false,
-            passwordInValid: false,
-            // token:localStorage.getItem('JWT')
         }
     
     handleChange = (e) => {
@@ -47,9 +38,7 @@ class signIn extends Component {
             username,
             password
         }
-        this
-            .props
-            .logIn(creds);
+        this.props.logIn(creds);
         console.log(creds);
     }
     render() {

@@ -11,9 +11,7 @@ class PostItem extends Component{
     constructor(props){
         super(props);
         this.state = {
-            disabled: false,
-            myId: 0,
-            likes:0
+       
         }
     }
     onUpdate = (id, title) => () => {
@@ -43,13 +41,15 @@ class PostItem extends Component{
                        {post_content}
                        <h5>by: {username} </h5>
                        {/*  component span cancels out the cant be a decedent of error */}
-                       <Typography  component={'span'} variant={'body2'} color="textSecondary">{moment(createdAt).calendar()}</Typography>
-                      {/* likes get like counts */}
-                       <Like like={id} likes={myLikes} />
+                            <span>{moment(createdAt).calendar()}</span>
+                      {/* likes get like counts */}    
+                    <Like like={id} likes={myLikes} />
+                       
                    </Typography>
                     {/* if current user doesnt equal user id equal to the userId from the posts... user will not edit that post
                         in a nutshell, you cant edit other peoples post.
                     */}
+                 
                    {this.props.current_user.user.id === userId ? (
                     <span>
                     {!isEditing  ? (
@@ -60,7 +60,7 @@ class PostItem extends Component{
                        // pass id, and myTitle which as we remember myTitle is the new value when updating the title
                         <span>
                             <Button 
-                                disabled={myTitle.length <= 3}
+                                disabled={myTitle.length <= 3} // disable button if title is less than 3
                                 variant="outlined" 
                                 onClick={this.onUpdate(id, myTitle)}>
                                 Update
@@ -79,16 +79,31 @@ class PostItem extends Component{
                             {null}
                          </div>
                    )}
-                   {!isEditing && (
-                    <Button
-                        style={{marginLeft: '0.7%'}}
-                        variant="outlined"
-                        color="primary"
-                        type="submit"
-                        onClick={removePost(id)}>
-                        Remove
-                    </Button>
+
+                    {/* users can't delete users post but their own.  */}
+                    {this.props.current_user.user.id === userId ? (
+                        <span>
+                        {!isEditing ? (
+                            <Button
+                                style={{marginLeft: '0.7%'}}
+                                variant="outlined"
+                                color="primary"
+                                type="submit"
+                                onClick={removePost(id)}>
+                                Remove
+                            </Button>
+                            ):(
+                                null
+                            )}
+                         </span>
+                    ):(
+                        <span>
+                         {null}
+                        </span>
                     )}
+                   
+
+               
            </div>
        )
     }

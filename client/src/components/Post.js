@@ -11,10 +11,9 @@ class Post extends Component {
             formData: {
                 title: "",
                 postContent: "",
-                userId: ""
             },
             passErr: "",
-            regSuccess: false
+        
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);

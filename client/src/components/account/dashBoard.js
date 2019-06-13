@@ -13,15 +13,8 @@ const Styles = {
 }
 class Dashboard extends Component {
   state = { 
-      first_name: '',
-      last_name: '',
-      email: '',
-      username: '',
-      password: '',
-      isLoading: true,
-      deleted: false,
-      error: false,
-    }
+  
+  }
   
   render() {
     // if (!this.props.isAuthenticated) {

@@ -17,7 +17,6 @@ class signUp extends Component {
                 email: ""
             },
             passErr: "",
-            regSuccess: false
         }
   
     handleChange = (e) => {
