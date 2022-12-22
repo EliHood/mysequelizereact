@@ -33,7 +33,7 @@
     "express-http-proxy": "^1.5.1",
     "express-session": "^1.15.6",
     "foreman": "^3.0.1",
-    "jsonwebtoken": "^8.4.0",
+    "jsonwebtoken": "^9.0.0",
     "morgan": "^1.9.1",
     "nodemailer": "^5.1.1",
     "nodemon": "^1.18.9",
